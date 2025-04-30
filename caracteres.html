@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Radicales Chinos Más Comunes</title>
+    <style>
+        /* Estilos personalizados proporcionados por el usuario */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8; /* Un gris muy claro */
+            margin: 0;
+            padding: 0; /* Quitamos padding global para que el nav ocupe todo el ancho */
+            color: #333; /* Gris oscuro para texto principal */
+        }
+        /* Contenedor principal para aplicar padding excepto al nav */
+        .main-content {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c; /* Azul un poco más oscuro */
+            margin-bottom: 30px;
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        /* Estilos de Navegación */
+        nav {
+            background-color: #005a9c; /* Azul oscuro del título */
+            padding: 1rem 1.5rem; /* Padding vertical y horizontal */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+            text-align: center; /* Centra los links en el nav */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
+            border-radius: 6px; /* Bordes redondeados */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            margin: 0 0.5rem; /* Espacio entre links */
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
+            color: #e0f7fa; /* Un color cian muy claro al pasar */
+        }
+        /* Estilos de la tabla */
+        .table-container {
+            overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            margin-top: 20px;
+            border-radius: 10px; /* Redondeo para el contenedor */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra del contenedor */
+            background-color: #ffffff; /* Fondo blanco para la tabla */
+            overflow: hidden; /* Asegura que el redondeo se aplique bien */
+        }
+        table {
+            width: 100%;
+            /* min-width: 800px; */ /* Ajustado para mejor visualización, puedes cambiarlo */
+            border-collapse: collapse; /* Colapsa los bordes */
+            /* Eliminamos background-color, box-shadow, border-radius y overflow de aquí, se aplican al contenedor */
+        }
+        th, td {
+            padding: 14px 18px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+            border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
+            vertical-align: middle; /* Alineación vertical */
+            font-size: 0.95rem; /* Tamaño de fuente */
+            /* Estilo específico para caracteres chinos para mejor legibilidad */
+        }
+        /* Estilos para celdas con caracteres chinos */
+        td:nth-child(1), td:nth-child(2), td:nth-child(3) {
+             font-size: 1.2rem; /* Hacer los caracteres un poco más grandes */
+             font-family: 'SimSun', 'Songti SC', serif; /* Fuentes comunes para Chino */
+             text-align: center; /* Centrar los caracteres */
+             white-space: nowrap; /* Evitar que los caracteres se partan */
+        }
+         /* Estilo específico para la columna de ejemplos para mejor legibilidad */
+        td:nth-child(6) {
+             font-size: 1.1rem; /* Ligeramente más grande para ejemplos */
+             font-family: 'SimSun', 'Songti SC', serif;
+        }
+        th {
+            background-color: #0077cc; /* Azul para encabezados */
+            color: white; /* Texto blanco */
+            text-transform: uppercase; /* Mayúsculas */
+            letter-spacing: 1px; /* Espaciado entre letras */
+            font-size: 0.8rem; /* Tamaño de fuente */
+            font-weight: 600; /* Grosor de fuente */
+            position: sticky; /* Encabezado fijo al hacer scroll vertical */
+            top: 0; /* Pegar al tope */
+            z-index: 1; /* Asegurar que esté sobre el contenido */
+        }
+        /* Estilo para filas al pasar el ratón (tbody) */
+        tbody tr:hover {
+            background-color: #f0f8ff; /* Azul muy claro al pasar el ratón */
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Media Query para Responsividad */
+        @media (max-width: 768px) {
+            .main-content { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
+            td:nth-child(1), td:nth-child(2), td:nth-child(3) { font-size: 1.1rem; } /* Ajustar tamaño de caracteres en móvil */
+            td:nth-child(6) { font-size: 1rem; } /* Ajustar tamaño de ejemplos en móvil */
+            th { font-size: 0.75rem; }
+
+            /* Ajuste para el menú en móviles */
+            nav { padding: 1rem; }
+            nav a {
+                display: block; /* Hace que cada link ocupe todo el ancho */
+                width: calc(100% - 2rem); /* Ajustar ancho considerando padding */
+                margin: 0.5rem auto; /* Espacio entre links apilados y centrado */
+                text-align: center; /* Centra el texto en el link */
+            }
+            nav a:last-child {
+                margin-bottom: 0; /* Quita margen al último */
+            }
+             /* Forzar scroll horizontal de la tabla si es necesario */
+            .table-container {
+                 overflow-x: auto;
+            }
+             table {
+                 min-width: 800px; /* Asegura que la tabla tenga un ancho mínimo para ver todas las columnas */
+            }
+        }
+         /* Estilo para variantes verticales (ej. ⺗, 氺) */
+        .vertical-variant {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            display: inline-block; /* Para que ocupe espacio */
+            line-height: 1; /* Ajustar línea para centrar */
+            margin: 0 5px; /* Espacio alrededor */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Otros Recursos</a>
+        </nav>
+
+    <div class="main-content">
+
+        <h1>Los 100 Radicales Chinos Más Comunes (部首)</h1>
+        <p style="text-align: center; margin-bottom: 20px;">Lista completa basada en el documento proporcionado.</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Simplificado (SC)</th>
+                        <th>Tradicional (TC)</th>
+                        <th>Variante</th>
+                        <th>Significado</th>
+                        <th>Pinyin</th>
+                        <th>Ejemplos</th>
+                        <th>Comentarios</th>
+                        <th>Nombre Coloquial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>人</td>
+                        <td>人</td>
+                        <td>亻</td>
+                        <td>humano, persona</td>
+                        <td>rén</td>
+                        <td>今, 仁, 休, 位, 他</td>
+                        <td>Similar a 八 (ocho).</td>
+                        <td>单人旁 (dān rén páng), 人字头 (rén zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>口</td>
+                        <td>口</td>
+                        <td></td>
+                        <td>boca, apertura</td>
+                        <td>kǒu</td>
+                        <td>古, 可, 名, 告, 吃</td>
+                        <td>Similar a 囗 (recinto).</td>
+                        <td>口字旁 (kǒu zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>土</td>
+                        <td>土</td>
+                        <td></td>
+                        <td>tierra</td>
+                        <td>tǔ</td>
+                        <td>在, 地, 型, 城, 埋</td>
+                        <td>Similar a 士 (erudito).</td>
+                        <td>提土旁 (tí tǔ páng)</td>
+                    </tr>
+                    <tr>
+                        <td>女</td>
+                        <td>女</td>
+                        <td></td>
+                        <td>mujer, femenino</td>
+                        <td>nǚ</td>
+                        <td>好, 妄, 始, 姓, 她</td>
+                        <td></td>
+                        <td>女子旁 (nǚ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>心</td>
+                        <td>心</td>
+                        <td>忄, <span class="vertical-variant">⺗</span></td>
+                        <td>corazón</td>
+                        <td>xīn</td>
+                        <td>必, 忙, 忘, 性, 想</td>
+                        <td></td>
+                        <td>竖心旁 (shù xīn páng), 心字底 (xīn zì dǐ), 竖心底 (<span class="vertical-variant">⺗</span>)</td>
+                    </tr>
+                    <tr>
+                        <td>手</td>
+                        <td>手</td>
+                        <td>扌</td>
+                        <td>mano</td>
+                        <td>shǒu</td>
+                        <td>持, 掌, 打, 抱, 押</td>
+                        <td></td>
+                        <td>提手旁 (tí shǒu páng), 手字旁 (shǒu zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>日</td>
+                        <td>日</td>
+                        <td></td>
+                        <td>sol, día</td>
+                        <td>rì</td>
+                        <td>早, 是, 明, 时, 晚</td>
+                        <td>Similar a 曰 (decir) y 白 (blanco).</td>
+                        <td>日字旁 (rì zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>月</td>
+                        <td>月</td>
+                        <td></td>
+                        <td>luna, mes / carne</td>
+                        <td>yuè</td>
+                        <td>有, 服, 青, 朝, 能</td>
+                        <td>Puede ser luna (月) o carne (肉).</td>
+                        <td>月字旁 (yuè zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>木</td>
+                        <td>木</td>
+                        <td></td>
+                        <td>árbol, madera</td>
+                        <td>mù</td>
+                        <td>板, 根, 本, 林, 来</td>
+                        <td>Similar a 禾 (grano).</td>
+                        <td>木字旁 (mù zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>水</td>
+                        <td>水</td>
+                        <td>氵, <span class="vertical-variant">氺</span></td>
+                        <td>agua</td>
+                        <td>shuǐ</td>
+                        <td>永, 泳, 海, 洋, 沙</td>
+                        <td>Similar a 冫 (hielo).</td>
+                        <td>三点水 (sān diǎn shuǐ), 水字旁 (shuǐ zì páng), 泰字底 (<span class="vertical-variant">氺</span>)</td>
+                    </tr>
+                    <tr>
+                        <td>火</td>
+                        <td>火</td>
+                        <td>灬</td>
+                        <td>fuego</td>
+                        <td>huǒ</td>
+                        <td>灯, 炎, 点, 然, 炸</td>
+                        <td></td>
+                        <td>火字旁 (huǒ zì páng), 四点底 (sì diǎn dǐ)</td>
+                    </tr>
+                    <tr>
+                        <td>纟</td>
+                        <td>糸</td>
+                        <td></td>
+                        <td>seda</td>
+                        <td>mì / sī</td>
+                        <td>纪, 纸, 累, 细, 绩</td>
+                        <td></td>
+                        <td>绞丝旁 (jiǎo sī páng), 独立绞丝 (dúlì jiǎo sī)</td>
+                    </tr>
+                    <tr>
+                        <td>艹</td>
+                        <td>艸</td>
+                        <td></td>
+                        <td>hierba</td>
+                        <td>cǎo</td>
+                        <td>花, 英, 苦, 草, 茶</td>
+                        <td>Variante tradicional 艸 tiene 4 trazos arriba.</td>
+                        <td>草字头 (cǎo zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>讠</td>
+                        <td>言</td>
+                        <td>言</td>
+                        <td>habla</td>
+                        <td>yán</td>
+                        <td>说, 讲, 识, 评, 试</td>
+                        <td></td>
+                        <td>言字旁 (yán zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>辶</td>
+                        <td>辵</td>
+                        <td></td>
+                        <td>caminar</td>
+                        <td>chuò</td>
+                        <td>迎, 通, 道, 这, 近</td>
+                        <td></td>
+                        <td>走之旁 (zǒu zhī páng)</td>
+                    </tr>
+                    <tr>
+                        <td>钅</td>
+                        <td>金</td>
+                        <td>金</td>
+                        <td>oro, metal</td>
+                        <td>jīn</td>
+                        <td>银, 针, 钱, 铁, 钟</td>
+                        <td></td>
+                        <td>金字旁 (jīn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>刂</td>
+                        <td>刀</td>
+                        <td>刀</td>
+                        <td>cuchillo, espada</td>
+                        <td>dāo</td>
+                        <td>分, 切, 别, 利, 刻</td>
+                        <td>Similar a 力 (fuerza).</td>
+                        <td>立刀旁 (lì dāo páng), 刀字旁 (dāo zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>宀</td>
+                        <td>宀</td>
+                        <td></td>
+                        <td>techo</td>
+                        <td>mián</td>
+                        <td>守, 家, 室, 字, 宅</td>
+                        <td>Similar a 冖 (cubrir) y 亠 (tapa).</td>
+                        <td>宝盖头 (bǎo gài tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>贝</td>
+                        <td>貝</td>
+                        <td></td>
+                        <td>concha</td>
+                        <td>bèi</td>
+                        <td>财, 贪, 货, 贸, 负</td>
+                        <td>Similar a 见 (ver).</td>
+                        <td>贝字旁 (bèi zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>一</td>
+                        <td>一</td>
+                        <td></td>
+                        <td>uno</td>
+                        <td>yī</td>
+                        <td>三, 上, 下, 不, 两</td>
+                        <td></td>
+                        <td>横 (héng)</td>
+                    </tr>
+                    <tr>
+                        <td>力</td>
+                        <td>力</td>
+                        <td></td>
+                        <td>fuerza</td>
+                        <td>lì</td>
+                        <td>力, 加, 助, 勉, 动</td>
+                        <td>Similar a 刀 (cuchillo).</td>
+                        <td>力字旁 (lì zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>又</td>
+                        <td>又</td>
+                        <td></td>
+                        <td>mano derecha, otra vez</td>
+                        <td>yòu</td>
+                        <td>反, 取, 受, 友, 发</td>
+                        <td></td>
+                        <td>又字旁 (yòu zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>犭</td>
+                        <td>犬</td>
+                        <td>犬</td>
+                        <td>perro</td>
+                        <td>quǎn</td>
+                        <td>犯, 狂, 狗, 献, 猪</td>
+                        <td>Similar a 大 (grande).</td>
+                        <td>反犬旁 (fǎn quǎn páng), 犬字旁 (quǎn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>禾</td>
+                        <td>禾</td>
+                        <td></td>
+                        <td>grano</td>
+                        <td>hé</td>
+                        <td>私, 科, 秒, 秀, 秘</td>
+                        <td>Similar a 木 (árbol).</td>
+                        <td>禾木旁 (hé mù páng)</td>
+                    </tr>
+                    <tr>
+                        <td>⺮</td>
+                        <td>竹</td>
+                        <td></td>
+                        <td>bambú</td>
+                        <td>zhú</td>
+                        <td>笑, 第, 简, 筷, 算</td>
+                        <td></td>
+                        <td>竹字头 (zhú zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>虫</td>
+                        <td>虫</td>
+                        <td></td>
+                        <td>insecto</td>
+                        <td>chóng</td>
+                        <td>強, 独, 蛇, 蛋, 蚊</td>
+                        <td>Usado para muchos organismos.</td>
+                        <td>虫字旁 (chóng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>阝 (izq.)</td>
+                        <td>阜</td>
+                        <td></td>
+                        <td>montículo, presa</td>
+                        <td>fù</td>
+                        <td>防, 阻, 陆, 院, 陈</td>
+                        <td>Radical doble: izq.=montículo, der.=ciudad (邑).</td>
+                        <td>双耳刀 (shuāng ěr dāo), 左耳刀 (zuǒ ěr dāo)</td>
+                    </tr>
+                    <tr>
+                        <td>大</td>
+                        <td>大</td>
+                        <td></td>
+                        <td>grande, muy</td>
+                        <td>dà</td>
+                        <td>天, 尖, 因, 奇, 美</td>
+                        <td></td>
+                        <td>大字旁 (dà zì páng), 大字头 (dà zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>广</td>
+                        <td>广</td>
+                        <td></td>
+                        <td>casa en acantilado</td>
+                        <td>guǎng</td>
+                        <td>店, 府, 度, 座, 庭</td>
+                        <td>Similar a 厂 (acantilado, sin punto).</td>
+                        <td>广字旁 (guǎng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>田</td>
+                        <td>田</td>
+                        <td></td>
+                        <td>campo</td>
+                        <td>tián</td>
+                        <td>思, 留, 略, 番, 累</td>
+                        <td></td>
+                        <td>田字旁 (tián zì páng)</td>
+                    </tr>
+                     <tr>
+                        <td>目</td>
+                        <td>目</td>
+                        <td>罒</td>
+                        <td>ojo</td>
+                        <td>mù</td>
+                        <td>眼, 睛, 看, 相, 省</td>
+                        <td>Variante 罒 también puede ser 'red'.</td>
+                        <td>目字旁 (mù zì páng), 四字头 (sì zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>石</td>
+                        <td>石</td>
+                        <td></td>
+                        <td>piedra</td>
+                        <td>shí</td>
+                        <td>砂, 破, 碑, 矿, 码</td>
+                        <td></td>
+                        <td>石字旁 (shí zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>衤</td>
+                        <td>衣</td>
+                        <td></td>
+                        <td>ropa</td>
+                        <td>yī</td>
+                        <td>初, 被, 裁, 裤, 袜</td>
+                        <td>Similar a 示 (señal, espíritu).</td>
+                        <td>衣字旁 (yī zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>足</td>
+                        <td>足</td>
+                        <td></td>
+                        <td>pie</td>
+                        <td>zú</td>
+                        <td>跑, 跨, 跟, 路, 距</td>
+                        <td></td>
+                        <td>足字旁 (zú zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>马</td>
+                        <td>馬</td>
+                        <td></td>
+                        <td>caballo</td>
+                        <td>mǎ</td>
+                        <td>码, 驾, 骂, 驻, 妈</td>
+                        <td></td>
+                        <td>马字旁 (mǎ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>页</td>
+                        <td>頁</td>
+                        <td></td>
+                        <td>hoja, página</td>
+                        <td>yè</td>
+                        <td>顺, 须, 领, 预, 顶</td>
+                        <td></td>
+                        <td>页字旁 (yè zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>巾</td>
+                        <td>巾</td>
+                        <td></td>
+                        <td>turbante, bufanda</td>
+                        <td>jīn</td>
+                        <td>市, 布, 帝, 帐, 帽</td>
+                        <td></td>
+                        <td>巾字旁 (jīn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>米</td>
+                        <td>米</td>
+                        <td></td>
+                        <td>arroz</td>
+                        <td>mǐ</td>
+                        <td>类, 粉, 迷, 粗, 糖</td>
+                        <td></td>
+                        <td>米字旁 (mǐ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>车</td>
+                        <td>車</td>
+                        <td></td>
+                        <td>carro, vehículo</td>
+                        <td>chē</td>
+                        <td>轮, 软, 军, 较, 输</td>
+                        <td></td>
+                        <td>车字旁 (chē zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>八</td>
+                        <td>八</td>
+                        <td></td>
+                        <td>ocho</td>
+                        <td>bā</td>
+                        <td>公, 分, 趴, 兵, 共</td>
+                        <td>Similar a 人 (humano).</td>
+                        <td>八字旁 (bā zì páng), 八字头 (bā zì tóu)</td>
+                    </tr>
+                     <tr>
+                        <td>尸</td>
+                        <td>尸</td>
+                        <td></td>
+                        <td>cadáver</td>
+                        <td>shī</td>
+                        <td>尺, 局, 尾, 居, 展</td>
+                        <td>Similar a 户 (puerta).</td>
+                        <td>尸字头 (shī zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>寸</td>
+                        <td>寸</td>
+                        <td></td>
+                        <td>pulgar, pulgada</td>
+                        <td>cùn</td>
+                        <td>寺, 尊, 对, 射, 付</td>
+                        <td></td>
+                        <td>寸字旁 (cùn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>山</td>
+                        <td>山</td>
+                        <td></td>
+                        <td>montaña</td>
+                        <td>shān</td>
+                        <td>岩, 岛, 岁, 崗, 岔</td>
+                        <td></td>
+                        <td>山字旁 (shān zì páng), 山字头 (shān zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>攵</td>
+                        <td>攴</td>
+                        <td>支</td>
+                        <td>golpear, tocar</td>
+                        <td>pū</td>
+                        <td>收, 改, 攻, 做, 政</td>
+                        <td>Similar a 夂 (ir despacio).</td>
+                        <td>反文旁 (fǎn wén páng), 旧反文旁 (jiù fǎn wén páng)</td>
+                    </tr>
+                    <tr>
+                        <td>彳</td>
+                        <td>彳</td>
+                        <td></td>
+                        <td>paso (pequeño)</td>
+                        <td>chì</td>
+                        <td>彼, 很, 律, 微, 德</td>
+                        <td>Similar a 亻 (humano).</td>
+                        <td>双人旁 (shuāng rén páng)</td>
+                    </tr>
+                    <tr>
+                        <td>十</td>
+                        <td>十</td>
+                        <td></td>
+                        <td>diez</td>
+                        <td>shí</td>
+                        <td>什, 计, 古, 叶, 早</td>
+                        <td></td>
+                        <td>十字旁 (shí zì páng), 十字头 (shí zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>工</td>
+                        <td>工</td>
+                        <td></td>
+                        <td>trabajo</td>
+                        <td>gōng</td>
+                        <td>左, 江, 红, 巧, 功</td>
+                        <td></td>
+                        <td>工字旁 (gōng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>方</td>
+                        <td>方</td>
+                        <td></td>
+                        <td>cuadrado, balsa</td>
+                        <td>fāng</td>
+                        <td>放, 旅, 族, 仿, 房</td>
+                        <td>Similar a 万 (diez mil).</td>
+                        <td>方字旁 (fāng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>门</td>
+                        <td>門</td>
+                        <td></td>
+                        <td>puerta</td>
+                        <td>mén</td>
+                        <td>间, 闲, 问, 闭, 闻</td>
+                        <td></td>
+                        <td>门字框 (mén zì kuāng)</td>
+                    </tr>
+                    <tr>
+                        <td>饣</td>
+                        <td>食</td>
+                        <td>食</td>
+                        <td>comer, comida</td>
+                        <td>shí</td>
+                        <td>饭, 饿, 饮, 馆, 饱</td>
+                        <td></td>
+                        <td>食字旁 (shí zì páng)</td>
+                    </tr>
+                     <tr>
+                        <td>欠</td>
+                        <td>欠</td>
+                        <td></td>
+                        <td>faltar, bostezar</td>
+                        <td>qiàn</td>
+                        <td>欢, 欧, 欲, 次, 歌</td>
+                        <td></td>
+                        <td>欠字旁 (qiàn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>儿</td>
+                        <td>儿</td>
+                        <td></td>
+                        <td>humano, piernas</td>
+                        <td>ér</td>
+                        <td>元, 四, 光, 兄, 充</td>
+                        <td>Similar a 人 y 八.</td>
+                        <td>儿座底 (ér zuò dǐ)</td>
+                    </tr>
+                    <tr>
+                        <td>冫</td>
+                        <td>冫</td>
+                        <td></td>
+                        <td>hielo</td>
+                        <td>bīng</td>
+                        <td>冬, 冷, 冻, 况, 净</td>
+                        <td>Similar a 水 (agua).</td>
+                        <td>两点水 (liǎng diǎn shuǐ)</td>
+                    </tr>
+                    <tr>
+                        <td>子</td>
+                        <td>子</td>
+                        <td></td>
+                        <td>niño, semilla</td>
+                        <td>zǐ</td>
+                        <td>字, 学, 存, 孩, 季</td>
+                        <td></td>
+                        <td>子字旁 (zǐ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>疒</td>
+                        <td>疒</td>
+                        <td></td>
+                        <td>enfermedad</td>
+                        <td>nè</td>
+                        <td>病, 痛, 疗, 疯, 瘦</td>
+                        <td></td>
+                        <td>病字旁 (bìng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>隹</td>
+                        <td>隹</td>
+                        <td></td>
+                        <td>pájaro (cola corta)</td>
+                        <td>zhuī</td>
+                        <td>雀, 集, 难, 雅, 谁</td>
+                        <td></td>
+                        <td>隹字旁 (zhuī zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>斤</td>
+                        <td>斤</td>
+                        <td></td>
+                        <td>hacha, libra (unidad)</td>
+                        <td>jīn</td>
+                        <td>所, 新, 听, 近, 析</td>
+                        <td></td>
+                        <td>斤字旁 (jīn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>亠</td>
+                        <td>亠</td>
+                        <td></td>
+                        <td>tapa</td>
+                        <td>tóu</td>
+                        <td>亡, 交, 京, 产, 亮</td>
+                        <td>Similar a 宀 (techo) y 冖 (cubrir).</td>
+                        <td>点横头 (diǎn héng tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>王</td>
+                        <td>王</td>
+                        <td>玉</td>
+                        <td>jade, rey</td>
+                        <td>yù / wáng</td>
+                        <td>主, 弄, 皇, 理, 现</td>
+                        <td>Radical es 玉 (jade), pero parece 王 (rey).</td>
+                        <td>王字旁 (wáng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>白</td>
+                        <td>白</td>
+                        <td></td>
+                        <td>blanco</td>
+                        <td>bái</td>
+                        <td>的, 皆, 皇, 怕, 迫</td>
+                        <td>Similar a 日 (sol).</td>
+                        <td>白字旁 (bái zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>立</td>
+                        <td>立</td>
+                        <td></td>
+                        <td>estar de pie, erguido</td>
+                        <td>lì</td>
+                        <td>音, 意, 端, 亲, 位</td>
+                        <td></td>
+                        <td>立字旁 (lì zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>羊</td>
+                        <td>羊</td>
+                        <td><span style="font-size: 1.1em;">⺶</span>, 羊</td> <td>oveja</td>
+                        <td>yáng</td>
+                        <td>着, 样, 洋, 美, 鲜</td>
+                        <td></td>
+                        <td>羊字旁 (yáng zì páng), 羊字头 (<span style="font-size: 1.1em;">⺶</span>)</td>
+                    </tr>
+                    <tr>
+                        <td>艮</td>
+                        <td>艮</td>
+                        <td></td>
+                        <td>detenerse</td>
+                        <td>gèn</td>
+                        <td>很, 恨, 恳, 根, 眼</td>
+                        <td></td>
+                        <td>艮字旁 (gèn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>冖</td>
+                        <td>冖</td>
+                        <td></td>
+                        <td>cubrir</td>
+                        <td>mì</td>
+                        <td>写, 军, 农, 深, 荣</td>
+                        <td>Similar a 宀 (techo) y 亠 (tapa).</td>
+                        <td>秃宝盖 (tū bǎo gài)</td>
+                    </tr>
+                    <tr>
+                        <td>厂</td>
+                        <td>厂</td>
+                        <td></td>
+                        <td>acantilado</td>
+                        <td>hàn / chǎng</td>
+                        <td>厚, 原, 厉, 厅, 厕</td>
+                        <td>Similar a 广 (casa en acantilado, con punto).</td>
+                        <td>厂字旁 (chǎng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>皿</td>
+                        <td>皿</td>
+                        <td></td>
+                        <td>plato</td>
+                        <td>mǐn</td>
+                        <td>盆, 监, 盟, 盛, 盖</td>
+                        <td></td>
+                        <td>皿字底 (mǐn zì dǐ)</td>
+                    </tr>
+                    <tr>
+                        <td>礻</td>
+                        <td>示</td>
+                        <td>示</td>
+                        <td>señal, espíritu, mostrar</td>
+                        <td>shì</td>
+                        <td>社, 神, 视, 祝, 祥</td>
+                        <td>Similar a 衤 (ropa).</td>
+                        <td>示字旁 (shì zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>穴</td>
+                        <td>穴</td>
+                        <td></td>
+                        <td>cueva</td>
+                        <td>xué</td>
+                        <td>空, 突, 穷, 究, 窗</td>
+                        <td></td>
+                        <td>穴宝盖 (xué bǎo gài)</td>
+                    </tr>
+                    <tr>
+                        <td>走</td>
+                        <td>走</td>
+                        <td></td>
+                        <td>correr, caminar</td>
+                        <td>zǒu</td>
+                        <td>起, 超, 越, 赶, 徒</td>
+                        <td></td>
+                        <td>走字旁 (zǒu zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>雨</td>
+                        <td>雨</td>
+                        <td></td>
+                        <td>lluvia</td>
+                        <td>yǔ</td>
+                        <td>雷, 雪, 霜, 需, 露</td>
+                        <td></td>
+                        <td>雨字头 (yǔ zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>囗</td>
+                        <td>囗</td>
+                        <td></td>
+                        <td>recinto</td>
+                        <td>wéi</td>
+                        <td>回, 国, 因, 图, 团</td>
+                        <td>Similar a 口 (boca, no encierra).</td>
+                        <td>国字框 (guó zì kuāng)</td>
+                    </tr>
+                    <tr>
+                        <td>小</td>
+                        <td>小</td>
+                        <td><span style="font-size: 1.1em;">⺌</span></td> <td>pequeño</td>
+                        <td>xiǎo</td>
+                        <td>少, 肖, 尚, 尖, 尘</td>
+                        <td></td>
+                        <td>小字旁 (xiǎo zì páng), 小字头 (xiǎo zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>戈</td>
+                        <td>戈</td>
+                        <td></td>
+                        <td>alabarda, lanza</td>
+                        <td>gē</td>
+                        <td>成, 式, 战, 感, 我</td>
+                        <td></td>
+                        <td>戈字旁 (gē zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>几</td>
+                        <td>几</td>
+                        <td></td>
+                        <td>mesa</td>
+                        <td>jī</td>
+                        <td>朵, 机, 风, 凡, 凤</td>
+                        <td></td>
+                        <td>几字旁 (jī zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>舌</td>
+                        <td>舌</td>
+                        <td></td>
+                        <td>lengua</td>
+                        <td>shé</td>
+                        <td>乱, 适, 话, 舍, 活</td>
+                        <td></td>
+                        <td>舌字旁 (shé zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>干</td>
+                        <td>干</td>
+                        <td></td>
+                        <td>seco</td>
+                        <td>gān</td>
+                        <td>平, 刊, 汗, 旱, 赶</td>
+                        <td></td>
+                        <td>干字旁 (gān zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>殳</td>
+                        <td>殳</td>
+                        <td></td>
+                        <td>arma</td>
+                        <td>shū</td>
+                        <td>段, 没, 投, 般, 设</td>
+                        <td></td>
+                        <td>殳字旁 (shū zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>夕</td>
+                        <td>夕</td>
+                        <td></td>
+                        <td>tarde, atardecer</td>
+                        <td>xī</td>
+                        <td>外, 多, 夜, 名, 岁</td>
+                        <td></td>
+                        <td>夕字旁 (xī zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>止</td>
+                        <td>止</td>
+                        <td></td>
+                        <td>parar</td>
+                        <td>zhǐ</td>
+                        <td>正, 此, 步, 歪, 址</td>
+                        <td></td>
+                        <td>止字旁 (zhǐ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>牛</td>
+                        <td>牛</td>
+                        <td><span style="font-size: 1.1em;">牜</span></td>
+                        <td>vaca</td>
+                        <td>niú</td>
+                        <td>告, 物, 解, 特, 件</td>
+                        <td></td>
+                        <td>牛字旁 (niú zì páng), 牛字头 (niú zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>皮</td>
+                        <td>皮</td>
+                        <td></td>
+                        <td>piel</td>
+                        <td>pí</td>
+                        <td>披, 彼, 波, 破, 疲</td>
+                        <td></td>
+                        <td>皮字旁 (pí zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>耳</td>
+                        <td>耳</td>
+                        <td></td>
+                        <td>oreja</td>
+                        <td>ěr</td>
+                        <td>取, 闻, 职, 聪, 联</td>
+                        <td></td>
+                        <td>耳字旁 (ěr zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>辛</td>
+                        <td>辛</td>
+                        <td></td>
+                        <td>amargo</td>
+                        <td>xīn</td>
+                        <td>辜, 辟, 辣, 辨, 辩</td>
+                        <td></td>
+                        <td>辛字旁 (xīn zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>阝 (der.)</td>
+                        <td>邑</td>
+                        <td></td>
+                        <td>ciudad</td>
+                        <td>yì</td>
+                        <td>那, 邦, 部, 都, 邮</td>
+                        <td>Radical doble: izq.=montículo (阜), der.=ciudad.</td>
+                        <td>双耳刀 (shuāng ěr dāo), 右耳刀 (yòu ěr dāo)</td>
+                    </tr>
+                    <tr>
+                        <td>酉</td>
+                        <td>酉</td>
+                        <td></td>
+                        <td>vino</td>
+                        <td>yǒu</td>
+                        <td>醉, 酒, 醒, 酸, 尊</td>
+                        <td></td>
+                        <td>酉字旁 (yǒu zì páng)</td>
+                    </tr>
+                     <tr>
+                        <td>青</td>
+                        <td>青</td>
+                        <td></td>
+                        <td>verde/azul</td>
+                        <td>qīng</td>
+                        <td>请, 清, 情, 晴, 猜</td>
+                        <td></td>
+                        <td>青字旁 (qīng zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>鸟</td>
+                        <td>鳥</td>
+                        <td></td>
+                        <td>pájaro</td>
+                        <td>niǎo</td>
+                        <td>鸦, 鸣, 鸭, 岛, 鸡</td>
+                        <td>Similar a 乌 (cuervo, negro).</td>
+                        <td>鸟字旁 (niǎo zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>弓</td>
+                        <td>弓</td>
+                        <td></td>
+                        <td>arco</td>
+                        <td>gōng</td>
+                        <td>引, 张, 弱, 第, 強</td>
+                        <td></td>
+                        <td>弓字旁 (gōng zì páng)</td>
+                    </tr>
+                     <tr>
+                        <td>厶</td>
+                        <td>厶</td>
+                        <td></td>
+                        <td>privado</td>
+                        <td>sī</td>
+                        <td>公, 勾, 去, 私, 云</td>
+                        <td></td>
+                        <td>私字旁 (sī zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>户</td>
+                        <td>戶</td>
+                        <td>戶</td>
+                        <td>puerta, casa</td>
+                        <td>hù</td>
+                        <td>所, 房, 炉, 护, 启</td>
+                        <td>Similar a 尸 (cadáver).</td>
+                        <td>户字旁 (hù zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>羽</td>
+                        <td>羽</td>
+                        <td></td>
+                        <td>pluma</td>
+                        <td>yǔ</td>
+                        <td>习, 翻, 翅, 塌, 扇</td>
+                        <td></td>
+                        <td>羽字旁 (yǔ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>舟</td>
+                        <td>舟</td>
+                        <td></td>
+                        <td>bote</td>
+                        <td>chuán / zhōu</td>
+                        <td>般, 船, 航, 盘, 艇</td>
+                        <td></td>
+                        <td>舟字旁 (zhōu zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>里</td>
+                        <td>里</td>
+                        <td></td>
+                        <td>aldea, milla</td>
+                        <td>lǐ</td>
+                        <td>野, 重, 量, 理, 埋</td>
+                        <td></td>
+                        <td>里字旁 (lǐ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>匕</td>
+                        <td>匕</td>
+                        <td></td>
+                        <td>cuchara</td>
+                        <td>bǐ</td>
+                        <td>匙, 比, 北, 呢, 旨</td>
+                        <td></td>
+                        <td>匕字旁 (bǐ zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>夂</td>
+                        <td>夂</td>
+                        <td></td>
+                        <td>ir (despacio)</td>
+                        <td>suī / zhǐ</td>
+                        <td>各, 条, 复, 备, 夏</td>
+                        <td>Similar a 攵 (golpear).</td>
+                        <td>折文旁 (zhé wén páng)</td>
+                    </tr>
+                    <tr>
+                        <td>见</td>
+                        <td>見</td>
+                        <td></td>
+                        <td>ver</td>
+                        <td>jiàn</td>
+                        <td>观, 规, 视, 现, 觉</td>
+                        <td>Similar a 贝 (concha).</td>
+                        <td>见字旁 (jiàn zì páng)</td>
+                    </tr>
+                     <tr>
+                        <td>卩</td>
+                        <td>卩</td>
+                        <td></td>
+                        <td>sello</td>
+                        <td>jié</td>
+                        <td>卷, 印, 却, 即, 危</td>
+                        <td></td>
+                        <td>单耳刀 (dān ěr dāo)</td>
+                    </tr>
+                     <tr>
+                        <td>网</td>
+                        <td>网</td>
+                        <td>罒</td> <td>red</td>
+                        <td>wǎng</td>
+                        <td>罗, 罚, 罢, 罪, 罩</td>
+                        <td>Variante 罒 también puede ser 'ojo'.</td>
+                        <td>网字旁 (wǎng zì páng), 四字头 (sì zì tóu)</td>
+                    </tr>
+                    <tr>
+                        <td>士</td>
+                        <td>士</td>
+                        <td></td>
+                        <td>erudito</td>
+                        <td>shì</td>
+                        <td>吉, 壶, 志, 声, 壮</td>
+                        <td>Similar a 土 (tierra, trazo inferior más largo).</td>
+                        <td>士字旁 (shì zì páng)</td>
+                    </tr>
+                    <tr>
+                        <td>勹</td>
+                        <td>勹</td>
+                        <td></td>
+                        <td>abrazar, envolver</td>
+                        <td>bāo</td>
+                        <td>包, 勿, 勾, 勺, 勻</td>
+                        <td></td>
+                        <td>包字头 (bāo zì tóu)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> </div> <footer>
+        <p>Información basada en "The 100 Most Common Chinese Radicals" de Hacking Chinese.</p>
+        <p>Archivo generado para Gama.</p>
+    </footer>
+
+</body>
+</html>
