@@ -55,9 +55,8 @@
         }
         table {
             width: 100%;
-            /* min-width: 800px; */ /* Ajustado para mejor visualización, puedes cambiarlo */
+            /* min-width: 900px; */ /* Aumentamos un poco el min-width por la nueva columna */
             border-collapse: collapse; /* Colapsa los bordes */
-            /* Eliminamos background-color, box-shadow, border-radius y overflow de aquí, se aplican al contenedor */
         }
         th, td {
             padding: 14px 18px; /* Espaciado interno */
@@ -65,7 +64,6 @@
             border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
             vertical-align: middle; /* Alineación vertical */
             font-size: 0.95rem; /* Tamaño de fuente */
-            /* Estilo específico para caracteres chinos para mejor legibilidad */
         }
         /* Estilos para celdas con caracteres chinos */
         td:nth-child(1), td:nth-child(2), td:nth-child(3) {
@@ -74,10 +72,16 @@
              text-align: center; /* Centrar los caracteres */
              white-space: nowrap; /* Evitar que los caracteres se partan */
         }
-         /* Estilo específico para la columna de ejemplos para mejor legibilidad */
-        td:nth-child(6) {
-             font-size: 1.1rem; /* Ligeramente más grande para ejemplos */
+         /* Estilo específico para la columna de ejemplos */
+        td:nth-child(7) { /* Ajustado el índice por la nueva columna */
+             font-size: 1.1rem;
              font-family: 'SimSun', 'Songti SC', serif;
+        }
+         /* Estilo para la nueva columna de explicación */
+        td.explanation-cell {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #555;
         }
         th {
             background-color: #0077cc; /* Azul para encabezados */
@@ -104,40 +108,36 @@
         }
 
         /* Media Query para Responsividad */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) { /* Ajustar breakpoint si es necesario */
             .main-content { padding: 15px; }
             h1 { font-size: 1.8rem; }
             th, td { padding: 10px 12px; font-size: 0.9rem; }
-            td:nth-child(1), td:nth-child(2), td:nth-child(3) { font-size: 1.1rem; } /* Ajustar tamaño de caracteres en móvil */
-            td:nth-child(6) { font-size: 1rem; } /* Ajustar tamaño de ejemplos en móvil */
+            td:nth-child(1), td:nth-child(2), td:nth-child(3) { font-size: 1.1rem; }
+            td:nth-child(7) { font-size: 1rem; }
+            td.explanation-cell { font-size: 0.85rem;}
             th { font-size: 0.75rem; }
 
             /* Ajuste para el menú en móviles */
             nav { padding: 1rem; }
             nav a {
-                display: block; /* Hace que cada link ocupe todo el ancho */
-                width: calc(100% - 2rem); /* Ajustar ancho considerando padding */
-                margin: 0.5rem auto; /* Espacio entre links apilados y centrado */
-                text-align: center; /* Centra el texto en el link */
+                display: block;
+                width: calc(100% - 2rem);
+                margin: 0.5rem auto;
+                text-align: center;
             }
-            nav a:last-child {
-                margin-bottom: 0; /* Quita margen al último */
-            }
+            nav a:last-child { margin-bottom: 0; }
+
              /* Forzar scroll horizontal de la tabla si es necesario */
-            .table-container {
-                 overflow-x: auto;
-            }
-             table {
-                 min-width: 800px; /* Asegura que la tabla tenga un ancho mínimo para ver todas las columnas */
-            }
+            .table-container { overflow-x: auto; }
+             table { min-width: 800px; } /* Ajustar según necesidad */
         }
-         /* Estilo para variantes verticales (ej. ⺗, 氺) */
+         /* Estilo para variantes verticales */
         .vertical-variant {
             writing-mode: vertical-rl;
             text-orientation: upright;
-            display: inline-block; /* Para que ocupe espacio */
-            line-height: 1; /* Ajustar línea para centrar */
-            margin: 0 5px; /* Espacio alrededor */
+            display: inline-block;
+            line-height: 1;
+            margin: 0 5px;
         }
     </style>
 </head>
@@ -151,7 +151,7 @@
     <div class="main-content">
 
         <h1>Los 100 Radicales Chinos Más Comunes (部首)</h1>
-        <p style="text-align: center; margin-bottom: 20px;">Lista completa basada en el documento proporcionado.</p>
+        <p style="text-align: center; margin-bottom: 20px;">Lista completa con visualizaciones/mnemotecnia.</p>
 
         <div class="table-container">
             <table>
@@ -161,6 +161,7 @@
                         <th>Tradicional (TC)</th>
                         <th>Variante</th>
                         <th>Significado</th>
+                        <th>Visualización / Mnemotecnia</th> {/* Nueva Columna */}
                         <th>Pinyin</th>
                         <th>Ejemplos</th>
                         <th>Comentarios</th>
@@ -168,11 +169,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {/* */}
                     <tr>
                         <td>人</td>
                         <td>人</td>
                         <td>亻</td>
                         <td>humano, persona</td>
+                        <td class="explanation-cell">¡Mira sus piernitas! Es una persona caminando. La variante 亻 es como un perfil.</td>
                         <td>rén</td>
                         <td>今, 仁, 休, 位, 他</td>
                         <td>Similar a 八 (ocho).</td>
@@ -183,6 +186,7 @@
                         <td>口</td>
                         <td></td>
                         <td>boca, apertura</td>
+                        <td class="explanation-cell">Un cuadrito abierto, ¡como una boca lista para hablar o un hoyo!</td>
                         <td>kǒu</td>
                         <td>古, 可, 名, 告, 吃</td>
                         <td>Similar a 囗 (recinto).</td>
@@ -193,6 +197,7 @@
                         <td>土</td>
                         <td></td>
                         <td>tierra</td>
+                        <td class="explanation-cell">Una planta (+) brotando del suelo (一). ¡Es la tierra!</td>
                         <td>tǔ</td>
                         <td>在, 地, 型, 城, 埋</td>
                         <td>Similar a 士 (erudito).</td>
@@ -203,6 +208,7 @@
                         <td>女</td>
                         <td></td>
                         <td>mujer, femenino</td>
+                        <td class="explanation-cell">Una figura sentada con gracia o haciendo una reverencia. ¡Pura elegancia femenina!</td>
                         <td>nǚ</td>
                         <td>好, 妄, 始, 姓, 她</td>
                         <td></td>
@@ -213,6 +219,7 @@
                         <td>心</td>
                         <td>忄, <span class="vertical-variant">⺗</span></td>
                         <td>corazón</td>
+                        <td class="explanation-cell">Un dibujo simplificado del órgano, con sus curvitas. La variante 忄 son como 3 gotitas de sentimiento.</td>
                         <td>xīn</td>
                         <td>必, 忙, 忘, 性, 想</td>
                         <td></td>
@@ -223,6 +230,7 @@
                         <td>手</td>
                         <td>扌</td>
                         <td>mano</td>
+                        <td class="explanation-cell">¡Parecen deditos! El trazo largo es la palma. La variante 扌 es una mano de lado, lista para agarrar algo.</td>
                         <td>shǒu</td>
                         <td>持, 掌, 打, 抱, 押</td>
                         <td></td>
@@ -233,6 +241,7 @@
                         <td>日</td>
                         <td></td>
                         <td>sol, día</td>
+                        <td class="explanation-cell">Un sol cuadrado (¡licencia artística!) con un rayito de luz o mancha solar en medio.</td>
                         <td>rì</td>
                         <td>早, 是, 明, 时, 晚</td>
                         <td>Similar a 曰 (decir) y 白 (blanco).</td>
@@ -243,6 +252,7 @@
                         <td>月</td>
                         <td></td>
                         <td>luna, mes / carne</td>
+                        <td class="explanation-cell">Como una luna creciente 🌙 o un filete de carne con sus vetas. ¡Doble función!</td>
                         <td>yuè</td>
                         <td>有, 服, 青, 朝, 能</td>
                         <td>Puede ser luna (月) o carne (肉).</td>
@@ -253,6 +263,7 @@
                         <td>木</td>
                         <td></td>
                         <td>árbol, madera</td>
+                        <td class="explanation-cell">Un tronco con ramas (arriba) y raíces (abajo). ¡Un arbolito! 🌳</td>
                         <td>mù</td>
                         <td>板, 根, 本, 林, 来</td>
                         <td>Similar a 禾 (grano).</td>
@@ -263,16 +274,19 @@
                         <td>水</td>
                         <td>氵, <span class="vertical-variant">氺</span></td>
                         <td>agua</td>
+                        <td class="explanation-cell">El río principal (trazo central) con gotas o afluentes a los lados. ¡Pura agüita! 💧</td>
                         <td>shuǐ</td>
                         <td>永, 泳, 海, 洋, 沙</td>
                         <td>Similar a 冫 (hielo).</td>
                         <td>三点水 (sān diǎn shuǐ), 水字旁 (shuǐ zì páng), 泰字底 (<span class="vertical-variant">氺</span>)</td>
                     </tr>
+                    {/* */}
                     <tr>
                         <td>火</td>
                         <td>火</td>
                         <td>灬</td>
                         <td>fuego</td>
+                        <td class="explanation-cell">Una llama central con chispas saltando a los lados 🔥. La variante 灬 son 4 chispitas o brasas.</td>
                         <td>huǒ</td>
                         <td>灯, 炎, 点, 然, 炸</td>
                         <td></td>
@@ -283,6 +297,7 @@
                         <td>糸</td>
                         <td></td>
                         <td>seda</td>
+                        <td class="explanation-cell">Como un capullo o madeja de hilo de seda. ¡Muy fino!</td>
                         <td>mì / sī</td>
                         <td>纪, 纸, 累, 细, 绩</td>
                         <td></td>
@@ -293,6 +308,7 @@
                         <td>艸</td>
                         <td></td>
                         <td>hierba</td>
+                        <td class="explanation-cell">¡Dos plantitas de hierba creciendo! 🌱🌱 El tradicional 艸 es más frondoso.</td>
                         <td>cǎo</td>
                         <td>花, 英, 苦, 草, 茶</td>
                         <td>Variante tradicional 艸 tiene 4 trazos arriba.</td>
@@ -303,6 +319,7 @@
                         <td>言</td>
                         <td>言</td>
                         <td>habla</td>
+                        <td class="explanation-cell">Una boca (口) con "ondas sonoras" o palabras (辛 arriba) saliendo. ¡A hablar se ha dicho! 🗣️</td>
                         <td>yán</td>
                         <td>说, 讲, 识, 评, 试</td>
                         <td></td>
@@ -313,6 +330,7 @@
                         <td>辵</td>
                         <td></td>
                         <td>caminar</td>
+                        <td class="explanation-cell">Representa un pie (止) moviéndose, dejando un rastro. ¡A darle al camino! 🚶</td>
                         <td>chuò</td>
                         <td>迎, 通, 道, 这, 近</td>
                         <td></td>
@@ -323,6 +341,7 @@
                         <td>金</td>
                         <td>金</td>
                         <td>oro, metal</td>
+                        <td class="explanation-cell">Originalmente, dos pepitas de oro (los puntos) bajo tierra (土) cubiertas (人 arriba). ¡Metal precioso! ✨</td>
                         <td>jīn</td>
                         <td>银, 针, 钱, 铁, 钟</td>
                         <td></td>
@@ -333,6 +352,7 @@
                         <td>刀</td>
                         <td>刀</td>
                         <td>cuchillo, espada</td>
+                        <td class="explanation-cell">¡La forma de un cuchillo! 🔪 La variante 刂 es como la hoja vista de lado.</td>
                         <td>dāo</td>
                         <td>分, 切, 别, 利, 刻</td>
                         <td>Similar a 力 (fuerza).</td>
@@ -343,6 +363,7 @@
                         <td>宀</td>
                         <td></td>
                         <td>techo</td>
+                        <td class="explanation-cell">¡Un techo! El puntito es la cumbrera y las líneas, las paredes o el tejado. 🏠</td>
                         <td>mián</td>
                         <td>守, 家, 室, 字, 宅</td>
                         <td>Similar a 冖 (cubrir) y 亠 (tapa).</td>
@@ -353,6 +374,7 @@
                         <td>貝</td>
                         <td></td>
                         <td>concha</td>
+                        <td class="explanation-cell">La forma de una concha de cauri, ¡antiguamente usada como dinero! 🐚💰</td>
                         <td>bèi</td>
                         <td>财, 贪, 货, 贸, 负</td>
                         <td>Similar a 见 (ver).</td>
@@ -363,16 +385,19 @@
                         <td>一</td>
                         <td></td>
                         <td>uno</td>
+                        <td class="explanation-cell">Una línea horizontal. ¡El más fácil! Representa el número uno o el horizonte.</td>
                         <td>yī</td>
                         <td>三, 上, 下, 不, 两</td>
                         <td></td>
                         <td>横 (héng)</td>
                     </tr>
+                    {/* */}
                     <tr>
                         <td>力</td>
                         <td>力</td>
                         <td></td>
                         <td>fuerza</td>
+                        <td class="explanation-cell">Como un brazo musculoso 💪 o un arado antiguo. ¡Pura potencia!</td>
                         <td>lì</td>
                         <td>力, 加, 助, 勉, 动</td>
                         <td>Similar a 刀 (cuchillo).</td>
@@ -383,6 +408,7 @@
                         <td>又</td>
                         <td></td>
                         <td>mano derecha, otra vez</td>
+                        <td class="explanation-cell">¡La imagen de una mano derecha! 🖐️ También significa "de nuevo".</td>
                         <td>yòu</td>
                         <td>反, 取, 受, 友, 发</td>
                         <td></td>
@@ -393,6 +419,7 @@
                         <td>犬</td>
                         <td>犬</td>
                         <td>perro</td>
+                        <td class="explanation-cell">Un perro estilizado, visto de lado. 🐕 ¡Guau!</td>
                         <td>quǎn</td>
                         <td>犯, 狂, 狗, 献, 猪</td>
                         <td>Similar a 大 (grande).</td>
@@ -403,6 +430,7 @@
                         <td>禾</td>
                         <td></td>
                         <td>grano</td>
+                        <td class="explanation-cell">Una planta de cereal (como 木) con una espiga madura inclinada en la punta. 🌾</td>
                         <td>hé</td>
                         <td>私, 科, 秒, 秀, 秘</td>
                         <td>Similar a 木 (árbol).</td>
@@ -413,6 +441,7 @@
                         <td>竹</td>
                         <td></td>
                         <td>bambú</td>
+                        <td class="explanation-cell">¡Dos tallos de bambú con sus hojitas!🎋</td>
                         <td>zhú</td>
                         <td>笑, 第, 简, 筷, 算</td>
                         <td></td>
@@ -423,6 +452,7 @@
                         <td>虫</td>
                         <td></td>
                         <td>insecto</td>
+                        <td class="explanation-cell">Un gusanito o larva retorciéndose. 🐛 ¡Auch!</td>
                         <td>chóng</td>
                         <td>強, 独, 蛇, 蛋, 蚊</td>
                         <td>Usado para muchos organismos.</td>
@@ -433,6 +463,7 @@
                         <td>阜</td>
                         <td></td>
                         <td>montículo, presa</td>
+                        <td class="explanation-cell">Escalones subiendo una colina o un montículo de tierra. ¡A la izquierda es tierra! ⛰️</td>
                         <td>fù</td>
                         <td>防, 阻, 陆, 院, 陈</td>
                         <td>Radical doble: izq.=montículo, der.=ciudad (邑).</td>
@@ -443,6 +474,7 @@
                         <td>大</td>
                         <td></td>
                         <td>grande, muy</td>
+                        <td class="explanation-cell">Una persona (人) con los brazos abiertos, ¡ocupando mucho espacio! ¡Qué grande!</td>
                         <td>dà</td>
                         <td>天, 尖, 因, 奇, 美</td>
                         <td></td>
@@ -453,6 +485,7 @@
                         <td>广</td>
                         <td></td>
                         <td>casa en acantilado</td>
+                        <td class="explanation-cell">Un acantilado (厂) con un techo o refugio (el punto) encima. ¡Una casa con vistas!</td>
                         <td>guǎng</td>
                         <td>店, 府, 度, 座, 庭</td>
                         <td>Similar a 厂 (acantilado, sin punto).</td>
@@ -463,16 +496,19 @@
                         <td>田</td>
                         <td></td>
                         <td>campo</td>
+                        <td class="explanation-cell">¡Un campo de cultivo dividido en parcelas! Listo para sembrar. 🏞️</td>
                         <td>tián</td>
                         <td>思, 留, 略, 番, 累</td>
                         <td></td>
                         <td>田字旁 (tián zì páng)</td>
                     </tr>
-                     <tr>
+                     {/* */}
+                    <tr>
                         <td>目</td>
                         <td>目</td>
                         <td>罒</td>
                         <td>ojo</td>
+                        <td class="explanation-cell">¡Un ojo visto de lado! Con la pupila en medio. 👀 La variante 罒 es como una red o un ojo mirando hacia abajo.</td>
                         <td>mù</td>
                         <td>眼, 睛, 看, 相, 省</td>
                         <td>Variante 罒 también puede ser 'red'.</td>
@@ -483,6 +519,7 @@
                         <td>石</td>
                         <td></td>
                         <td>piedra</td>
+                        <td class="explanation-cell">Una roca (口) debajo de un acantilado (厂). ¡Pura piedra! 🗿</td>
                         <td>shí</td>
                         <td>砂, 破, 碑, 矿, 码</td>
                         <td></td>
@@ -493,6 +530,7 @@
                         <td>衣</td>
                         <td></td>
                         <td>ropa</td>
+                        <td class="explanation-cell">Originalmente un pictograma de una túnica o prenda de vestir. 👕</td>
                         <td>yī</td>
                         <td>初, 被, 裁, 裤, 袜</td>
                         <td>Similar a 示 (señal, espíritu).</td>
@@ -503,6 +541,7 @@
                         <td>足</td>
                         <td></td>
                         <td>pie</td>
+                        <td class="explanation-cell">Arriba una rodilla o pierna (口 forma simplificada) y abajo el pie (止). ¡A caminar! 🦶</td>
                         <td>zú</td>
                         <td>跑, 跨, 跟, 路, 距</td>
                         <td></td>
@@ -513,6 +552,7 @@
                         <td>馬</td>
                         <td></td>
                         <td>caballo</td>
+                        <td class="explanation-cell">Un caballo estilizado con su crin, cabeza, cuerpo y patas (灬). ¡Arre! 🐎</td>
                         <td>mǎ</td>
                         <td>码, 驾, 骂, 驻, 妈</td>
                         <td></td>
@@ -523,6 +563,7 @@
                         <td>頁</td>
                         <td></td>
                         <td>hoja, página</td>
+                        <td class="explanation-cell">Representa una cabeza (首) grande, enfatizando el cráneo. Relacionado con la cabeza o páginas. 👤</td>
                         <td>yè</td>
                         <td>顺, 须, 领, 预, 顶</td>
                         <td></td>
@@ -533,6 +574,7 @@
                         <td>巾</td>
                         <td></td>
                         <td>turbante, bufanda</td>
+                        <td class="explanation-cell">Un trozo de tela colgando, como una toalla o un pañuelo. 🧣</td>
                         <td>jīn</td>
                         <td>市, 布, 帝, 帐, 帽</td>
                         <td></td>
@@ -543,6 +585,7 @@
                         <td>米</td>
                         <td></td>
                         <td>arroz</td>
+                        <td class="explanation-cell">Una planta de arroz (木) con granos (los puntos) a los lados. ¡Qué rico! 🍚</td>
                         <td>mǐ</td>
                         <td>类, 粉, 迷, 粗, 糖</td>
                         <td></td>
@@ -553,6 +596,7 @@
                         <td>車</td>
                         <td></td>
                         <td>carro, vehículo</td>
+                        <td class="explanation-cell">Un carro visto desde arriba: el eje central y las dos ruedas. 🚗</td>
                         <td>chē</td>
                         <td>轮, 软, 军, 较, 输</td>
                         <td></td>
@@ -563,16 +607,19 @@
                         <td>八</td>
                         <td></td>
                         <td>ocho</td>
+                        <td class="explanation-cell">Dos líneas separándose, como dividiendo algo. Representa el número ocho.</td>
                         <td>bā</td>
                         <td>公, 分, 趴, 兵, 共</td>
                         <td>Similar a 人 (humano).</td>
                         <td>八字旁 (bā zì páng), 八字头 (bā zì tóu)</td>
                     </tr>
-                     <tr>
+                     {/* */}
+                    <tr>
                         <td>尸</td>
                         <td>尸</td>
                         <td></td>
                         <td>cadáver</td>
+                        <td class="explanation-cell">Una persona agachada o sentada. A veces relacionado con el cuerpo o excremento. 💩</td>
                         <td>shī</td>
                         <td>尺, 局, 尾, 居, 展</td>
                         <td>Similar a 户 (puerta).</td>
@@ -583,6 +630,7 @@
                         <td>寸</td>
                         <td></td>
                         <td>pulgar, pulgada</td>
+                        <td class="explanation-cell">Una mano (又) con una marquita (一) indicando un punto en la muñeca (medicina china) o una medida corta.</td>
                         <td>cùn</td>
                         <td>寺, 尊, 对, 射, 付</td>
                         <td></td>
@@ -593,6 +641,7 @@
                         <td>山</td>
                         <td></td>
                         <td>montaña</td>
+                        <td class="explanation-cell">¡Tres picos de montaña! ⛰️ ¡Clarísimo!</td>
                         <td>shān</td>
                         <td>岩, 岛, 岁, 崗, 岔</td>
                         <td></td>
@@ -603,6 +652,7 @@
                         <td>攴</td>
                         <td>支</td>
                         <td>golpear, tocar</td>
+                        <td class="explanation-cell">Una mano (又) sosteniendo un palo o vara (卜). ¡Listo para la acción!</td>
                         <td>pū</td>
                         <td>收, 改, 攻, 做, 政</td>
                         <td>Similar a 夂 (ir despacio).</td>
@@ -613,6 +663,7 @@
                         <td>彳</td>
                         <td></td>
                         <td>paso (pequeño)</td>
+                        <td class="explanation-cell">La mitad izquierda de 行 (caminar), representa un paso o una calle. 🚶‍♀️</td>
                         <td>chì</td>
                         <td>彼, 很, 律, 微, 德</td>
                         <td>Similar a 亻 (humano).</td>
@@ -623,6 +674,7 @@
                         <td>十</td>
                         <td></td>
                         <td>diez</td>
+                        <td class="explanation-cell">Una cruz. Representa el número diez, la totalidad o perfección. ➕</td>
                         <td>shí</td>
                         <td>什, 计, 古, 叶, 早</td>
                         <td></td>
@@ -633,6 +685,7 @@
                         <td>工</td>
                         <td></td>
                         <td>trabajo</td>
+                        <td class="explanation-cell">Una herramienta, como un nivel de carpintero. ¡A trabajar! 🛠️</td>
                         <td>gōng</td>
                         <td>左, 江, 红, 巧, 功</td>
                         <td></td>
@@ -643,6 +696,7 @@
                         <td>方</td>
                         <td></td>
                         <td>cuadrado, balsa</td>
+                        <td class="explanation-cell">Originalmente un arado o dos botes juntos. Ahora más asociado a "cuadrado" o "dirección". ⏹️</td>
                         <td>fāng</td>
                         <td>放, 旅, 族, 仿, 房</td>
                         <td>Similar a 万 (diez mil).</td>
@@ -653,6 +707,7 @@
                         <td>門</td>
                         <td></td>
                         <td>puerta</td>
+                        <td class="explanation-cell">¡Una puerta de dos hojas! 🚪 ¡Ábrete, sésamo!</td>
                         <td>mén</td>
                         <td>间, 闲, 问, 闭, 闻</td>
                         <td></td>
@@ -663,16 +718,19 @@
                         <td>食</td>
                         <td>食</td>
                         <td>comer, comida</td>
+                        <td class="explanation-cell">Un recipiente (亼) con comida y una tapa. ¡A comer! 🍲</td>
                         <td>shí</td>
                         <td>饭, 饿, 饮, 馆, 饱</td>
                         <td></td>
                         <td>食字旁 (shí zì páng)</td>
                     </tr>
-                     <tr>
+                     {/* */}
+                    <tr>
                         <td>欠</td>
                         <td>欠</td>
                         <td></td>
                         <td>faltar, bostezar</td>
+                        <td class="explanation-cell">Una persona (人) con la boca abierta (como 口 arriba). ¡Bostezando por falta de algo! 🥱</td>
                         <td>qiàn</td>
                         <td>欢, 欧, 欲, 次, 歌</td>
                         <td></td>
@@ -683,6 +741,7 @@
                         <td>儿</td>
                         <td></td>
                         <td>humano, piernas</td>
+                        <td class="explanation-cell">Originalmente, la cabeza de un bebé. Ahora se usa fonéticamente o como "piernas". 👶</td>
                         <td>ér</td>
                         <td>元, 四, 光, 兄, 充</td>
                         <td>Similar a 人 y 八.</td>
@@ -693,6 +752,7 @@
                         <td>冫</td>
                         <td></td>
                         <td>hielo</td>
+                        <td class="explanation-cell">¡Dos bloques de hielo! O las grietas en el hielo. ❄️ Brrr.</td>
                         <td>bīng</td>
                         <td>冬, 冷, 冻, 况, 净</td>
                         <td>Similar a 水 (agua).</td>
@@ -703,6 +763,7 @@
                         <td>子</td>
                         <td></td>
                         <td>niño, semilla</td>
+                        <td class="explanation-cell">Un bebé envuelto en pañales, con los bracitos extendidos. 🍼</td>
                         <td>zǐ</td>
                         <td>字, 学, 存, 孩, 季</td>
                         <td></td>
@@ -713,6 +774,7 @@
                         <td>疒</td>
                         <td></td>
                         <td>enfermedad</td>
+                        <td class="explanation-cell">Una persona (冫 de lado) en una cama (爿). ¡Alguien enfermo! 🤒</td>
                         <td>nè</td>
                         <td>病, 痛, 疗, 疯, 瘦</td>
                         <td></td>
@@ -723,6 +785,7 @@
                         <td>隹</td>
                         <td></td>
                         <td>pájaro (cola corta)</td>
+                        <td class="explanation-cell">Un pájaro regordete y con la cola corta. ¡Pío, pío! 🐦</td>
                         <td>zhuī</td>
                         <td>雀, 集, 难, 雅, 谁</td>
                         <td></td>
@@ -733,6 +796,7 @@
                         <td>斤</td>
                         <td></td>
                         <td>hacha, libra (unidad)</td>
+                        <td class="explanation-cell">¡La forma de un hacha! 🪓 También es una unidad de peso.</td>
                         <td>jīn</td>
                         <td>所, 新, 听, 近, 析</td>
                         <td></td>
@@ -743,6 +807,7 @@
                         <td>亠</td>
                         <td></td>
                         <td>tapa</td>
+                        <td class="explanation-cell">Una tapa o cubierta simple. ¡Tapando algo!</td>
                         <td>tóu</td>
                         <td>亡, 交, 京, 产, 亮</td>
                         <td>Similar a 宀 (techo) y 冖 (cubrir).</td>
@@ -753,6 +818,7 @@
                         <td>王</td>
                         <td>玉</td>
                         <td>jade, rey</td>
+                        <td class="explanation-cell">Tres líneas (cielo, hombre, tierra) unidas por una vertical (el rey). O una pieza de jade (玉) sin el puntito. 👑💎</td>
                         <td>yù / wáng</td>
                         <td>主, 弄, 皇, 理, 现</td>
                         <td>Radical es 玉 (jade), pero parece 王 (rey).</td>
@@ -763,16 +829,19 @@
                         <td>白</td>
                         <td></td>
                         <td>blanco</td>
+                        <td class="explanation-cell">Una gota (丿) del sol (日). ¡Luz blanca y pura! ⚪</td>
                         <td>bái</td>
                         <td>的, 皆, 皇, 怕, 迫</td>
                         <td>Similar a 日 (sol).</td>
                         <td>白字旁 (bái zì páng)</td>
                     </tr>
+                    {/* */}
                     <tr>
                         <td>立</td>
                         <td>立</td>
                         <td></td>
                         <td>estar de pie, erguido</td>
+                        <td class="explanation-cell">Una persona (大) de pie sobre el suelo (一). ¡Firme!🧍</td>
                         <td>lì</td>
                         <td>音, 意, 端, 亲, 位</td>
                         <td></td>
@@ -781,7 +850,9 @@
                     <tr>
                         <td>羊</td>
                         <td>羊</td>
-                        <td><span style="font-size: 1.1em;">⺶</span>, 羊</td> <td>oveja</td>
+                        <td><span style="font-size: 1.1em;">⺶</span>, 羊</td>
+                        <td>oveja</td>
+                        <td class="explanation-cell">¡La cabeza de una oveja con sus cuernos! 🐑 Beee.</td>
                         <td>yáng</td>
                         <td>着, 样, 洋, 美, 鲜</td>
                         <td></td>
@@ -792,6 +863,7 @@
                         <td>艮</td>
                         <td></td>
                         <td>detenerse</td>
+                        <td class="explanation-cell">Un ojo (目) mirando hacia atrás (匕 invertido). ¡Detente y mira! 👀</td>
                         <td>gèn</td>
                         <td>很, 恨, 恳, 根, 眼</td>
                         <td></td>
@@ -802,6 +874,7 @@
                         <td>冖</td>
                         <td></td>
                         <td>cubrir</td>
+                        <td class="explanation-cell">Una cubierta o velo simple. ¡Algo tapado!</td>
                         <td>mì</td>
                         <td>写, 军, 农, 深, 荣</td>
                         <td>Similar a 宀 (techo) y 亠 (tapa).</td>
@@ -812,6 +885,7 @@
                         <td>厂</td>
                         <td></td>
                         <td>acantilado</td>
+                        <td class="explanation-cell">¡Un acantilado rocoso! 🧗</td>
                         <td>hàn / chǎng</td>
                         <td>厚, 原, 厉, 厅, 厕</td>
                         <td>Similar a 广 (casa en acantilado, con punto).</td>
@@ -822,6 +896,7 @@
                         <td>皿</td>
                         <td></td>
                         <td>plato</td>
+                        <td class="explanation-cell">Un plato o recipiente visto de lado. 🍽️</td>
                         <td>mǐn</td>
                         <td>盆, 监, 盟, 盛, 盖</td>
                         <td></td>
@@ -832,6 +907,7 @@
                         <td>示</td>
                         <td>示</td>
                         <td>señal, espíritu, mostrar</td>
+                        <td class="explanation-cell">Un altar (二 arriba, 小 abajo) para mostrar u ofrecer algo a los espíritus. 🙏</td>
                         <td>shì</td>
                         <td>社, 神, 视, 祝, 祥</td>
                         <td>Similar a 衤 (ropa).</td>
@@ -842,6 +918,7 @@
                         <td>穴</td>
                         <td></td>
                         <td>cueva</td>
+                        <td class="explanation-cell">Un techo (宀) sobre un espacio dividido (八). ¡Una cueva o hueco!</td>
                         <td>xué</td>
                         <td>空, 突, 穷, 究, 窗</td>
                         <td></td>
@@ -852,6 +929,7 @@
                         <td>走</td>
                         <td></td>
                         <td>correr, caminar</td>
+                        <td class="explanation-cell">Una persona (土 arriba) moviendo los pies (止 abajo). ¡A correr! 🏃</td>
                         <td>zǒu</td>
                         <td>起, 超, 越, 赶, 徒</td>
                         <td></td>
@@ -862,16 +940,19 @@
                         <td>雨</td>
                         <td></td>
                         <td>lluvia</td>
+                        <td class="explanation-cell">Nubes (一) en el cielo (冂) dejando caer gotas (...). ¡Está lloviendo! ☔</td>
                         <td>yǔ</td>
                         <td>雷, 雪, 霜, 需, 露</td>
                         <td></td>
                         <td>雨字头 (yǔ zì tóu)</td>
                     </tr>
-                    <tr>
+                    {/* */}
+                     <tr>
                         <td>囗</td>
                         <td>囗</td>
                         <td></td>
                         <td>recinto</td>
+                        <td class="explanation-cell">Un cuadrado que encierra algo. ¡Un corralito! Diferente de 口 (boca).</td>
                         <td>wéi</td>
                         <td>回, 国, 因, 图, 团</td>
                         <td>Similar a 口 (boca, no encierra).</td>
@@ -880,7 +961,9 @@
                     <tr>
                         <td>小</td>
                         <td>小</td>
-                        <td><span style="font-size: 1.1em;">⺌</span></td> <td>pequeño</td>
+                        <td><span style="font-size: 1.1em;">⺌</span></td>
+                        <td>pequeño</td>
+                        <td class="explanation-cell">Tres puntitos o trazos pequeños. ¡Chiquito! ✨</td>
                         <td>xiǎo</td>
                         <td>少, 肖, 尚, 尖, 尘</td>
                         <td></td>
@@ -891,6 +974,7 @@
                         <td>戈</td>
                         <td></td>
                         <td>alabarda, lanza</td>
+                        <td class="explanation-cell">¡Un arma antigua con punta y gancho! Una alabarda. ⚔️</td>
                         <td>gē</td>
                         <td>成, 式, 战, 感, 我</td>
                         <td></td>
@@ -901,6 +985,7 @@
                         <td>几</td>
                         <td></td>
                         <td>mesa</td>
+                        <td class="explanation-cell">Una mesita baja o un taburete. ¡Para sentarse o poner cosas!</td>
                         <td>jī</td>
                         <td>朵, 机, 风, 凡, 凤</td>
                         <td></td>
@@ -911,6 +996,7 @@
                         <td>舌</td>
                         <td></td>
                         <td>lengua</td>
+                        <td class="explanation-cell">Algo (干) saliendo de la boca (口). ¡La lengua! 👅</td>
                         <td>shé</td>
                         <td>乱, 适, 话, 舍, 活</td>
                         <td></td>
@@ -921,6 +1007,7 @@
                         <td>干</td>
                         <td></td>
                         <td>seco</td>
+                        <td class="explanation-cell">Originalmente un escudo o un mortero. Ahora más usado fonéticamente o como "seco".</td>
                         <td>gān</td>
                         <td>平, 刊, 汗, 旱, 赶</td>
                         <td></td>
@@ -931,6 +1018,7 @@
                         <td>殳</td>
                         <td></td>
                         <td>arma</td>
+                        <td class="explanation-cell">Una mano (又) sosteniendo un arma larga o herramienta. ¡Listo para golpear!</td>
                         <td>shū</td>
                         <td>段, 没, 投, 般, 设</td>
                         <td></td>
@@ -941,6 +1029,7 @@
                         <td>夕</td>
                         <td></td>
                         <td>tarde, atardecer</td>
+                        <td class="explanation-cell">La luna (月) pero sin los trazos interiores. ¡La luna empezando a salir! 🌇</td>
                         <td>xī</td>
                         <td>外, 多, 夜, 名, 岁</td>
                         <td></td>
@@ -951,6 +1040,7 @@
                         <td>止</td>
                         <td></td>
                         <td>parar</td>
+                        <td class="explanation-cell">¡La huella de un pie! Indica detenerse o el pie mismo. 👣🛑</td>
                         <td>zhǐ</td>
                         <td>正, 此, 步, 歪, 址</td>
                         <td></td>
@@ -961,16 +1051,19 @@
                         <td>牛</td>
                         <td><span style="font-size: 1.1em;">牜</span></td>
                         <td>vaca</td>
+                        <td class="explanation-cell">La cabeza de una vaca o buey con sus cuernos. 🐮 Muuu.</td>
                         <td>niú</td>
                         <td>告, 物, 解, 特, 件</td>
                         <td></td>
                         <td>牛字旁 (niú zì páng), 牛字头 (niú zì tóu)</td>
                     </tr>
+                    {/* */}
                     <tr>
                         <td>皮</td>
                         <td>皮</td>
                         <td></td>
                         <td>piel</td>
+                        <td class="explanation-cell">Una mano (又) despellejando un animal (?). ¡La piel!</td>
                         <td>pí</td>
                         <td>披, 彼, 波, 破, 疲</td>
                         <td></td>
@@ -981,6 +1074,7 @@
                         <td>耳</td>
                         <td></td>
                         <td>oreja</td>
+                        <td class="explanation-cell">¡Un dibujo bastante claro de una oreja! 👂 ¿Oyes eso?</td>
                         <td>ěr</td>
                         <td>取, 闻, 职, 聪, 联</td>
                         <td></td>
@@ -991,6 +1085,7 @@
                         <td>辛</td>
                         <td></td>
                         <td>amargo</td>
+                        <td class="explanation-cell">Originalmente un cincel o aguja (relacionado con tatuajes o castigos). ¡Algo doloroso o amargo! 😖</td>
                         <td>xīn</td>
                         <td>辜, 辟, 辣, 辨, 辩</td>
                         <td></td>
@@ -1001,6 +1096,7 @@
                         <td>邑</td>
                         <td></td>
                         <td>ciudad</td>
+                        <td class="explanation-cell">Una persona arrodillada (卩) ante un recinto (口). ¡Una ciudad o asentamiento! 🏙️ ¡A la derecha es ciudad!</td>
                         <td>yì</td>
                         <td>那, 邦, 部, 都, 邮</td>
                         <td>Radical doble: izq.=montículo (阜), der.=ciudad.</td>
@@ -1011,6 +1107,7 @@
                         <td>酉</td>
                         <td></td>
                         <td>vino</td>
+                        <td class="explanation-cell">¡Una jarra de vino! Con su tapa y líquido dentro. 🍷 ¡Salud!</td>
                         <td>yǒu</td>
                         <td>醉, 酒, 醒, 酸, 尊</td>
                         <td></td>
@@ -1021,6 +1118,7 @@
                         <td>青</td>
                         <td></td>
                         <td>verde/azul</td>
+                        <td class="explanation-cell">Planta (生) creciendo cerca de un pozo (丹, cinabrio, rojo/naranja). La combinación da verde/azul. 🌿💧</td>
                         <td>qīng</td>
                         <td>请, 清, 情, 晴, 猜</td>
                         <td></td>
@@ -1031,6 +1129,7 @@
                         <td>鳥</td>
                         <td></td>
                         <td>pájaro</td>
+                        <td class="explanation-cell">Un pájaro con su pico, ojo, cuerpo y cola larga. ¡Más detallado que 隹! 🦜</td>
                         <td>niǎo</td>
                         <td>鸦, 鸣, 鸭, 岛, 鸡</td>
                         <td>Similar a 乌 (cuervo, negro).</td>
@@ -1041,6 +1140,7 @@
                         <td>弓</td>
                         <td></td>
                         <td>arco</td>
+                        <td class="explanation-cell">¡Un arco listo para disparar una flecha! 🏹</td>
                         <td>gōng</td>
                         <td>引, 张, 弱, 第, 強</td>
                         <td></td>
@@ -1051,6 +1151,7 @@
                         <td>厶</td>
                         <td></td>
                         <td>privado</td>
+                        <td class="explanation-cell">Algo cerrado o personal. ¡Shhh, es privado! 🤫</td>
                         <td>sī</td>
                         <td>公, 勾, 去, 私, 云</td>
                         <td></td>
@@ -1061,16 +1162,19 @@
                         <td>戶</td>
                         <td>戶</td>
                         <td>puerta, casa</td>
+                        <td class="explanation-cell">¡Una puerta de una sola hoja! 🚪 Diferente de 门 (dos hojas).</td>
                         <td>hù</td>
                         <td>所, 房, 炉, 护, 启</td>
                         <td>Similar a 尸 (cadáver).</td>
                         <td>户字旁 (hù zì páng)</td>
                     </tr>
+                    {/* */}
                     <tr>
                         <td>羽</td>
                         <td>羽</td>
                         <td></td>
                         <td>pluma</td>
+                        <td class="explanation-cell">¡Dos plumas de ave! 🪶 Ligeras y listas para volar.</td>
                         <td>yǔ</td>
                         <td>习, 翻, 翅, 塌, 扇</td>
                         <td></td>
@@ -1081,6 +1185,7 @@
                         <td>舟</td>
                         <td></td>
                         <td>bote</td>
+                        <td class="explanation-cell">Un barquito o canoa. 🛶 ¡A navegar!</td>
                         <td>chuán / zhōu</td>
                         <td>般, 船, 航, 盘, 艇</td>
                         <td></td>
@@ -1091,6 +1196,7 @@
                         <td>里</td>
                         <td></td>
                         <td>aldea, milla</td>
+                        <td class="explanation-cell">Un campo (田) y tierra (土). ¡Una aldea o medida de distancia (li)! 🏘️</td>
                         <td>lǐ</td>
                         <td>野, 重, 量, 理, 埋</td>
                         <td></td>
@@ -1101,6 +1207,7 @@
                         <td>匕</td>
                         <td></td>
                         <td>cuchara</td>
+                        <td class="explanation-cell">Una persona invertida (人 al revés) o una cuchara antigua. 🥄</td>
                         <td>bǐ</td>
                         <td>匙, 比, 北, 呢, 旨</td>
                         <td></td>
@@ -1111,6 +1218,7 @@
                         <td>夂</td>
                         <td></td>
                         <td>ir (despacio)</td>
+                        <td class="explanation-cell">Un pie (como 止) visto desde atrás, indica ir despacio o llegar tarde. 🐢</td>
                         <td>suī / zhǐ</td>
                         <td>各, 条, 复, 备, 夏</td>
                         <td>Similar a 攵 (golpear).</td>
@@ -1121,6 +1229,7 @@
                         <td>見</td>
                         <td></td>
                         <td>ver</td>
+                        <td class="explanation-cell">Un ojo (目) sobre unas piernas (儿). ¡Alguien viendo! 👀🚶‍♂️</td>
                         <td>jiàn</td>
                         <td>观, 规, 视, 现, 觉</td>
                         <td>Similar a 贝 (concha).</td>
@@ -1131,6 +1240,7 @@
                         <td>卩</td>
                         <td></td>
                         <td>sello</td>
+                        <td class="explanation-cell">Una persona arrodillada. ¡Mostrando respeto o un sello oficial! 🧎‍♂️</td>
                         <td>jié</td>
                         <td>卷, 印, 却, 即, 危</td>
                         <td></td>
@@ -1139,7 +1249,9 @@
                      <tr>
                         <td>网</td>
                         <td>网</td>
-                        <td>罒</td> <td>red</td>
+                        <td>罒</td>
+                        <td>red</td>
+                        <td class="explanation-cell">¡Una red de pesca o caza! 🕸️ La variante 罒 también puede ser ojo o red.</td>
                         <td>wǎng</td>
                         <td>罗, 罚, 罢, 罪, 罩</td>
                         <td>Variante 罒 también puede ser 'ojo'.</td>
@@ -1150,9 +1262,10 @@
                         <td>士</td>
                         <td></td>
                         <td>erudito</td>
+                        <td class="explanation-cell">Originalmente un arma, luego un hombre adulto o erudito. El trazo de arriba es más largo que en 土 (tierra). 👨‍🎓</td>
                         <td>shì</td>
                         <td>吉, 壶, 志, 声, 壮</td>
-                        <td>Similar a 土 (tierra, trazo inferior más largo).</td>
+                        <td>Similar a 土 (tierra).</td>
                         <td>士字旁 (shì zì páng)</td>
                     </tr>
                     <tr>
@@ -1160,6 +1273,7 @@
                         <td>勹</td>
                         <td></td>
                         <td>abrazar, envolver</td>
+                        <td class="explanation-cell">Brazos rodeando algo. ¡Un abrazo o algo envuelto! 🤗</td>
                         <td>bāo</td>
                         <td>包, 勿, 勾, 勺, 勻</td>
                         <td></td>
@@ -1168,7 +1282,7 @@
                 </tbody>
             </table>
         </div> </div> <footer>
-        <p>Información basada en "The 100 Most Common Chinese Radicals" de Hacking Chinese.</p>
+        <p>Información basada en "The 100 Most Common Chinese Radicals" de Hacking Chinese. Mnemotecnia añadida.</p>
         <p>Archivo generado para Gama.</p>
     </footer>
 
