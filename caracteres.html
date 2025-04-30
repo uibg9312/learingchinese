@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caracteres Chinos Comunes y Préstamos Lingüísticos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados proporcionados */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8; /* Un gris muy claro */
+            margin: 0;
+            padding: 0; /* Quitamos padding global */
+            color: #333; /* Gris oscuro para texto principal */
+        }
+        /* Contenedor principal para aplicar padding */
+        .main-content {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c; /* Azul un poco más oscuro */
+            margin-bottom: 30px;
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        /* Estilos de Navegación (Incluidos por si se añaden después) */
+        nav {
+            background-color: #005a9c; /* Azul oscuro del título */
+            padding: 1rem 1.5rem; /* Padding vertical y horizontal */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
+            border-radius: 6px; /* Bordes redondeados */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
+            color: #e0f7fa; /* Un color cian muy claro al pasar */
+        }
+        /* Estilos de la tabla */
+        .table-container {
+            overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            margin: 0 auto; /* Centra el contenedor si hay espacio */
+            max-width: 1200px; /* Ancho máximo para la tabla */
+        }
+        table {
+            width: 100%; /* Ocupa todo el ancho del contenedor */
+            /* min-width: 600px;  Evita que la tabla se comprima demasiado */
+            border-collapse: collapse; /* Une los bordes de las celdas */
+            background-color: #ffffff; /* Fondo blanco para la tabla */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra más pronunciada */
+            border-radius: 10px; /* Bordes redondeados para la tabla */
+            overflow: hidden; /* Asegura que el contenido respete los bordes redondeados */
+            margin-top: 20px; /* Espacio arriba de la tabla */
+        }
+        th, td {
+            padding: 14px 18px; /* Espaciado interno de las celdas */
+            text-align: left; /* Alineación del texto a la izquierda */
+            border-bottom: 1px solid #e0e0e0; /* Línea divisoria gris claro entre filas */
+            vertical-align: middle; /* Alineación vertical al centro */
+            font-size: 0.95rem; /* Tamaño de fuente base */
+            /* white-space: nowrap; Evita que el texto se rompa en varias líneas (opcional) */
+        }
+        th {
+            background-color: #0077cc; /* Fondo azul para los encabezados */
+            color: white; /* Texto blanco para los encabezados */
+            text-transform: uppercase; /* Texto en mayúsculas */
+            letter-spacing: 1px; /* Espaciado entre letras */
+            font-size: 0.8rem; /* Tamaño de fuente más pequeño para encabezados */
+            font-weight: 600; /* Peso de la fuente */
+        }
+        tbody tr:hover {
+            background-color: #f0f8ff; /* Color celeste muy claro al pasar el ratón */
+            /* cursor: pointer; Quitado ya que no hay acción de click */
+        }
+        tbody tr:last-child td {
+             border-bottom: none; /* Quita el borde inferior de la última fila */
+        }
+
+        /* Columna de Carácter más grande y centrada */
+        td:nth-child(2) {
+             font-size: 1.2rem; /* Tamaño más grande para el carácter chino */
+             font-weight: 500;
+             text-align: center;
+        }
+        /* Columna de Número centrada */
+         td:nth-child(1), th:nth-child(1) {
+             text-align: center;
+             width: 50px; /* Ancho fijo para el número */
+         }
+
+        /* Resumen (Estilo incluido por si se usa) */
+        .summary {
+            margin-top: 40px;
+            background-color: #e6f4ff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid #0077cc;
+        }
+        .summary h2 { color: #005a9c; margin-bottom: 15px; font-size: 1.5rem; font-weight: 600; }
+        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.9rem; line-height: 1.5; }
+        pre strong { color: #61afef; }
+        pre em { color: #c678dd; font-style: normal; }
+
+        /* Media Query para Responsividad */
+        @media (max-width: 768px) {
+            .main-content { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
+            th { font-size: 0.75rem; }
+            pre { font-size: 0.8rem; }
+            td:nth-child(2) { font-size: 1.1rem; } /* Ajuste tamaño carácter en móvil */
+
+            /* Ajustes para el menú en móviles (si se añade) */
+            nav div {
+                flex-direction: column; /* Apila los links verticalmente */
+                align-items: flex-start; /* Alinea a la izquierda */
+            }
+            nav a {
+                display: block; /* Hace que cada link ocupe todo el ancho */
+                width: 100%;
+                margin-bottom: 0.5rem; /* Espacio entre links apilados */
+                text-align: center; /* Centra el texto en el link */
+            }
+            nav a:last-child {
+                margin-bottom: 0; /* Quita margen al último */
+            }
+        }
+         @media (max-width: 600px) {
+             /* En pantallas muy pequeñas, reducir aún más el padding y tamaño de fuente */
+             th, td { padding: 8px 10px; font-size: 0.85rem; }
+             th { font-size: 0.7rem; }
+             h1 { font-size: 1.6rem; }
+             td:nth-child(2) { font-size: 1rem; } /* Ajuste carácter en móvil pequeño */
+         }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <h1>Caracteres Chinos Comunes y Préstamos Lingüísticos</h1>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Carácter</th>
+                        <th>Pinyin</th>
+                        <th>Español/Referencia</th>
+                        <th>Comentario breve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>咖啡</td><td>kāfēi</td><td>Café</td><td>Casi idéntico.</td></tr>
+                    <tr><td>2</td><td>巧克力</td><td>qiǎokèlì</td><td>Chocolate</td><td>Suena similar.</td></tr>
+                    <tr><td>3</td><td>沙拉</td><td>shālā</td><td>Ensalada (salad)</td><td>Suena como "sala".</td></tr>
+                    <tr><td>4</td><td>可乐</td><td>kělè</td><td>Coca-Cola / Refresco</td><td>"Ke le" recuerda "cola".</td></tr>
+                    <tr><td>5</td><td>芭蕾</td><td>bālěi</td><td>Ballet</td><td>Bastante cercano.</td></tr>
+                    <tr><td>6</td><td>比萨</td><td>bǐsà</td><td>Pizza</td><td>Muy parecido.</td></tr>
+                    <tr><td>7</td><td>芝士</td><td>zhīshì</td><td>Queso (cheese)</td><td>Del inglés.</td></tr>
+                    <tr><td>8</td><td>酒店</td><td>jiǔdiàn</td><td>Hotel</td><td>"Jiǔ" es licor, "diàn" es tienda/local. Lugar para beber/hospedarse.</td></tr>
+                    <tr><td>9</td><td>模特</td><td>mótè</td><td>Modelo (model)</td><td>Clarísimo si lo ves escrito.</td></tr>
+                    <tr><td>10</td><td>沙发</td><td>shāfā</td><td>Sofá</td><td>¡Casi igual!</td></tr>
+                    <tr><td>11</td><td>麦克风</td><td>màikèfēng</td><td>Micrófono (microphone)</td><td>Muy lógico.</td></tr>
+                    <tr><td>12</td><td>电脑</td><td>diànnǎo</td><td>Computadora</td><td>Literal: "cerebro eléctrico".</td></tr>
+                    <tr><td>13</td><td>手机</td><td>shǒujī</td><td>Teléfono móvil</td><td>Literal: "máquina de mano".</td></tr>
+                    <tr><td>14</td><td>咖喱</td><td>gālí</td><td>Curry</td><td>Suena muy bien.</td></tr>
+                    <tr><td>15</td><td>披萨</td><td>pīsà</td><td>Pizza (otra variante)</td><td>Misma idea que #6.</td></tr>
+                    <tr><td>16</td><td>迷你</td><td>mínǐ</td><td>Mini</td><td>Cortito y cute.</td></tr>
+                    <tr><td>17</td><td>汉堡包</td><td>hànbǎobāo</td><td>Hamburguesa</td><td>Suena alemán. "Bāo" es panecillo.</td></tr>
+                    <tr><td>18</td><td>三明治</td><td>sānmíngzhì</td><td>Sándwich</td><td>Suena bastante cercano.</td></tr>
+                    <tr><td>19</td><td>咖啡馆</td><td>kāfēiguǎn</td><td>Cafetería</td><td>Literalmente "café local/establecimiento".</td></tr>
+                    <tr><td>20</td><td>果汁</td><td>guǒzhī</td><td>Jugo (juice)</td><td>"Guǒ" fruta, "zhī" jugo/savia.</td></tr>
+                    <tr><td>21</td><td>拖拉机</td><td>tuōlājī</td><td>Tractor (tractor)</td><td>Se oye raro pero "lājī" suena.</td></tr>
+                    <tr><td>22</td><td>沙滩</td><td>shātān</td><td>Playa (beach)</td><td>"Shā" es arena, "tān" es banco/playa.</td></tr>
+                    <tr><td>23</td><td>马拉松</td><td>mǎlāsōng</td><td>Maratón</td><td>Muy similar.</td></tr>
+                    <tr><td>24</td><td>足球</td><td>zúqiú</td><td>Fútbol</td><td>Literal: "pie pelota".</td></tr>
+                    <tr><td>25</td><td>篮球</td><td>lánqiú</td><td>Baloncesto</td><td>Literal: "canasta pelota".</td></tr>
+                    <tr><td>26</td><td>网球</td><td>wǎngqiú</td><td>Tenis</td><td>Literal: "red pelota".</td></tr>
+                    <tr><td>27</td><td>排球</td><td>páiqiú</td><td>Voleibol</td><td>Literal: "fila/empujar pelota".</td></tr>
+                    <tr><td>28</td><td>高尔夫</td><td>gāo'ěrfū</td><td>Golf</td><td>Bastante claro.</td></tr>
+                    <tr><td>29</td><td>电子邮件</td><td>diànzǐ yóujiàn</td><td>Email</td><td>Literal: "correo electrónico".</td></tr>
+                    <tr><td>30</td><td>网吧</td><td>wǎngbā</td><td>Cibercafé</td><td>Literal: "red bar".</td></tr>
+                    <tr><td>31</td><td>迪士尼</td><td>díshìní</td><td>Disney</td><td>¡Magia sonora!</td></tr>
+                    <tr><td>32</td><td>超市</td><td>chāoshì</td><td>Supermercado</td><td>Abrev. de 超级市场 (chāojí shìchǎng). "Chāo" es súper.</td></tr>
+                    <tr><td>33</td><td>洗手间</td><td>xǐshǒujiān</td><td>Baño / Lavabo</td><td>Literal: "habitación para lavarse las manos".</td></tr>
+                    <tr><td>34</td><td>洗衣机</td><td>xǐyījī</td><td>Lavadora</td><td>Literal: "máquina de lavar ropa".</td></tr>
+                    <tr><td>35</td><td>冰箱</td><td>bīngxiāng</td><td>Refrigerador</td><td>Literal: "caja de hielo".</td></tr>
+                    <tr><td>36</td><td>电梯</td><td>diàntī</td><td>Ascensor</td><td>Literal: "escalera eléctrica".</td></tr>
+                    <tr><td>37</td><td>地铁</td><td>dìtiě</td><td>Metro/Subterráneo</td><td>Literal: "hierro terrestre".</td></tr>
+                    <tr><td>38</td><td>巴士</td><td>bāshì</td><td>Autobús (Bus)</td><td>¡Obvio!</td></tr>
+                    <tr><td>39</td><td>出租车</td><td>chūzūchē</td><td>Taxi</td><td>Literal: "coche de alquiler".</td></tr>
+                    <tr><td>40</td><td>摩托车</td><td>mótuōchē</td><td>Motocicleta</td><td>Parecido.</td></tr>
+                    <tr><td>41</td><td>吉他</td><td>jítā</td><td>Guitarra</td><td>¡Súper!</td></tr>
+                    <tr><td>42</td><td>小提琴</td><td>xiǎotíqín</td><td>Violín</td><td>Literalmente "pequeño instrumento de cuerda que se levanta/lleva".</td></tr>
+                    <tr><td>43</td><td>萨克斯</td><td>sàkèsī</td><td>Saxofón (saxophone)</td><td>De lujo.</td></tr>
+                    <tr><td>44</td><td>钢琴</td><td>gāngqín</td><td>Piano</td><td>Literal: "instrumento de cuerda de acero".</td></tr>
+                    <tr><td>45</td><td>鼓</td><td>gǔ</td><td>Tambor</td><td>Palabra muy sonora.</td></tr>
+                    <tr><td>46</td><td>照片</td><td>zhàopiàn</td><td>Foto</td><td>Literal: "reflejar/capturar lámina/pieza".</td></tr>
+                    <tr><td>47</td><td>图片</td><td>túpiàn</td><td>Imagen / Ilustración</td><td>Muy común. "Tú" es dibujo/mapa.</td></tr>
+                    <tr><td>48</td><td>明星</td><td>míngxīng</td><td>Celebridad</td><td>Literal: "estrella brillante".</td></tr>
+                    <tr><td>49</td><td>音乐</td><td>yīnyuè</td><td>Música</td><td>Literal: "sonido alegre/música".</td></tr>
+                    <tr><td>50</td><td>演唱会</td><td>yǎnchànghuì</td><td>Concierto</td><td>Literal: "actuar cantar reunión".</td></tr>
+                    <tr><td>51</td><td>电影院</td><td>diànyǐngyuàn</td><td>Cine</td><td>Literal: "patio/lugar de películas (sombras eléctricas)".</td></tr>
+                    <tr><td>52</td><td>剧院</td><td>jùyuàn</td><td>Teatro</td><td>Literal: "patio/lugar de drama/obra".</td></tr>
+                    <tr><td>53</td><td>主题公园</td><td>zhǔtí gōngyuán</td><td>Parque temático</td><td>Muy claro.</td></tr>
+                    <tr><td>54</td><td>超人</td><td>chāorén</td><td>Superman</td><td>Literalmente "súper hombre".</td></tr>
+                    <tr><td>55</td><td>猫</td><td>māo</td><td>Gato</td><td>Onomatopeya del maullido.</td></tr>
+                    <tr><td>56</td><td>狗</td><td>gǒu</td><td>Perro</td><td>Común.</td></tr>
+                    <tr><td>57</td><td>牛奶</td><td>niúnǎi</td><td>Leche</td><td>Literal: "leche de vaca".</td></tr>
+                    <tr><td>58</td><td>面包</td><td>miànbāo</td><td>Pan</td><td>"Miàn" es harina/fideos, "bāo" es envolver/paquete.</td></tr>
+                    <tr><td>59</td><td>鸡蛋</td><td>jīdàn</td><td>Huevo</td><td>Literal: "huevo de pollo".</td></tr>
+                    <tr><td>60</td><td>三文鱼</td><td>sānwényú</td><td>Salmón</td><td>Adaptación fonética. "Tres líneas pescado".</td></tr>
+                    <tr><td>61</td><td>汉堡</td><td>hànbǎo</td><td>Hamburguesa (corto)</td><td>Más corto que #17.</td></tr>
+                    <tr><td>62</td><td>热狗</td><td>règǒu</td><td>Hotdog</td><td>Traducción literal: "perro caliente".</td></tr>
+                    <tr><td>63</td><td>运动</td><td>yùndòng</td><td>Deporte / Movimiento</td><td>Hacer ejercicio.</td></tr>
+                    <tr><td>64</td><td>健身房</td><td>jiànshēnfáng</td><td>Gimnasio</td><td>Literal: "habitación para fortalecer el cuerpo".</td></tr>
+                    <tr><td>65</td><td>学校</td><td>xuéxiào</td><td>Escuela</td><td>Muy básico.</td></tr>
+                    <tr><td>66</td><td>大学</td><td>dàxué</td><td>Universidad</td><td>Literal: "gran escuela".</td></tr>
+                    <tr><td>67</td><td>医院</td><td>yīyuàn</td><td>Hospital</td><td>Literal: "patio/lugar de medicina".</td></tr>
+                    <tr><td>68</td><td>药店</td><td>yàodiàn</td><td>Farmacia</td><td>Literal: "tienda de medicinas".</td></tr>
+                    <tr><td>69</td><td>银行</td><td>yínháng</td><td>Banco</td><td>Literal: "fila/negocio de plata".</td></tr>
+                    <tr><td>70</td><td>超级市场</td><td>chāojí shìchǎng</td><td>Supermercado (largo)</td><td>Versión completa de #32.</td></tr>
+                    <tr><td>71</td><td>派对</td><td>pàiduì</td><td>Fiesta (party)</td><td>Clarísimo.</td></tr>
+                    <tr><td>72</td><td>咖啡店</td><td>kāfēidiàn</td><td>Café (local)</td><td>Similar a #19, "diàn" es tienda.</td></tr>
+                    <tr><td>73</td><td>面条</td><td>miàntiáo</td><td>Fideos / Pasta</td><td>"Miàn" harina/fideos, "tiáo" tira/rama.</td></tr>
+                    <tr><td>74</td><td>冰淇淋</td><td>bīngqílín</td><td>Helado (ice cream)</td><td>Adaptación fonética.</td></tr>
+                    <tr><td>75</td><td>水果</td><td>shuǐguǒ</td><td>Fruta</td><td>Literal: "fruto de agua".</td></tr>
+                    <tr><td>76</td><td>汽水</td><td>qìshuǐ</td><td>Refresco / Gaseosa</td><td>Literal: "agua con gas".</td></tr>
+                    <tr><td>77</td><td>果酱</td><td>guǒjiàng</td><td>Mermelada / Jalea</td><td>Literal: "pasta/salsa de fruta".</td></tr>
+                    <tr><td>78</td><td>可口可乐</td><td>kěkǒukělè</td><td>Coca-Cola (nombre completo)</td><td>Literal y fonético. "Sabroso y divertido".</td></tr>
+                    <tr><td>79</td><td>百事可乐</td><td>bǎishìkělè</td><td>Pepsi</td><td>Adaptación fonética. "Todo divertido".</td></tr>
+                    <tr><td>80</td><td>披肩</td><td>pījiān</td><td>Chal / Poncho</td><td>"Pī" es cubrir/ponerse, "jiān" es hombro.</td></tr>
+                    <tr><td>81</td><td>外套</td><td>wàitào</td><td>Abrigo / Chaqueta</td><td>Literal: "cubierta exterior".</td></tr>
+                    <tr><td>82</td><td>裤子</td><td>kùzi</td><td>Pantalón</td><td>Común.</td></tr>
+                    <tr><td>83</td><td>衬衫</td><td>chènshān</td><td>Camisa</td><td>Común.</td></tr>
+                    <tr><td>84</td><td>裙子</td><td>qúnzi</td><td>Falda</td><td>Común.</td></tr>
+                    <tr><td>85</td><td>帽子</td><td>màozi</td><td>Sombrero / Gorra</td><td>Común.</td></tr>
+                    <tr><td>86</td><td>鞋子</td><td>xiézi</td><td>Zapatos</td><td>Común.</td></tr>
+                    <tr><td>87</td><td>袜子</td><td>wàzi</td><td>Calcetines</td><td>Común.</td></tr>
+                    <tr><td>88</td><td>眼镜</td><td>yǎnjìng</td><td>Lentes / Gafas</td><td>Literal: "espejo de ojo".</td></tr>
+                    <tr><td>89</td><td>手表</td><td>shǒubiǎo</td><td>Reloj (de pulsera)</td><td>Literal: "medidor de mano".</td></tr>
+                    <tr><td>90</td><td>手机壳</td><td>shǒujīké</td><td>Funda de celular</td><td>Literal: "carcasa de máquina de mano".</td></tr>
+                    <tr><td>91</td><td>公寓</td><td>gōngyù</td><td>Departamento (apto.)</td><td>Común.</td></tr>
+                    <tr><td>92</td><td>房子</td><td>fángzi</td><td>Casa</td><td>Común.</td></tr>
+                    <tr><td>93</td><td>厨房</td><td>chúfáng</td><td>Cocina</td><td>Literal: "habitación de cocina".</td></tr>
+                    <tr><td>94</td><td>客厅</td><td>kètīng</td><td>Sala / Salón</td><td>Literal: "salón de invitados".</td></tr>
+                    <tr><td>95</td><td>卧室</td><td>wòshì</td><td>Dormitorio / Recámara</td><td>Literal: "habitación de acostarse".</td></tr>
+                    <tr><td>96</td><td>浴室</td><td>yùshì</td><td>Baño (con ducha/tina)</td><td>Literal: "habitación de baño".</td></tr>
+                    <tr><td>97</td><td>书房</td><td>shūfáng</td><td>Estudio / Despacho</td><td>Literal: "habitación de libros".</td></tr>
+                    <tr><td>98</td><td>阳台</td><td>yángtái</td><td>Balcón / Terraza</td><td>Literal: "plataforma del sol".</td></tr>
+                    <tr><td>99</td><td>花园</td><td>huāyuán</td><td>Jardín</td><td>Literal: "patio de flores".</td></tr>
+                    <tr><td>100</td><td>车库</td><td>chēkù</td><td>Garaje / Cochera</td><td>Literal: "almacén de coches".</td></tr>
+                    <tr><td>101</td><td>啤酒</td><td>píjiǔ</td><td>Cerveza</td><td>"Jiǔ" es licor.</td></tr>
+                    <tr><td>102</td><td>红酒</td><td>hóngjiǔ</td><td>Vino tinto</td><td>Literal: "licor rojo".</td></tr>
+                    <tr><td>103</td><td>白酒</td><td>báijiǔ</td><td>Licor blanco / Aguardiente</td><td>Literal: "licor blanco". Fuerte.</td></tr>
+                    <tr><td>104</td><td>茶</td><td>chá</td><td>Té</td><td>Muy básico y universal.</td></tr>
+                    <tr><td>105</td><td>水</td><td>shuǐ</td><td>Agua</td><td>Fundamental.</td></tr>
+                    <tr><td>106</td><td>米饭</td><td>mǐfàn</td><td>Arroz cocido</td><td>"Mǐ" es arroz crudo, "fàn" es comida/arroz cocido.</td></tr>
+                    <tr><td>107</td><td>饺子</td><td>jiǎozi</td><td>Dumplings / Ravioles chinos</td><td>Muy popular.</td></tr>
+                    <tr><td>108</td><td>包子</td><td>bāozi</td><td>Panecillo al vapor (relleno)</td><td>Similar a "bāo" en hamburguesa.</td></tr>
+                    <tr><td>109</td><td>豆腐</td><td>dòufu</td><td>Tofu</td><td>Del chino al mundo.</td></tr>
+                    <tr><td>110</td><td>酱油</td><td>jiàngyóu</td><td>Salsa de soya</td><td>Literal: "aceite de pasta/salsa".</td></tr>
+                    <tr><td>111</td><td>筷子</td><td>kuàizi</td><td>Palillos</td><td>Para comer.</td></tr>
+                    <tr><td>112</td><td>碗</td><td>wǎn</td><td>Cuenco / Tazón</td><td>Para arroz, sopa...</td></tr>
+                    <tr><td>113</td><td>盘子</td><td>pánzi</td><td>Plato</td><td>Para servir.</td></tr>
+                    <tr><td>114</td><td>杯子</td><td>bēizi</td><td>Vaso / Taza</td><td>Para beber.</td></tr>
+                    <tr><td>115</td><td>桌子</td><td>zhuōzi</td><td>Mesa</td><td>Mueble básico.</td></tr>
+                    <tr><td>116</td><td>椅子</td><td>yǐzi</td><td>Silla</td><td>Mueble básico.</td></tr>
+                    <tr><td>117</td><td>床</td><td>chuáng</td><td>Cama</td><td>Mueble básico.</td></tr>
+                    <tr><td>118</td><td>门</td><td>mén</td><td>Puerta</td><td>Básico.</td></tr>
+                    <tr><td>119</td><td>窗户</td><td>chuānghu</td><td>Ventana</td><td>Básico.</td></tr>
+                    <tr><td>120</td><td>灯</td><td>dēng</td><td>Lámpara / Luz</td><td>Básico.</td></tr>
+                    <tr><td>121</td><td>电视</td><td>diànshì</td><td>Televisión</td><td>Literal: "visión eléctrica".</td></tr>
+                    <tr><td>122</td><td>空调</td><td>kōngtiáo</td><td>Aire acondicionado</td><td>Literal: "ajuste de aire".</td></tr>
+                    <tr><td>123</td><td>风扇</td><td>fēngshàn</td><td>Ventilador</td><td>Literal: "abanico de viento".</td></tr>
+                    <tr><td>124</td><td>地图</td><td>dìtú</td><td>Mapa</td><td>Literal: "dibujo de la tierra".</td></tr>
+                    <tr><td>125</td><td>菜单</td><td>càidān</td><td>Menú</td><td>Literal: "lista de platillos".</td></tr>
+                    <tr><td>126</td><td>钱</td><td>qián</td><td>Dinero</td><td>Importante.</td></tr>
+                    <tr><td>127</td><td>信用卡</td><td>xìnyòngkǎ</td><td>Tarjeta de crédito</td><td>Literal: "tarjeta de usar crédito". "Kǎ" de card.</td></tr>
+                    <tr><td>128</td><td>密码</td><td>mìmǎ</td><td>Contraseña</td><td>Literal: "código secreto".</td></tr>
+                    <tr><td>129</td><td>上网</td><td>shàngwǎng</td><td>Navegar por internet</td><td>Literal: "subir a la red".</td></tr>
+                    <tr><td>130</td><td>下载</td><td>xiàzài</td><td>Descargar</td><td>Literal: "bajar carga".</td></tr>
+                    <tr><td>131</td><td>博客</td><td>bókè</td><td>Blog</td><td>Adaptación fonética.</td></tr>
+                    <tr><td>132</td><td>推特</td><td>tuītè</td><td>Twitter (X)</td><td>Adaptación fonética.</td></tr>
+                    <tr><td>133</td><td>脸书</td><td>liǎnshū</td><td>Facebook</td><td>Literal: "libro de caras".</td></tr>
+                    <tr><td>134</td><td>微信</td><td>wēixìn</td><td>WeChat</td><td>Literal: "micro mensaje/letra".</td></tr>
+                    <tr><td>135</td><td>谷歌</td><td>gǔgē</td><td>Google</td><td>Adaptación fonética.</td></tr>
+                    <tr><td>136</td><td>苹果</td><td>píngguǒ</td><td>Manzana / Apple (marca)</td><td>Literal: "manzana".</td></tr>
+                    <tr><td>137</td><td>公司</td><td>gōngsī</td><td>Compañía / Empresa</td><td>Común.</td></tr>
+                    <tr><td>138</td><td>老板</td><td>lǎobǎn</td><td>Jefe</td><td>Común.</td></tr>
+                    <tr><td>139</td><td>同事</td><td>tóngshì</td><td>Colega</td><td>Literal: "mismo asunto/trabajo".</td></tr>
+                    <tr><td>140</td><td>朋友</td><td>péngyou</td><td>Amigo</td><td>Muy básico.</td></tr>
+                    <tr><td>141</td><td>家人</td><td>jiārén</td><td>Familia / Miembro de la familia</td><td>Literal: "persona de casa".</td></tr>
+                    <tr><td>142</td><td>爸爸</td><td>bàba</td><td>Papá</td><td>Coloquial.</td></tr>
+                    <tr><td>143</td><td>妈妈</td><td>māma</td><td>Mamá</td><td>Coloquial.</td></tr>
+                    <tr><td>144</td><td>哥哥</td><td>gēge</td><td>Hermano mayor</td><td>Común.</td></tr>
+                    <tr><td>145</td><td>姐姐</td><td>jiějie</td><td>Hermana mayor</td><td>Común.</td></tr>
+                    <tr><td>146</td><td>弟弟</td><td>dìdi</td><td>Hermano menor</td><td>Común.</td></tr>
+                    <tr><td>147</td><td>妹妹</td><td>mèimei</td><td>Hermana menor</td><td>Común.</td></tr>
+                    <tr><td>148</td><td>老师</td><td>lǎoshī</td><td>Profesor / Maestro</td><td>Literal: "viejo maestro". Respetuoso.</td></tr>
+                    <tr><td>149</td><td>学生</td><td>xuésheng</td><td>Estudiante</td><td>Literal: "nacido para estudiar".</td></tr>
+                    <tr><td>150</td><td>医生</td><td>yīshēng</td><td>Doctor / Médico</td><td>Literal: "nacido para la medicina".</td></tr>
+                    <tr><td>151</td><td>护士</td><td>hùshi</td><td>Enfermero/a</td><td>Literal: "erudito/persona que cuida".</td></tr>
+                    <tr><td>152</td><td>工程师</td><td>gōngchéngshī</td><td>Ingeniero</td><td>Literal: "maestro de proyecto/ingeniería".</td></tr>
+                    <tr><td>153</td><td>司机</td><td>sījī</td><td>Conductor / Chófer</td><td>Literal: "controlar máquina".</td></tr>
+                    <tr><td>154</td><td>飞机</td><td>fēijī</td><td>Avión</td><td>Literal: "máquina voladora".</td></tr>
+                    <tr><td>155</td><td>火车</td><td>huǒchē</td><td>Tren</td><td>Literal: "coche de fuego".</td></tr>
+                    <tr><td>156</td><td>自行车</td><td>zìxíngchē</td><td>Bicicleta</td><td>Literal: "coche que se mueve solo".</td></tr>
+                    <tr><td>157</td><td>机场</td><td>jīchǎng</td><td>Aeropuerto</td><td>Literal: "campo de máquinas (aviones)".</td></tr>
+                    <tr><td>158</td><td>火车站</td><td>huǒchēzhàn</td><td>Estación de tren</td><td>Literal: "estación de coche de fuego".</td></tr>
+                    <tr><td>159</td><td>公共汽车</td><td>gōnggòng qìchē</td><td>Autobús público</td><td>Literal: "coche de vapor público".</td></tr>
+                    <tr><td>160</td><td>公园</td><td>gōngyuán</td><td>Parque</td><td>Literal: "jardín público".</td></tr>
+                    <tr><td>161</td><td>商店</td><td>shāngdiàn</td><td>Tienda</td><td>Literal: "tienda de comercio".</td></tr>
+                    <tr><td>162</td><td>市场</td><td>shìchǎng</td><td>Mercado</td><td>Literal: "campo/lugar de mercado".</td></tr>
+                    <tr><td>163</td><td>电影</td><td>diànyǐng</td><td>Película</td><td>Literal: "sombra eléctrica".</td></tr>
+                    <tr><td>164</td><td>书</td><td>shū</td><td>Libro</td><td>Básico.</td></tr>
+                    <tr><td>165</td><td>报纸</td><td>bàozhǐ</td><td>Periódico</td><td>Literal: "papel de informar".</td></tr>
+                    <tr><td>166</td><td>杂志</td><td>zázhì</td><td>Revista</td><td>Literal: "registro misceláneo".</td></tr>
+                    <tr><td>167</td><td>笔</td><td>bǐ</td><td>Pluma / Bolígrafo / Lápiz</td><td>Instrumento de escritura.</td></tr>
+                    <tr><td>168</td><td>纸</td><td>zhǐ</td><td>Papel</td><td>Básico.</td></tr>
+                    <tr><td>169</td><td>颜色</td><td>yánsè</td><td>Color</td><td>Básico.</td></tr>
+                    <tr><td>170</td><td>红色</td><td>hóngsè</td><td>Rojo</td><td>Color básico.</td></tr>
+                    <tr><td>171</td><td>蓝色</td><td>lánsè</td><td>Azul</td><td>Color básico.</td></tr>
+                    <tr><td>172</td><td>绿色</td><td>lǜsè</td><td>Verde</td><td>Color básico.</td></tr>
+                    <tr><td>173</td><td>黄色</td><td>huángsè</td><td>Amarillo</td><td>Color básico.</td></tr>
+                    <tr><td>174</td><td>黑色</td><td>hēisè</td><td>Negro</td><td>Color básico.</td></tr>
+                    <tr><td>175</td><td>白色</td><td>báisè</td><td>Blanco</td><td>Color básico.</td></tr>
+                    <tr><td>176</td><td>大</td><td>dà</td><td>Grande</td><td>Adjetivo básico.</td></tr>
+                    <tr><td>177</td><td>小</td><td>xiǎo</td><td>Pequeño</td><td>Adjetivo básico.</td></tr>
+                    <tr><td>178</td><td>多</td><td>duō</td><td>Mucho / Más</td><td>Adjetivo/Adverbio básico.</td></tr>
+                    <tr><td>179</td><td>少</td><td>shǎo</td><td>Poco / Menos</td><td>Adjetivo/Adverbio básico.</td></tr>
+                    <tr><td>180</td><td>好</td><td>hǎo</td><td>Bueno / Bien</td><td>Muy común.</td></tr>
+                    <tr><td>181</td><td>坏</td><td>huài</td><td>Malo / Roto</td><td>Común.</td></tr>
+                    <tr><td>182</td><td>快</td><td>kuài</td><td>Rápido</td><td>Adjetivo/Adverbio básico.</td></tr>
+                    <tr><td>183</td><td>慢</td><td>màn</td><td>Lento</td><td>Adjetivo/Adverbio básico.</td></tr>
+                    <tr><td>184</td><td>冷</td><td>lěng</td><td>Frío</td><td>Adjetivo básico.</td></tr>
+                    <tr><td>185</td><td>热</td><td>rè</td><td>Caliente</td><td>Adjetivo básico.</td></tr>
+                    <tr><td>186</td><td>高兴</td><td>gāoxìng</td><td>Feliz / Contento</td><td>Emoción básica.</td></tr>
+                    <tr><td>187</td><td>漂亮</td><td>piàoliang</td><td>Bonito / Guapo (para mujeres/cosas)</td><td>Común.</td></tr>
+                    <tr><td>188</td><td>帅</td><td>shuài</td><td>Guapo (para hombres)</td><td>Común.</td></tr>
+                    <tr><td>189</td><td>爱</td><td>ài</td><td>Amar / Amor</td><td>Verbo/Sustantivo básico.</td></tr>
+                    <tr><td>190</td><td>喜欢</td><td>xǐhuān</td><td>Gustar</td><td>Verbo básico.</td></tr>
+                    <tr><td>191</td><td>吃</td><td>chī</td><td>Comer</td><td>Verbo básico.</td></tr>
+                    <tr><td>192</td><td>喝</td><td>hē</td><td>Beber</td><td>Verbo básico.</td></tr>
+                    <tr><td>193</td><td>看</td><td>kàn</td><td>Ver / Mirar / Leer</td><td>Verbo básico.</td></tr>
+                    <tr><td>194</td><td>听</td><td>tīng</td><td>Escuchar / Oír</td><td>Verbo básico.</td></tr>
+                    <tr><td>195</td><td>说</td><td>shuō</td><td>Hablar / Decir</td><td>Verbo básico.</td></tr>
+                    <tr><td>196</td><td>写</td><td>xiě</td><td>Escribir</td><td>Verbo básico.</td></tr>
+                    <tr><td>197</td><td>做</td><td>zuò</td><td>Hacer</td><td>Verbo básico.</td></tr>
+                    <tr><td>198</td><td>去</td><td>qù</td><td>Ir</td><td>Verbo básico.</td></tr>
+                    <tr><td>199</td><td>来</td><td>lái</td><td>Venir</td><td>Verbo básico.</td></tr>
+                    <tr><td>200</td><td>谢谢</td><td>xièxie</td><td>Gracias</td><td>¡Fundamental!</td></tr>
+                </tbody>
+            </table>
+        </div> </div> </body>
+</html>
