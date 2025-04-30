@@ -3,127 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Tabla Gramática China Mejorada (Interactiva)</title>
+    <title>Super Tabla Gramática China Mejorada (v2 - Más Contenido y Tonos)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilos personalizados adicionales */
         body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f8;
+            background-color: #f4f6f8; /* Un gris muy claro */
             margin: 0;
             padding: 20px;
-            color: #333;
+            color: #333; /* Gris oscuro para texto principal */
         }
         h1 {
             text-align: center;
-            color: #0077cc;
+            color: #005a9c; /* Azul un poco más oscuro */
             margin-bottom: 30px;
-            font-size: 2.5rem;
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        .table-container {
+            overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
         }
         table {
             width: 100%;
+            min-width: 600px; /* Ancho mínimo para evitar que se comprima demasiado */
             border-collapse: collapse;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            background-color: #ffffff; /* Fondo blanco */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra un poco más pronunciada */
+            border-radius: 10px; /* Bordes más redondeados */
+            overflow: hidden; /* Asegura que el borde redondeado contenga todo */
             margin-top: 20px;
         }
         th, td {
-            padding: 12px 15px;
+            padding: 14px 18px; /* Un poco más de padding */
             text-align: left;
-            border-bottom: 1px solid #ddd;
-            vertical-align: top; /* Alinea el contenido arriba para filas expandibles */
+            border-bottom: 1px solid #e0e0e0; /* Borde más suave */
+            vertical-align: top;
+            font-size: 0.95rem; /* Tamaño de fuente base */
         }
         th {
-            background-color: #0077cc;
+            background-color: #0077cc; /* Azul principal */
             color: white;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.875rem;
+            font-size: 0.8rem; /* Tamaño más pequeño para encabezados */
+            font-weight: 600; /* Un poco más de peso */
         }
-        tbody tr:not(.details-row):hover { /* Hover solo en filas principales */
-            background-color: #f1f1f1;
-            cursor: pointer; /* Indica que la fila es clickeable */
+        /* Estilo para hover en filas principales */
+        tbody tr.main-row:hover {
+            background-color: #f0f8ff; /* Azul muy pálido al pasar el mouse */
+            cursor: pointer;
         }
-        /* Estilos para la fila de detalles (inicialmente oculta) */
+        /* Estilos para la fila de detalles */
         .details-row {
             display: none; /* Oculta por defecto */
-            background-color: #eef; /* Color de fondo ligeramente diferente */
+            background-color: #f9f9ff; /* Fondo ligeramente azulado/grisáceo */
+            transition: all 0.3s ease-in-out; /* Transición suave (aunque display no se anima bien) */
         }
         .details-row td {
-            padding: 15px 20px;
+            padding: 18px 25px; /* Más padding en detalles */
             font-size: 0.9rem;
-            color: #555;
-            border-bottom: 1px solid #ccc; /* Borde inferior más suave */
+            color: #444; /* Texto un poco más oscuro */
+            border-bottom: 1px dashed #d0d0e0; /* Borde punteado para diferenciar */
         }
         .details-content {
             margin-top: 5px;
         }
-        .details-content p {
-            margin-bottom: 5px;
+        .details-content p, .details-content ul {
+            margin-bottom: 8px; /* Espaciado entre párrafos/listas */
+            line-height: 1.6; /* Mejor interlineado */
+        }
+        .details-content ul {
+            list-style: disc;
+            margin-left: 20px;
         }
         .details-content strong {
-            color: #005fa3;
+            color: #005fa3; /* Azul oscuro para destacar */
+            font-weight: 600;
+        }
+        .details-content code { /* Estilo para Pinyin/Chino en detalles */
+            background-color: #e0e0e0;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
         }
 
+        /* Resumen */
         .summary {
             margin-top: 40px;
-            background-color: #e0f7fa;
-            padding: 20px;
+            background-color: #e6f4ff; /* Azul muy claro */
+            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid #0077cc; /* Borde izquierdo azul */
         }
         .summary h2 {
-             color: #0077cc;
+             color: #005a9c;
              margin-bottom: 15px;
              font-size: 1.5rem;
+             font-weight: 600;
         }
         pre {
-            background: #272822;
-            color: #f8f8f2;
+            background: #282c34; /* Fondo oscuro diferente */
+            color: #abb2bf; /* Color de texto gris claro */
             padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace; /* Fuente con ligaduras si está disponible */
             font-size: 0.9rem;
+            line-height: 1.5;
         }
+        pre strong { /* Para destacar en el pre */
+            color: #61afef; /* Azul claro */
+        }
+        pre em { /* Para opcionales en el pre */
+            color: #c678dd; /* Púrpura */
+            font-style: normal;
+        }
+
 
         /* Media Query para responsividad */
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
-            th, td { padding: 10px 8px; font-size: 0.9rem; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
             th { font-size: 0.75rem; }
             pre { font-size: 0.8rem; }
-            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .details-row td { padding: 10px 15px; font-size: 0.85rem; }
+            .details-row td { padding: 12px 18px; font-size: 0.85rem; }
         }
 
         /* Icono para indicar expansión */
         .expand-icon::after {
             content: ' ▼'; /* Flecha hacia abajo */
             font-size: 0.7em;
-            color: #aaa;
-            margin-left: 5px;
+            color: #999; /* Gris más oscuro */
+            margin-left: 8px; /* Más espacio */
             display: inline-block;
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.3s ease-in-out; /* Transición más suave */
         }
         .expanded .expand-icon::after {
-            transform: rotate(180deg); /* Flecha hacia arriba cuando está expandido */
+            transform: rotate(180deg); /* Flecha hacia arriba */
         }
     </style>
 </head>
 <body class="bg-gray-100 p-4 md:p-8">
-    <h1 class="text-3xl md:text-4xl font-bold">🌟 Super Tabla Interactiva: Gramática China 🌟</h1>
+    <h1 class="text-3xl md:text-4xl font-bold">🌟 Super Tabla Interactiva: Gramática China (v2) 🌟</h1>
 
     <div class="table-container">
         <table class="min-w-full">
             <thead>
                 <tr>
-                    <th>Categoría <span class="text-xs normal-case text-gray-300">(Haz clic para detalles)</span></th>
+                    <th>Categoría <span class="text-xs normal-case text-gray-300">(Clic para detalles)</span></th>
                     <th>Elemento / Regla</th>
                     <th>Ejemplo Chino</th>
-                    <th>Pinyin</th>
+                    <th>Pinyin (con tonos)</th>
                     <th>Traducción</th>
                     <th>Notas Breves</th>
                 </tr>
@@ -140,8 +173,9 @@
                 <tr class="details-row">
                     <td colspan="6">
                         <div class="details-content">
-                            <p><strong>Detalles:</strong> El orden de las palabras en chino es crucial. Los modificadores (tiempo, lugar, manera) generalmente preceden al verbo.</p>
-                            <p><strong>Ejemplo Adicional:</strong> 他昨天在北京工作。(Tā zuótiān zài Běijīng gōngzuò.) - Él ayer trabajó en Pekín.</p>
+                            <p><strong>Detalles:</strong> El orden de las palabras en chino es crucial. Los modificadores (cuándo, dónde, cómo) generalmente van <strong>antes</strong> del verbo.</p>
+                            <p><strong>Ejemplo Adicional:</strong> 她昨天在北京工作。(<code>Tā zuótiān zài Běijīng gōngzuò.</code>) - Ella ayer trabajó en Pekín.</p>
+                            <p><strong>Otro Ejemplo:</strong> 我们明天一起吃饭。(<code>Wǒmen míngtiān yīqǐ chīfàn.</code>) - Mañana comeremos juntos.</p>
                         </div>
                     </td>
                 </tr>
@@ -152,34 +186,61 @@
                     <td>他没去学校。/ 我不吃肉。</td>
                     <td>Tā méi qù xuéxiào. / Wǒ bù chī ròu.</td>
                     <td>Él no fue a la escuela. / No como carne.</td>
-                    <td>不: general/futuro; 没: pasado/没有 (no tener).</td>
+                    <td>不: gral./futuro; 没: pasado/没有.</td>
                 </tr>
                 <tr class="details-row">
                     <td colspan="6">
                         <div class="details-content">
-                            <p><strong>不 (bù):</strong> Niega acciones habituales, presentes, futuras y adjetivos. Cambia a tono 2 (bú) antes de un tono 4.</p>
-                            <p><strong>没 (méi):</strong> Niega acciones pasadas completadas y el verbo 有 (yǒu - tener/haber). A menudo se usa como abreviatura de 没有 (méiyǒu).</p>
-                            <p><strong>Ejemplo Adicional (bù):</strong> 这个不贵。(Zhège bù guì.) - Esto no es caro.</p>
-                            <p><strong>Ejemplo Adicional (méi):</strong> 我昨天没看见他。(Wǒ zuótiān méi kànjiàn tā.) - No lo vi ayer.</p>
+                            <p><strong>不 (bù):</strong> Niega acciones habituales, presentes, futuras y adjetivos. Cambia a tono 2 (<code>bú</code>) antes de un tono 4. Ej: 我不是学生。(<code>Wǒ bú shì xuéshēng.</code>) - No soy estudiante.</p>
+                            <p><strong>没 (méi):</strong> Niega acciones pasadas completadas y el verbo 有 (<code>yǒu</code> - tener/haber). A menudo es abreviatura de 没有 (<code>méiyǒu</code>).</p>
+                            <p><strong>Ejemplo Adicional (bù):</strong> 这个不贵。(<code>Zhège bù guì.</code>) - Esto no es caro.</p>
+                            <p><strong>Ejemplo Adicional (méi):</strong> 我昨天没看见他。(<code>Wǒ zuótiān méi kànjiàn tā.</code>) - No lo vi ayer.</p>
                         </div>
                     </td>
                 </tr>
 
-                 <tr class="main-row">
+                <tr class="main-row">
                     <td class="expand-icon">Pregunta Sí/No</td>
                     <td>...吗? / V-不-V?</td>
                     <td>你喜欢咖啡吗？/ 你去不去学校？</td>
-                    <td>Nǐ xǐhuān kāfēi ma? / Nǐ qù bù qù xuéxiào?</td>
+                    <td>Nǐ xǐhuān kāfēi ma? / Nǐ qù bu qù xuéxiào?</td>
                     <td>¿Te gusta el café? / ¿Vas o no vas a la escuela?</td>
-                    <td>吗 al final / Repetir verbo con 不 en medio.</td>
+                    <td>吗 al final / Repetir verbo con 不.</td>
                 </tr>
                 <tr class="details-row">
                     <td colspan="6">
                         <div class="details-content">
-                            <p><strong>吗 (ma):</strong> La forma más simple y común. Se añade al final de una oración afirmativa.</p>
-                            <p><strong>V-不-V:</strong> Más común en el habla. Solo funciona con verbos monosilábicos o bisilábicos (el primero se repite). No se usa con 吗.</p>
-                            <p><strong>Ejemplo Adicional (V-不-V):</strong> 他高不高？(Tā gāo bù gāo?) - ¿Es alto (él)?</p>
-                            <p><strong>Nota:</strong> Con adjetivos, la estructura es Adj-不-Adj.</p>
+                            <p><strong>吗 (ma):</strong> La forma más simple. Se añade al final de una oración afirmativa.</p>
+                            <p><strong>V-不-V / Adj-不-Adj:</strong> Más común en el habla. Solo funciona con verbos/adj. monosilábicos o bisilábicos (el primero se repite). No se usa con 吗.</p>
+                            <p><strong>Ejemplo Adicional (V-不-V):</strong> 他高不高？(<code>Tā gāo bu gāo?</code>) - ¿Es alto (él)?</p>
+                            <p><strong>Ejemplo Adicional (Adj-不-Adj):</strong> 这个方法好不好？(<code>Zhège fāngfǎ hǎo bu hǎo?</code>) - ¿Es bueno este método?</p>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="main-row">
+                    <td class="expand-icon">Preguntas Interrogativas</td>
+                    <td>Quién(谁), Qué(什么), Dónde(哪里/哪儿), Cuándo(什么时候), Cómo(怎么), Por qué(为什么), Cuál(哪个), Cuánto(多少/几)</td>
+                    <td>他是谁？ / 你想吃什么？</td>
+                    <td>Tā shì shéi? / Nǐ xiǎng chī shénme?</td>
+                    <td>¿Quién es él? / ¿Qué quieres comer?</td>
+                    <td>Sustituyen la parte desconocida.</td>
+                </tr>
+                <tr class="details-row">
+                    <td colspan="6">
+                        <div class="details-content">
+                            <p><strong>Uso:</strong> Se colocan en la posición de la información que se busca, manteniendo el orden de la oración afirmativa.</p>
+                            <ul>
+                                <li><strong>谁 (shéi):</strong> Quién - 他是谁？(<code>Tā shì shéi?</code>)</li>
+                                <li><strong>什么 (shénme):</strong> Qué - 你看什么？(<code>Nǐ kàn shénme?</code>)</li>
+                                <li><strong>哪里/哪儿 (nǎlǐ/nǎr):</strong> Dónde - 你家在哪里？(<code>Nǐ jiā zài nǎlǐ?</code>)</li>
+                                <li><strong>什么时候 (shénme shíhou):</strong> Cuándo - 你什么时候来？(<code>Nǐ shénme shíhou lái?</code>)</li>
+                                <li><strong>怎么 (zěnme):</strong> Cómo (manera/causa) - 这个字怎么写？(<code>Zhège zì zěnme xiě?</code>) / 你怎么了？(<code>Nǐ zěnme le?</code> - ¿Qué te pasa?)</li>
+                                <li><strong>为什么 (wèishénme):</strong> Por qué - 你为什么学习中文？(<code>Nǐ wèishénme xuéxí Zhōngwén?</code>)</li>
+                                <li><strong>哪个 (nǎge):</strong> Cuál (seguido de clasificador si aplica) - 你要哪个？(<code>Nǐ yào nǎge?</code>)</li>
+                                <li><strong>多少 (duōshao):</strong> Cuánto (para >10 o incontables) - 多少钱？(<code>Duōshao qián?</code>)</li>
+                                <li><strong>几 (jǐ):</strong> Cuántos (para <10 o preguntar hora/día) - 现在几点？(<code>Xiànzài jǐ diǎn?</code>) / 你有几个？(<code>Nǐ yǒu jǐ ge?</code>)</li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -197,11 +258,55 @@
                          <div class="details-content">
                              <p><strong>Usos Principales:</strong></p>
                              <ul>
-                                 <li>- Posesión: 老师的学生 (lǎoshī de xuéshēng) - El estudiante del profesor.</li>
-                                 <li>- Modificación (Adjetivo + de + N): 聪明的孩子 (cōngmíng de háizi) - Niño inteligente.</li>
-                                 <li>- Modificación (Frase verbal + de + N): 我买的票 (wǒ mǎi de piào) - El boleto que compré.</li>
+                                 <li>- Posesión: 老师的学生 (<code>lǎoshī de xuéshēng</code>) - El estudiante del profesor.</li>
+                                 <li>- Modificación (Adjetivo + 的 + N): 聪明的孩子 (<code>cōngmíng de háizi</code>) - Niño inteligente.</li>
+                                 <li>- Modificación (Frase verbal + 的 + N): 我买的票 (<code>wǒ mǎi de piào</code>) - El boleto que compré.</li>
+                                 <li>- Nominalización: 吃的 (<code>chī de</code>) - lo que se come / 红色的 (<code>hóngsè de</code>) - el rojo.</li>
                              </ul>
-                             <p><strong>Omisión:</strong> A veces se omite con relaciones cercanas (我妈妈 - wǒ māma) o atributos inherentes (木头桌子 - mùtou zhuōzi - mesa de madera).</p>
+                             <p><strong>Omisión:</strong> A veces se omite con relaciones cercanas (我妈妈 - <code>wǒ māma</code>) o atributos inherentes/materiales (木头桌子 - <code>mùtou zhuōzi</code> - mesa de madera).</p>
+                         </div>
+                     </td>
+                 </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Partícula 地 (de)</td>
+                     <td>Adverbio/Frase Adv. + 地 + Verbo</td>
+                     <td>他高兴地笑了。</td>
+                     <td>Tā gāoxìng de xiào le.</td>
+                     <td>Él sonrió felizmente.</td>
+                     <td>Convierte adj/frase en adverbio.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Función:</strong> Similar a "-mente" en español. Conecta un modificador (a menudo un adjetivo) con el verbo que describe cómo se realiza la acción.</p>
+                             <p><strong>Forma:</strong> Adjetivo + 地 / Frase Adverbial + 地 + Verbo.</p>
+                             <p><strong>Ejemplo (Adj):</strong> 她慢慢地走。(<code>Tā mànmàn de zǒu.</code>) - Ella camina lentamente.</p>
+                             <p><strong>Ejemplo (Frase):</strong> 我们认真地学习。(<code>Wǒmen rènzhēn de xuéxí.</code>) - Estudiamos seriamente.</p>
+                             <p><strong>Nota:</strong> En habla informal, a veces se omite 地 si el adverbio es monosilábico o duplicado (快跑 <code>kuài pǎo</code> - corre rápido).</p>
+                             <p><strong>Diferencia con 的:</strong> 的 modifica sustantivos, 地 modifica verbos.</p>
+                         </div>
+                     </td>
+                 </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Partícula 得 (de)</td>
+                     <td>Verbo/Adj + 得 + Complemento (Grado/Estado)</td>
+                     <td>他说得很好。/ 他跑得很快。</td>
+                     <td>Tā shuō de hěn hǎo. / Tā pǎo de hěn kuài.</td>
+                     <td>Él habla (muy) bien. / Él corre (muy) rápido.</td>
+                     <td>Describe cómo se hace una acción.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Función:</strong> Introduce un complemento que describe o evalúa la acción del verbo o el estado del adjetivo.</p>
+                             <p><strong>Estructura Común (Verbo):</strong> Sujeto + Verbo + (Objeto) + Verbo + 得 + Complemento.</p>
+                             <p><strong>Ejemplo:</strong> 她唱歌唱得很好听。(<code>Tā chànggē chàng de hěn hǎotīng.</code>) - Ella canta muy bonito.</p>
+                             <p><strong>Estructura Común (Adjetivo):</strong> Sujeto + Adjetivo + 得 + Complemento.</p>
+                             <p><strong>Ejemplo:</strong> 我高兴得跳了起来。(<code>Wǒ gāoxìng de tiào le qǐlái.</code>) - Estaba tan feliz que salté.</p>
+                             <p><strong>Negación:</strong> Verbo + 得 + 不 + Complemento Adj. (他说得不好。 <code>Tā shuō de bù hǎo.</code>)</p>
+                             <p><strong>Diferencia con 地:</strong> 地 va antes del verbo (cómo haces algo), 得 va después (qué tal lo haces).</p>
                          </div>
                      </td>
                  </tr>
@@ -211,24 +316,26 @@
                      <td>Acción completada / Cambio de estado</td>
                      <td>他走了。/ 下雨了。</td>
                      <td>Tā zǒule. / Xià yǔ le.</td>
-                     <td>Se fue. / Empezó a llover (o está lloviendo ahora).</td>
+                     <td>Se fue. / Empezó a llover (o ya llueve).</td>
                      <td>Marca pasado o cambio.</td>
                  </tr>
                  <tr class="details-row">
                      <td colspan="6">
                          <div class="details-content">
-                             <p><strong>Uso 1 (Después del verbo):</strong> Indica que una acción se completó.</p>
-                             <p><strong>Ejemplo:</strong> 我吃了饭。(Wǒ chīle fàn.) - Comí.</p>
-                             <p><strong>Uso 2 (Al final de la oración):</strong> Indica un cambio de estado o una nueva situación.</p>
-                             <p><strong>Ejemplo:</strong> 他是老师了。(Tā shì lǎoshī le.) - Ahora es profesor (antes no lo era).</p>
-                             <p><strong>Nota:</strong> Puede haber dos 了 en una oración: 我吃了饭了。(Wǒ chīle fàn le.) - Ya comí (acción completada + estado actual).</p>
+                             <p><strong>Uso 1 (Aspectual - Después del verbo):</strong> Indica que una acción se completó. No necesariamente indica tiempo pasado lejano.</p>
+                             <p><strong>Ejemplo:</strong> 我吃了饭。(<code>Wǒ chīle fàn.</code>) - Comí (la acción de comer está completa).</p>
+                             <p><strong>Uso 2 (Modal - Al final de la oración):</strong> Indica un cambio de estado o una nueva situación.</p>
+                             <p><strong>Ejemplo:</strong> 他是老师了。(<code>Tā shì lǎoshī le.</code>) - Ahora es profesor (cambio de estado).</p>
+                             <p><strong>Ejemplo:</strong> 太贵了！(<code>Tài guì le!</code>) - ¡Demasiado caro! (nueva constatación).</p>
+                             <p><strong>Nota:</strong> Pueden coexistir: 我吃了饭了。(<code>Wǒ chīle fàn le.</code>) - Ya comí (acción completada + estado actual).</p>
+                             <p><strong>Negación:</strong> La acción completada (Uso 1) se niega con 没(有), y 了 desaparece: 我没吃饭。(<code>Wǒ méi chīfàn.</code>).</p>
                          </div>
                      </td>
                  </tr>
 
                  <tr class="main-row">
                      <td class="expand-icon">Partícula 过 (guò)</td>
-                     <td>Experiencia pasada</td>
+                     <td>Experiencia pasada (V + 过)</td>
                      <td>我去过中国。</td>
                      <td>Wǒ qùguo Zhōngguó.</td>
                      <td>He estado en China (alguna vez).</td>
@@ -237,38 +344,63 @@
                  <tr class="details-row">
                      <td colspan="6">
                          <div class="details-content">
+                             <p><strong>Función:</strong> Indica que la acción ha ocurrido en el pasado, enfatizando la experiencia.</p>
                              <p><strong>Diferencia con 了 (le):</strong></p>
                              <ul>
-                                 <li>- **了 (le):** Acción completada, a menudo con relevancia en el presente o secuencia. 我看了那本书。(Wǒ kànle nà běn shū.) - Leí ese libro (acción terminada).</li>
-                                 <li>- **过 (guò):** Experiencia en algún momento del pasado, sin importar cuándo o si se repitió. 我看过那本书。(Wǒ kànguo nà běn shū.) - He leído ese libro (tengo la experiencia de haberlo leído).</li>
+                                 <li>- **了 (le):** Acción completada, puede ser reciente o relevante ahora. 我看了那本书。(<code>Wǒ kànle nà běn shū.</code>) - Leí ese libro (acción terminada).</li>
+                                 <li>- **过 (guò):** Experiencia en algún momento del pasado, sin importar cuándo. No implica que la acción continúe o se repita. 我看过那本书。(<code>Wǒ kànguo nà běn shū.</code>) - He leído ese libro (tengo la experiencia).</li>
                              </ul>
-                             <p><strong>Negación:</strong> Se niega con 没(有) + Verbo + 过. 他没去过。(Tā méi qùguo.) - Él no ha ido (nunca).</p>
+                             <p><strong>Negación:</strong> Se niega con 没(有) + Verbo + 过. 他没去过。(<code>Tā méi qùguo.</code>) - Él no ha ido (nunca).</p>
+                             <p><strong>Pregunta:</strong> Verbo + 过 + ... + 吗? / Verbo + 过 + ... + 没有?</p>
                          </div>
                      </td>
                  </tr>
 
                  <tr class="main-row">
-                     <td class="expand-icon">Clasificadores (个, 本, 只...)</td>
-                     <td>Número + Clasificador + Sustantivo</td>
-                     <td>一个人 / 三本书 / 一只猫</td>
-                     <td>Yí ge rén / Sān běn shū / Yì zhī māo</td>
-                     <td>Una persona / Tres libros / Un gato</td>
-                     <td>Obligatorios entre número/demostrativo y sustantivo.</td>
+                     <td class="expand-icon">Partícula 着 (zhe)</td>
+                     <td>Estado continuo / Acción de fondo (V + 着)</td>
+                     <td>门开着。/ 他笑着说...</td>
+                     <td>Mén kāizhe. / Tā xiàozhe shuō...</td>
+                     <td>La puerta está abierta. / Él dijo sonriendo...</td>
+                     <td>Indica duración de estado o acción simultánea.</td>
                  </tr>
                  <tr class="details-row">
                      <td colspan="6">
                          <div class="details-content">
-                             <p><strong>Uso:</strong> Siempre se usan después de números (excepto a veces 'uno') y demostrativos (这 zhè - este, 那 nà - ese).</p>
+                             <p><strong>Uso 1 (Estado durativo):</strong> Indica que el resultado de una acción continúa.</p>
+                             <p><strong>Ejemplo:</strong> 墙上挂着一幅画。(<code>Qiáng shàng guàzhe yī fú huà.</code>) - Hay un cuadro colgado en la pared (el estado de estar colgado continúa).</p>
+                             <p><strong>Uso 2 (Acción de fondo):</strong> Indica una acción que acompaña a la acción principal.</p>
+                             <p><strong>Ejemplo:</strong> 他站着吃饭。(<code>Tā zhànzhe chīfàn.</code>) - Él come de pie (la acción de estar de pie acompaña a la de comer).</p>
+                             <p><strong>Negación:</strong> 没 + Verbo + 着. 门没开着。(<code>Mén méi kāizhe.</code>) - La puerta no está abierta.</p>
+                             <p><strong>Nota:</strong> No todos los verbos pueden llevar 着. Principalmente verbos de acción que pueden resultar en un estado (abrir, cerrar, llevar puesto, sentarse, etc.) o verbos de acción que pueden acompañar a otros (sonreír, llorar).</p>
+                         </div>
+                     </td>
+                 </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Clasificadores (量词)</td>
+                     <td>Número/Demostrativo + Clasificador + Sustantivo</td>
+                     <td>一个人 / 三本书 / 这只猫</td>
+                     <td>Yí ge rén / Sān běn shū / Zhè zhī māo</td>
+                     <td>Una persona / Tres libros / Este gato</td>
+                     <td>Obligatorios entre núm./dem. y sust.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Uso:</strong> Se usan siempre después de números (excepto a veces 'uno' en contextos informales) y demostrativos (这 <code>zhè</code> - este, 那 <code>nà</code> - ese, 哪 <code>nǎ</code> - cuál).</p>
                              <p><strong>Comunes:</strong></p>
                              <ul>
-                                 <li>- **个 (ge):** El más común, para personas, objetos generales.</li>
-                                 <li>- **本 (běn):** Para cosas encuadernadas (libros, revistas).</li>
-                                 <li>- **只 (zhī):** Para animales (gatos, perros, pájaros), partes de un par (un zapato).</li>
-                                 <li>- **张 (zhāng):** Para objetos planos y delgados (papel, mesas, camas, boletos).</li>
-                                 <li>- **辆 (liàng):** Para vehículos con ruedas (coches, bicicletas).</li>
-                                 <li>- **杯 (bēi):** Para tazas/vasos de algo (una taza de té).</li>
+                                 <li>- **个 (ge):** El más común, genérico. (一个人 <code>yí ge rén</code>)</li>
+                                 <li>- **本 (běn):** Para cosas encuadernadas (libros, revistas). (一本书 <code>yì běn shū</code>)</li>
+                                 <li>- **只 (zhī):** Animales pequeños, partes de un par. (一只猫 <code>yì zhī māo</code>, 一只手 <code>yì zhī shǒu</code>)</li>
+                                 <li>- **张 (zhāng):** Objetos planos (papel, mesas, camas, boletos). (一张票 <code>yì zhāng piào</code>)</li>
+                                 <li>- **辆 (liàng):** Vehículos con ruedas. (一辆车 <code>yí liàng chē</code>)</li>
+                                 <li>- **件 (jiàn):** Ropa (parte superior), asuntos. (一件衣服 <code>yí jiàn yīfu</code>, 一件事 <code>yí jiàn shì</code>)</li>
+                                 <li>- **条 (tiáo):** Objetos largos y flexibles (pantalones, ríos, peces, perros). (一条裤子 <code>yì tiáo kùzi</code>)</li>
+                                 <li>- **杯 (bēi):** Tazas/vasos. (一杯茶 <code>yì bēi chá</code>)</li>
                              </ul>
-                             <p><strong>Ejemplo con demostrativo:</strong> 这本书 (Zhè běn shū) - Este libro.</p>
+                             <p><strong>Nota:</strong> Cada sustantivo suele tener uno o más clasificadores específicos. 个 es el comodín, pero usar el correcto es más preciso.</p>
                          </div>
                      </td>
                  </tr>
@@ -278,32 +410,126 @@
                      <td>Sujeto + 把 + Objeto + Verbo + Complemento/了</td>
                      <td>我把书放在桌子上了。</td>
                      <td>Wǒ bǎ shū fàng zài zhuōzi shàng le.</td>
-                     <td>Puse el libro sobre la mesa.</td>
-                     <td>Enfatiza el efecto sobre el objeto.</td>
+                     <td>Puse el libro sobre la mesa (acción sobre el libro).</td>
+                     <td>Enfatiza el efecto/disposición del objeto.</td>
                  </tr>
                  <tr class="details-row">
                      <td colspan="6">
                          <div class="details-content">
-                             <p><strong>Función:</strong> Mueve el objeto directo antes del verbo para enfatizar qué se le hizo al objeto (disposición).</p>
+                             <p><strong>Función:</strong> Mueve el objeto directo antes del verbo para enfatizar qué se le hizo (disposición).</p>
                              <p><strong>Requisitos:</strong></p>
                              <ul>
-                                 <li>- El objeto debe ser definido o específico (no "un libro", sino "el libro" o "ese libro").</li>
-                                 <li>- El verbo debe indicar una acción que afecta al objeto.</li>
-                                 <li>- Generalmente requiere un complemento después del verbo (de resultado, dirección, 了, etc.).</li>
+                                 <li>- El objeto debe ser definido/específico (<code>el</code> libro, <code>este</code> libro, <code>mi</code> libro).</li>
+                                 <li>- El verbo debe ser transitivo y indicar una acción que afecta/cambia al objeto.</li>
+                                 <li>- Generalmente requiere un complemento después del verbo (resultado, dirección, 了, etc.).</li>
                              </ul>
-                             <p><strong>Ejemplo Adicional:</strong> 请把门打开。(Qǐng bǎ mén dǎkāi.) - Por favor, abre la puerta.</p>
-                             <p><strong>Negación:</strong> Se niega antes de 把: 我没把作业做完。(Wǒ méi bǎ zuòyè zuòwán.) - No terminé la tarea.</p>
+                             <p><strong>Ejemplo Adicional:</strong> 请把门打开。(<code>Qǐng bǎ mén dǎkāi.</code>) - Por favor, abre la puerta.</p>
+                             <p><strong>Negación:</strong> Se niega antes de 把: 我没把作业做完。(<code>Wǒ méi bǎ zuòyè zuòwán.</code>) - No terminé la tarea.</p>
+                             <p><strong>Verbos comunes:</strong> 放 (fàng - poner), 关 (guān - cerrar), 吃 (chī - comer), 喝 (hē - beber), 写 (xiě - escribir), 做 (zuò - hacer), etc.</p>
                          </div>
                      </td>
                  </tr>
 
                  <tr class="main-row">
+                    <td class="expand-icon">Estructura 被 (bèi) - Pasiva</td>
+                    <td>Receptor + 被 + (Agente) + Verbo + Complemento/了</td>
+                    <td>我的钱包被偷了。</td>
+                    <td>Wǒ de qiánbāo bèi tōu le.</td>
+                    <td>Mi cartera fue robada.</td>
+                    <td>Marca la voz pasiva.</td>
+                </tr>
+                <tr class="details-row">
+                    <td colspan="6">
+                        <div class="details-content">
+                            <p><strong>Función:</strong> Similar a la voz pasiva en español. El objeto de la acción se convierte en el sujeto de la oración.</p>
+                            <p><strong>Estructura:</strong> Receptor + 被 (<code>bèi</code>) + [Agente (opcional)] + Verbo + Otros elementos (了, complemento, etc.).</p>
+                            <p><strong>Ejemplo con Agente:</strong> 他被老师批评了。(<code>Tā bèi lǎoshī pīpíng le.</code>) - Él fue criticado por el profesor.</p>
+                            <p><strong>Otras partículas pasivas:</strong></p>
+                             <ul>
+                                 <li>- 叫 (jiào): Informal, similar a 被.</li>
+                                 <li>- 让 (ràng): Informal, similar a 被.</li>
+                             </ul>
+                             <p><strong>Nota:</strong> La pasiva con 被 a menudo tiene una connotación negativa o de algo desafortunado que le sucede al receptor, aunque no siempre.</p>
+                        </div>
+                    </td>
+                </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Comparativos</td>
+                     <td>比 (bǐ) / 跟...一样 (gēn...yīyàng) / 没有 (méiyǒu)</td>
+                     <td>他比我高。/ 他跟我一样高。/ 我没有他高。</td>
+                     <td>Tā bǐ wǒ gāo. / Tā gēn wǒ yīyàng gāo. / Wǒ méiyǒu tā gāo.</td>
+                     <td>Él es más alto que yo. / Él es igual de alto que yo. / No soy tan alto como él.</td>
+                     <td>Superioridad, igualdad, inferioridad.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Superioridad (A 比 B + Adj):</strong> 他比我高。(<code>Tā bǐ wǒ gāo.</code>)</p>
+                             <p>   - Con grado: 他比我高一点儿/得多。(<code>Tā bǐ wǒ gāo yīdiǎnr / de duō.</code>) - Es un poco/mucho más alto.</p>
+                             <p><strong>Igualdad (A 跟 B 一样 + Adj):</strong> 他跟我一样高。(<code>Tā gēn wǒ yīyàng gāo.</code>)</p>
+                             <p>   - Negación: 他不跟我一样高。(<code>Tā bù gēn wǒ yīyàng gāo.</code>)</p>
+                             <p><strong>Inferioridad (A 没有 B + Adj):</strong> 我没有他高。(<code>Wǒ méiyǒu tā gāo.</code>)</p>
+                             <p>   - Significa "A no es tan Adj. como B".</p>
+                             <p><strong>Comparando acciones (V + 得 + 比...):</strong> 他跑得比我快。(<code>Tā pǎo de bǐ wǒ kuài.</code>) - Él corre más rápido que yo.</p>
+                         </div>
+                     </td>
+                 </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Estructura 是...的 (shì...de)</td>
+                     <td>Sujeto + 是 + Info a Enfatizar + Verbo + 的</td>
+                     <td>我是昨天来的。</td>
+                     <td>Wǒ shì zuótiān lái de.</td>
+                     <td>Vine ayer (enfatizando cuándo).</td>
+                     <td>Enfatiza tiempo, lugar, manera, etc. de una acción pasada.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Función:</strong> Se usa para destacar un detalle específico (tiempo, lugar, manera, agente) de una acción que ya ocurrió y que ambos interlocutores conocen.</p>
+                             <p><strong>Estructura:</strong> Sujeto + 是 + [Información Enfatizada] + Verbo + (Objeto) + 的.</p>
+                             <p><strong>Enfatizando Tiempo:</strong> 我是昨天来的。(<code>Wǒ shì zuótiān lái de.</code>)</p>
+                             <p><strong>Enfatizando Lugar:</strong> 我是在北京认识他的。(<code>Wǒ shì zài Běijīng rènshi tā de.</code>) - Lo conocí en Pekín.</p>
+                             <p><strong>Enfatizando Manera:</strong> 我们是坐飞机来的。(<code>Wǒmen shì zuò fēijī lái de.</code>) - Vinimos en avión.</p>
+                             <p><strong>Enfatizando Agente (en pasiva implícita):</strong> 这本书是谁写的？是老舍写的。(<code>Zhè běn shū shì shéi xiě de? Shì Lǎo Shě xiě de.</code>) - ¿Quién escribió este libro? Lo escribió Lao She.</p>
+                             <p><strong>Nota:</strong> 是 (shì) a menudo se omite en la forma afirmativa, especialmente en el habla. La negación se forma con 不是...的.</p>
+                         </div>
+                     </td>
+                 </tr>
+
+                 <tr class="main-row">
+                     <td class="expand-icon">Conjunciones Comunes</td>
+                     <td>因为...所以... / 虽然...但是... / 如果...就... / 不但...而且...</td>
+                     <td>因为下雨，所以我们没去。</td>
+                     <td>Yīnwèi xià yǔ, suǒyǐ wǒmen méi qù.</td>
+                     <td>Porque llovía, (por eso) no fuimos.</td>
+                     <td>Conectan cláusulas.</td>
+                 </tr>
+                 <tr class="details-row">
+                     <td colspan="6">
+                         <div class="details-content">
+                             <p><strong>Causa y Efecto:</strong> 因为...所以... (<code>yīnwèi... suǒyǐ...</code>) - porque... entonces...</p>
+                             <p>   - Ejemplo: 因为他生病了，所以没来上课。(<code>Yīnwèi tā shēngbìng le, suǒyǐ méi lái shàngkè.</code>)</p>
+                             <p><strong>Concesión:</strong> 虽然...但是/可是... (<code>suīrán... dànshì/kěshì...</code>) - aunque... pero...</p>
+                             <p>   - Ejemplo: 虽然很难，但是我要试试。(<code>Suīrán hěn nán, dànshì wǒ yào shìshi.</code>)</p>
+                             <p><strong>Condición:</strong> 如果/要是...就... (<code>rúguǒ/yàoshi... jiù...</code>) - si... entonces...</p>
+                             <p>   - Ejemplo: 如果你明天有空，我们就去看电影。(<code>Rúguǒ nǐ míngtiān yǒu kòng, wǒmen jiù qù kàn diànyǐng.</code>)</p>
+                             <p><strong>Adición:</strong> 不但...而且... (<code>búdàn... érqiě...</code>) - no solo... sino también...</p>
+                             <p>   - Ejemplo: 他不但会说英语，而且会说法语。(<code>Tā búdàn huì shuō Yīngyǔ, érqiě huì shuō Fǎyǔ.</code>)</p>
+                             <p><strong>Nota:</strong> A menudo, la segunda parte de la conjunción (所以, 但是, 就, 而且) es obligatoria en chino, a diferencia del español.</p>
+                         </div>
+                     </td>
+                 </tr>
+
+
+                 <tr class="main-row">
                      <td class="expand-icon">Complementos (Resultado)</td>
-                     <td>Verbo + Complemento Resultativo (完, 到, 见, 好...)</td>
+                     <td>Verbo + Comp. Resultativo (完, 到, 见, 好, 懂, 错...)</td>
                      <td>我做完了作业。/ 我看见了她。</td>
                      <td>Wǒ zuòwánle zuòyè. / Wǒ kànjiànle tā.</td>
                      <td>Terminé la tarea. / La vi.</td>
-                     <td>Indican el resultado de la acción verbal.</td>
+                     <td>Indican el resultado de la acción.</td>
                  </tr>
                  <tr class="details-row">
                      <td colspan="6">
@@ -311,24 +537,26 @@
                              <p><strong>Función:</strong> Se adjuntan directamente al verbo para especificar el resultado.</p>
                              <p><strong>Comunes:</strong></p>
                              <ul>
-                                 <li>- **完 (wán):** terminar, completar (吃完 chīwán - terminar de comer).</li>
-                                 <li>- **到 (dào):** alcanzar, lograr (找到 zhǎodào - encontrar; 买到 mǎidào - lograr comprar).</li>
-                                 <li>- **见 (jiàn):** percibir sensorialmente (看见 kànjiàn - ver; 听见 tīngjiàn - oír).</li>
-                                 <li>- **好 (hǎo):** completar satisfactoriamente (做好 zuòhǎo - hacer bien/terminar).</li>
-                                 <li>- **懂 (dǒng):** entender (听懂 tīngdǒng - entender al oír; 看懂 kàndǒng - entender al leer).</li>
-                                 <li>- **错 (cuò):** hacer incorrectamente (写错 xiěcuò - escribir incorrectamente).</li>
+                                 <li>- **完 (wán):** terminar, completar (吃完 <code>chīwán</code> - terminar de comer).</li>
+                                 <li>- **到 (dào):** alcanzar, lograr (找到 <code>zhǎodào</code> - encontrar; 买到 <code>mǎidào</code> - lograr comprar).</li>
+                                 <li>- **见 (jiàn):** percibir sensorialmente (看见 <code>kànjiàn</code> - ver; 听见 <code>tīngjiàn</code> - oír).</li>
+                                 <li>- **好 (hǎo):** completar satisfactoriamente (做好 <code>zuòhǎo</code> - hacer bien/terminar).</li>
+                                 <li>- **懂 (dǒng):** entender (听懂 <code>tīngdǒng</code> - entender al oír; 看懂 <code>kàndǒng</code> - entender al leer).</li>
+                                 <li>- **错 (cuò):** hacer incorrectamente (写错 <code>xiěcuò</code> - escribir incorrectamente).</li>
+                                 <li>- **开 (kāi):** abrir, separar (打开 <code>dǎkāi</code> - abrir; 走开 <code>zǒukāi</code> - irse).</li>
+                                 <li>- **上 (shàng):** ascender, cerrar, lograr contacto (关上 <code>guānshàng</code> - cerrar; 爱上 <code>àishàng</code> - enamorarse).</li>
                              </ul>
-                             <p><strong>Negación:</strong> Se usa 没(有) antes del verbo: 我没听懂。(Wǒ méi tīngdǒng.) - No entendí (al oír).</p>
+                             <p><strong>Negación:</strong> Se usa 没(有) antes del verbo: 我没听懂。(<code>Wǒ méi tīngdǒng.</code>) - No entendí (al oír).</p>
                          </div>
                      </td>
                  </tr>
 
                  <tr class="main-row">
                      <td class="expand-icon">Complementos (Dirección)</td>
-                     <td>Verbo + 来/去 (Simple) / Verbo + 上/下/进/出... + 来/去 (Compuesto)</td>
+                     <td>V + 来/去 (Simple) / V + 上/下/进/出... + 来/去 (Compuesto)</td>
                      <td>他上来了。/ 他跑进去了。</td>
                      <td>Tā shànglai le. / Tā pǎo jìnqu le.</td>
-                     <td>Subió (hacia el hablante). / Entró corriendo (alejándose).</td>
+                     <td>Subió (hacia acá). / Entró corriendo (hacia allá).</td>
                      <td>Indican la dirección del movimiento.</td>
                  </tr>
                  <tr class="details-row">
@@ -336,9 +564,14 @@
                          <div class="details-content">
                              <p><strong>来 (lái):** Movimiento hacia el hablante.</p>
                              <p><strong>去 (qù):** Movimiento alejándose del hablante.</p>
-                             <p><strong>Simples:</strong> 上来 (shànglai - subir hacia aquí), 下去 (xiàqu - bajar hacia allá), 进来 (jìnlai - entrar hacia aquí), 出去 (chūqu - salir hacia allá), 回来 (huílai - volver aquí), 过去 (guòqu - ir allá/pasar), 起来 (qǐlai - levantarse/empezar).</p>
-                             <p><strong>Compuestos:</strong> Combinan un verbo de acción con un complemento de dirección simple: 跑上来 (pǎo shànglai - subir corriendo hacia aquí), 拿下去 (ná xiàqu - bajar algo [llevándolo] hacia allá).</p>
-                             <p><strong>Con Objeto:</strong> Si el objeto es un lugar, va entre el verbo y 来/去 (他回家去了 Tā huí jiā qù le - Volvió a casa). Si es un objeto portable, puede ir entre el verbo y 来/去 o después (他拿出书来 Tā ná chū shū lai / 他拿出来书 Tā ná chūlai shū - Sacó el libro).</p>
+                             <p><strong>Simples:</strong> 上来 (<code>shànglai</code>), 下去 (<code>xiàqu</code>), 进来 (<code>jìnlai</code>), 出去 (<code>chūqu</code>), 回来 (<code>huílai</code>), 过去 (<code>guòqu</code>), 起来 (<code>qǐlai</code>).</p>
+                             <p><strong>Compuestos:</strong> Combinan un verbo de acción con un complemento de dirección simple: 跑上来 (<code>pǎo shànglai</code>), 拿下去 (<code>ná xiàqu</code>).</p>
+                             <p><strong>Usos Extendidos/Abstractos:</strong></p>
+                             <ul>
+                                <li>- 起来 (<code>qǐlai</code>): empezar una acción (唱起来 <code>chàng qǐlai</code> - empezar a cantar); reunir/juntar (看起来 <code>kàn qǐlai</code> - parecer).</li>
+                                <li>- 下去 (<code>xiàqu</code>): continuar una acción (说下去 <code>shuō xiàqu</code> - seguir hablando).</li>
+                             </ul>
+                             <p><strong>Con Objeto:</strong> Lugar entre V y 来/去 (他回家去了 <code>Tā huí jiā qù le</code>). Objeto portable entre V y 来/去 o después (他拿出书来 <code>Tā ná chū shū lai</code> / 他拿出来书 <code>Tā ná chūlai shū</code>).</p>
                          </div>
                      </td>
                  </tr>
@@ -348,67 +581,85 @@
                      <td>Verbo + 得/不 + Complemento Resultativo/Direccional</td>
                      <td>我看得懂。/ 我听不见。</td>
                      <td>Wǒ kàn de dǒng. / Wǒ tīng bu jiàn.</td>
-                     <td>Puedo entender (al leer). / No puedo oír (o no oigo).</td>
-                     <td>Indica si es posible lograr el resultado/dirección.</td>
+                     <td>Puedo entender (leyendo). / No puedo oír.</td>
+                     <td>Indica (im)posibilidad de lograr resultado/dirección.</td>
                  </tr>
                  <tr class="details-row">
                      <td colspan="6">
                          <div class="details-content">
-                             <p><strong>Forma Afirmativa:</strong> Verbo + 得 (de) + Complemento (Resultativo o Direccional).</p>
-                             <p><strong>Ejemplo:</strong> 你拿得动吗？(Nǐ ná de dòng ma?) - ¿Puedes moverlo/cargarlo?</p>
-                             <p><strong>Forma Negativa:</strong> Verbo + 不 (bu) + Complemento (Resultativo o Direccional).</p>
-                             <p><strong>Ejemplo:</strong> 这个字我写不好。(Zhège zì wǒ xiě bu hǎo.) - No puedo escribir bien este carácter.</p>
-                             <p><strong>Nota:</strong> Es la forma de preguntar/negar la posibilidad de un verbo con complemento. No confundir con la negación de la acción pasada (que usa 没).</p>
+                             <p><strong>Forma Afirmativa:</strong> Verbo + 得 (<code>de</code>) + Complemento (Resultativo o Direccional).</p>
+                             <p><strong>Ejemplo:</strong> 你拿得动吗？(<code>Nǐ ná de dòng ma?</code>) - ¿Puedes moverlo/cargarlo?</p>
+                             <p><strong>Forma Negativa:</strong> Verbo + 不 (<code>bu</code>) + Complemento (Resultativo o Direccional).</p>
+                             <p><strong>Ejemplo:</strong> 这个字我写不好。(<code>Zhège zì wǒ xiě bu hǎo.</code>) - No puedo escribir bien este carácter.</p>
+                             <p><strong>Nota:</strong> Es la forma de preguntar/negar la <strong>posibilidad</strong> de un verbo con complemento. No confundir con la negación de la acción pasada (que usa 没).</p>
+                             <p><strong>Ejemplo Direccional:</strong> 太高了，我上不去。(<code>Tài gāo le, wǒ shàng bu qù.</code>) - Está demasiado alto, no puedo subir.</p>
+                             <p><strong>Casos Fijos:</strong> Algunos son muy comunes: 对不起 (<code>duìbuqǐ</code> - lo siento), 来不及 (<code>láibují</code> - no haber tiempo), 来得及 (<code>láidejí</code> - haber tiempo).</p>
                          </div>
                      </td>
                  </tr>
 
-                </tbody>
+            </tbody>
         </table>
     </div>
 
     <div class="summary">
-        <h2 class="text-xl font-semibold">Resumen Gráfico Final</h2>
+        <h2 class="text-xl font-semibold">Resumen Gráfico Final (v2)</h2>
         <pre>
-【 SUJETO 】→【 (Tiempo/Lugar) 】→【 (Adv./Modal/把+O) 】→【 VERBO 】→【 (Complementos/了/过) 】→【 OBJETO 】+ (Partículas Finales)
+<strong>【 SUJETO 】</strong>→<em>【 (Tiempo/Lugar/Adv./Modal/把+O/被+Ag) 】</em>→<strong>【 VERBO 】</strong>→<em>【 (得+Comp./着/了/过) 】</em>→<strong>【 OBJETO 】</strong>+ <em>(Part. Finales)</em>
 
-+ Pregunta Sí/No: + 吗?
-+ Pregunta V/No V: + V + 不 + V?
-+ Pregunta Potencial: + V + 得/不 + Complemento?
-+ Negación: 不 (bù) / 没 (méi) + Verbo
-+ Posesión/Atributo: + 的 (de)
-+ Pasado/Cambio: + 了 (le)
-+ Experiencia: + 过 (guò)
-+ En progreso: 在 / 正在 (zài / zhèngzài) + Verbo + (呢 ne)
-+ Comparativo: A + 比 (bǐ) + B + Adj.
-+ Pasiva: Receptor + 被 (bèi) + (Agente) + Verbo
-+ Disposición: Sujeto + 把 (bǎ) + Objeto + V + Comp.
-+ Clasificadores: Num/Dem + Clasificador + Sust.
-+ Complementos: V + (得/不) + Comp. (Resultado/Dirección)
+<strong>--- Estructuras Clave ---</strong>
+<strong>Negación:</strong> 不 (bù) [Gral.] / 没 (méi) [Pasado/有] + V
+<strong>Pregunta ?:</strong> + 吗? / V-不-V? / Adj-不-Adj?
+<strong>Pregunta WH?:</strong> ...谁/什么/哪儿/何时/怎么/为何...
+<strong>Posesión/Modificador:</strong> ... + 的 (de) + Sustantivo
+<strong>Adverbio:</strong> ... + 地 (de) + Verbo
+<strong>Descripción Acción:</strong> V + 得 (de) + Complemento
+<strong>Acción Completa:</strong> V + 了 (le)
+<strong>Experiencia Pasada:</strong> V + 过 (guò)
+<strong>Estado Continuo:</strong> V + 着 (zhe)
+<strong>Clasificadores:</strong> Núm/Dem + Clasificador + Sustantivo
+<strong>Disposición Objeto:</strong> Suj + 把 (bǎ) + Obj + V + Comp.
+<strong>Voz Pasiva:</strong> Receptor + 被 (bèi) + (Agente) + V + Comp.
+<strong>Comparativo:</strong> A 比 B Adj. / A 跟 B 一样 Adj. / A 没有 B Adj.
+<strong>Énfasis Pasado:</strong> (是) + Info + V + 的 (shì...de)
+<strong>Complementos:</strong> V + (得/不) + Comp. (Resultado/Dirección/Potencial)
+<strong>Conjunciones:</strong> 因为...所以 / 虽然...但是 / 如果...就 / 不但...而且 ...
         </pre>
     </div>
 
     <script>
-        // Script para hacer las filas expandibles
+        // Script para hacer las filas expandibles (sin cambios funcionales)
         document.addEventListener('DOMContentLoaded', function() {
-            // Selecciona todas las filas principales (las que se pueden clickear)
             const mainRows = document.querySelectorAll('.main-row');
 
             mainRows.forEach(row => {
-                row.addEventListener('click', function() {
-                    // Encuentra la siguiente fila hermana, que debería ser la de detalles
-                    const detailsRow = this.nextElementSibling;
+                // Añadir role y aria-expanded para accesibilidad
+                row.setAttribute('role', 'button');
+                row.setAttribute('aria-expanded', 'false');
+                const detailsRow = row.nextElementSibling;
+                if (detailsRow && detailsRow.classList.contains('details-row')) {
+                    const detailsId = 'details-' + Math.random().toString(36).substr(2, 9); // Generar ID único
+                    detailsRow.setAttribute('id', detailsId);
+                    row.setAttribute('aria-controls', detailsId);
+                }
 
-                    // Verifica si la siguiente fila es efectivamente una fila de detalles
+
+                row.addEventListener('click', function() {
+                    const detailsRow = this.nextElementSibling;
                     if (detailsRow && detailsRow.classList.contains('details-row')) {
-                        // Alterna la visualización de la fila de detalles
-                        if (detailsRow.style.display === 'table-row') {
-                            detailsRow.style.display = 'none';
-                            this.classList.remove('expanded'); // Quita clase para cambiar icono
-                        } else {
-                            detailsRow.style.display = 'table-row';
-                            this.classList.add('expanded'); // Añade clase para cambiar icono
-                        }
+                        const isExpanded = detailsRow.style.display === 'table-row';
+                        detailsRow.style.display = isExpanded ? 'none' : 'table-row';
+                        this.classList.toggle('expanded', !isExpanded);
+                        // Actualizar aria-expanded
+                        this.setAttribute('aria-expanded', !isExpanded);
+                    }
+                });
+
+                // Permitir expansión con tecla Enter/Espacio para accesibilidad
+                row.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault(); // Evitar scroll con espacio
+                        this.click(); // Simular clic
                     }
                 });
             });
@@ -419,16 +670,3 @@
 </html>
 ```
 
-Ahí tienes la versión actualizada, Gama. ✨
-
-**Cambios:**
-
-1.  **Nuevas Categorías:** Añadí filas para Clasificadores, Partícula 过 (guò), Estructura 把 (bǎ), y los tres tipos principales de Complementos (Resultado, Dirección, Potencial).
-2.  **Interactividad (Clic para Detalles):**
-    * Cada fila principal ahora es "clickeable".
-    * Debajo de cada fila principal, hay una fila oculta (`.details-row`) con más explicaciones y ejemplos.
-    * Al hacer clic en una fila principal, se muestra u oculta la fila de detalles correspondiente.
-    * Añadí un pequeño icono de flecha (▼) que gira (▲) cuando la fila está expandida para dar una pista visual.
-3.  **Pequeños Ajustes:** Mejoré un poco las notas y ejemplos de las filas existentes y ajusté el CSS para que todo funcione bien.
-
-¡Pruébala a ver qué tal! Dale clic a las filas y dime si te gusta cómo funciona y si la información adicional te sirve. Si quieres añadir más categorías o probar otra idea interactiva, ¡estoy lista! �
