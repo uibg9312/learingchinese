@@ -50,6 +50,8 @@
         }
         nav div { /* Contenedor para los links */
              display: flex;
+             flex-wrap: wrap; /* Permite que los links pasen a la siguiente línea si no caben */
+             justify-content: center; /* Centra los links dentro del div */
              gap: 10px; /* Espacio entre links */
         }
         nav a {
@@ -59,6 +61,7 @@
             padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
             border-radius: 6px; /* Bordes redondeados */
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            white-space: nowrap; /* Evita que el texto del link se parta */
         }
         nav a:hover {
             background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
@@ -280,13 +283,14 @@
         <div>
             <a href="#pinyin-table">Tabla Pinyin</a>
             <a href="#cheat-sheet">Cheat Sheet</a>
+            <a href="https://spanish.yabla.com/chinese-pinyin-chart.php" target="_blank" rel="noopener noreferrer">Pinyin Chart (Audio)</a>
         </div>
     </nav>
 
     <div class="main-content">
         <h1>CHINESE PINYIN CHART</h1>
         <p class="subtitle">
-            Fuente: <a href="https://www.studycli.org" target="_blank" rel="noopener noreferrer">www.studycli.org</a> | Learn Chinese in China
+            Fuente: <a href="https://spanish.yabla.com/chinese-pinyin-chart.php" target="_blank" rel="noopener noreferrer">spanish.yabla.com</a> | Learn Chinese in China
         </p>
 
         <section id="pinyin-table">
