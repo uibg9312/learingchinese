@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Lista de Palabras Chinas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados adicionales */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8; /* Un gris muy claro */
+            margin: 0;
+            padding: 0; /* Quitamos padding global para que el nav ocupe todo el ancho */
+            color: #333; /* Gris oscuro para texto principal */
+            display: flex; /* Usamos flex para asegurar que el footer (si hubiera) quede abajo */
+            flex-direction: column; /* Apilamos contenido verticalmente */
+            min-height: 100vh; /* Aseguramos que el body ocupe al menos toda la altura de la ventana */
+        }
+        /* Contenedor principal para aplicar padding excepto al nav */
+        .main-content {
+            padding: 20px;
+            flex-grow: 1; /* Permite que el contenido principal crezca y empuje el footer hacia abajo */
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c; /* Azul un poco más oscuro */
+            margin-bottom: 30px;
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        /* Estilos de Navegación */
+        nav {
+            background-color: #005a9c; /* Azul oscuro del título */
+            padding: 1rem 1.5rem; /* Padding vertical y horizontal */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
+            border-radius: 6px; /* Bordes redondeados */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            margin-right: 10px; /* Espacio entre enlaces */
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
+            color: #e0f7fa; /* Un color cian muy claro al pasar */
+        }
+        /* Formulario para añadir palabras */
+        .add-word-form {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+            gap: 15px; /* Espacio entre elementos del formulario */
+            align-items: flex-end; /* Alinea los elementos en la parte inferior */
+        }
+        .add-word-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+            flex: 1; /* Hace que las etiquetas ocupen espacio disponible */
+            min-width: 120px; /* Ancho mínimo para evitar que se aplasten demasiado */
+        }
+        .add-word-form input[type="text"] {
+            width: 100%; /* Ocupa todo el ancho del contenedor del label */
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+        }
+        .add-word-form button {
+            padding: 10px 20px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 10px; /* Espacio arriba en móviles cuando se apila */
+        }
+        .add-word-form button:hover {
+            background-color: #005fa3;
+        }
+
+        /* Estilos de la tabla */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            /* min-width: 600px; */ /* Eliminado para mejor responsividad inicial, el contenedor maneja el scroll */
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden; /* Asegura que los bordes redondeados se apliquen */
+        }
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: middle; /* Centrado verticalmente */
+            font-size: 0.95rem;
+        }
+        th {
+            background-color: #0077cc;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: sticky; /* Encabezados fijos al hacer scroll vertical si la tabla es muy larga */
+            top: 0;
+            z-index: 1; /* Asegura que estén por encima del contenido */
+        }
+        tbody tr:hover {
+            background-color: #f0f8ff; /* Azul muy claro al pasar el ratón */
+        }
+        tbody tr:last-child td {
+            border-bottom: none; /* Quita el borde de la última fila */
+        }
+        td button.delete-btn {
+             padding: 6px 10px;
+             background-color: #e74c3c; /* Rojo */
+             color: white;
+             border: none;
+             border-radius: 5px;
+             font-size: 0.85rem;
+             cursor: pointer;
+             transition: background-color 0.2s ease;
+        }
+        td button.delete-btn:hover {
+             background-color: #c0392b; /* Rojo más oscuro */
+        }
+
+        /* Media Query para mejorar responsividad */
+        @media (max-width: 768px) {
+            .main-content { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
+            th { font-size: 0.75rem; }
+            .add-word-form { flex-direction: column; align-items: stretch; } /* Apila los campos del formulario */
+            .add-word-form label { min-width: auto; } /* Quita el ancho mínimo en móvil */
+            .add-word-form button { width: 100%; margin-top: 15px; } /* Botón ocupa todo el ancho */
+
+            /* Ajuste para el menú en móviles */
+            nav { padding: 0.8rem 1rem; }
+            nav div {
+                display: flex;
+                flex-direction: column; /* Apila los links verticalmente */
+                align-items: flex-start; /* Alinea a la izquierda */
+            }
+            nav a {
+                display: block; /* Hace que cada link ocupe todo el ancho */
+                width: 100%;
+                box-sizing: border-box; /* Asegura que el padding no desborde */
+                margin-bottom: 0.5rem; /* Espacio entre links apilados */
+                text-align: center; /* Centra el texto en el link */
+                padding: 0.8rem 1rem; /* Padding ajustado para móvil */
+            }
+            nav a:last-child {
+                margin-bottom: 0; /* Quita margen al último */
+            }
+        }
+         @media (max-width: 480px) {
+             h1 { font-size: 1.6rem; }
+             th, td { padding: 8px 10px; font-size: 0.85rem; }
+             .add-word-form { padding: 20px; }
+             .add-word-form input[type="text"] { padding: 8px 10px; font-size: 0.9rem; }
+             .add-word-form button { padding: 10px 15px; font-size: 0.95rem; }
+             td button.delete-btn { padding: 5px 8px; font-size: 0.8rem; }
+         }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div> <a href="#">Inicio</a>
+            </div>
+    </nav>
+
+    <div class="main-content">
+        <h1>Mi Lista de Palabras Chinas</h1>
+
+        <div class="add-word-form">
+            <label>
+                Caracter(es):
+                <input type="text" id="charInput" placeholder="你好">
+            </label>
+            <label>
+                Pinyin:
+                <input type="text" id="pinyinInput" placeholder="nǐ hǎo">
+            </label>
+            <label>
+                Significado:
+                <input type="text" id="spanishInput" placeholder="Hola">
+            </label>
+            <button id="addWordBtn">Añadir Palabra</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caracter(es)</th>
+                        <th>Pinyin</th>
+                        <th>Significado</th>
+                        <th>Acción</th> </tr>
+                </thead>
+                <tbody id="wordListBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Referencias a los elementos del DOM
+        const charInput = document.getElementById('charInput');
+        const pinyinInput = document.getElementById('pinyinInput');
+        const spanishInput = document.getElementById('spanishInput');
+        const addWordBtn = document.getElementById('addWordBtn');
+        const wordListBody = document.getElementById('wordListBody');
+
+        // Clave para guardar/recuperar datos del localStorage
+        const STORAGE_KEY = 'chineseWordList';
+
+        // --- Funciones ---
+
+        /**
+         * Carga las palabras guardadas desde localStorage y las muestra en la tabla.
+         */
+        function loadWords() {
+            const words = getWordsFromStorage();
+            // Limpiar tabla antes de cargar (por si acaso)
+            wordListBody.innerHTML = '';
+            // Añadir cada palabra a la tabla
+            words.forEach((word, index) => addWordToTable(word, index));
+            console.log('Palabras cargadas desde localStorage:', words); // Log para depuración
+        }
+
+        /**
+         * Obtiene el array de palabras desde localStorage.
+         * @returns {Array<Object>} Array de objetos de palabras, o un array vacío si no hay nada guardado.
+         */
+        function getWordsFromStorage() {
+            const wordsJson = localStorage.getItem(STORAGE_KEY);
+            try {
+                // Intenta parsear el JSON. Si está vacío o no es válido, devuelve un array vacío.
+                return wordsJson ? JSON.parse(wordsJson) : [];
+            } catch (e) {
+                console.error("Error al parsear datos de localStorage:", e);
+                // Si hay un error (ej. datos corruptos), empieza con una lista vacía
+                return [];
+            }
+        }
+
+        /**
+         * Guarda el array de palabras actual en localStorage.
+         * @param {Array<Object>} words El array de palabras a guardar.
+         */
+        function saveWordsToStorage(words) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+                console.log('Palabras guardadas en localStorage:', words); // Log para depuración
+            } catch (e) {
+                 console.error("Error al guardar en localStorage (puede que esté lleno):", e);
+                 // Podrías añadir un mensaje al usuario aquí si falla el guardado
+                 alert("¡Uy! No se pudieron guardar los cambios. Puede que el almacenamiento local esté lleno.");
+            }
+        }
+
+        /**
+         * Añade una fila a la tabla HTML con los datos de una palabra.
+         * @param {Object} word Objeto con las propiedades: char, pinyin, spanish.
+         * @param {number} index El índice de la palabra en el array (para el botón de borrar).
+         */
+        function addWordToTable(word, index) {
+            const row = wordListBody.insertRow(); // Añade una fila al final del tbody
+            row.setAttribute('data-index', index); // Guardamos el índice original por si borramos
+
+            // Crear celdas para cada dato
+            const cellChar = row.insertCell();
+            const cellPinyin = row.insertCell();
+            const cellSpanish = row.insertCell();
+            const cellAction = row.insertCell(); // Celda para el botón
+
+            // Asignar contenido a las celdas
+            cellChar.textContent = word.char;
+            cellPinyin.textContent = word.pinyin;
+            cellSpanish.textContent = word.spanish;
+
+            // Crear y configurar el botón de borrar
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Borrar';
+            deleteBtn.classList.add('delete-btn'); // Añadir clase para estilos
+            deleteBtn.onclick = function() {
+                deleteWord(index); // Llama a la función de borrar con el índice correcto
+            };
+            cellAction.appendChild(deleteBtn); // Añadir botón a la celda de acción
+        }
+
+        /**
+         * Maneja el evento de clic en el botón "Añadir Palabra".
+         */
+        function handleAddWord() {
+            // Obtener valores de los inputs, quitando espacios extra al inicio/final
+            const char = charInput.value.trim();
+            const pinyin = pinyinInput.value.trim();
+            const spanish = spanishInput.value.trim();
+
+            // Validar que todos los campos tengan algún valor
+            if (!char || !pinyin || !spanish) {
+                alert('Por favor, rellena todos los campos para añadir la palabra. 🙏');
+                return; // Detener la ejecución si falta algún dato
+            }
+
+            // Crear el objeto de la nueva palabra
+            const newWord = { char, pinyin, spanish };
+
+            // Obtener la lista actual de palabras
+            const words = getWordsFromStorage();
+
+            // Añadir la nueva palabra al array
+            words.push(newWord);
+
+            // Guardar el array actualizado en localStorage
+            saveWordsToStorage(words);
+
+            // Añadir la nueva palabra a la tabla visualmente
+            // El índice será el último elemento del array actualizado
+            addWordToTable(newWord, words.length - 1);
+
+            // Limpiar los campos del formulario
+            charInput.value = '';
+            pinyinInput.value = '';
+            spanishInput.value = '';
+
+            // Opcional: Poner el foco de nuevo en el primer campo para añadir rápido la siguiente
+            charInput.focus();
+        }
+
+        /**
+        * Borra una palabra de la lista y actualiza localStorage y la tabla.
+        * @param {number} index El índice de la palabra a borrar.
+        */
+        function deleteWord(indexToDelete) {
+            // Confirmación antes de borrar (¡siempre es buena idea!)
+            if (!confirm('¿Estás seguro de que quieres borrar esta palabra? 🤔')) {
+                return; // No hacer nada si el usuario cancela
+            }
+
+            let words = getWordsFromStorage();
+
+            // Filtrar el array para quitar la palabra en el índice especificado
+            // OJO: Si borras elementos, los índices de los elementos posteriores cambian.
+            // Por eso es mejor reconstruir la tabla después de borrar.
+            words.splice(indexToDelete, 1); // Elimina 1 elemento en la posición indexToDelete
+
+            // Guardar el array modificado
+            saveWordsToStorage(words);
+
+            // Volver a cargar/renderizar toda la tabla para que los índices sean correctos
+            loadWords();
+        }
+
+
+        // --- Event Listeners ---
+
+        // Cargar palabras existentes cuando la página se cargue completamente
+        document.addEventListener('DOMContentLoaded', loadWords);
+
+        // Añadir palabra cuando se haga clic en el botón
+        addWordBtn.addEventListener('click', handleAddWord);
+
+        // Opcional: Permitir añadir palabra presionando Enter en el último campo (Significado)
+        spanishInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevenir el comportamiento por defecto (si lo hubiera)
+                handleAddWord(); // Llamar a la función de añadir
+            }
+        });
+
+    </script>
+
+</body>
+</html>
