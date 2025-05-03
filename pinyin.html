@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Pinyin Chino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados adicionales */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8; /* Un gris muy claro */
+            margin: 0;
+            padding: 0; /* Quitamos padding global para que el nav ocupe todo el ancho */
+            color: #333; /* Gris oscuro para texto principal */
+        }
+        /* Contenedor principal para aplicar padding excepto al nav */
+        .main-content {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c; /* Azul un poco más oscuro */
+            margin-bottom: 15px; /* Reducido para acercar al subtítulo */
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        .subtitle {
+             text-align: center;
+             color: #555;
+             margin-bottom: 30px;
+             font-size: 1rem;
+        }
+        .subtitle a {
+            color: #0077cc;
+            text-decoration: none;
+        }
+        .subtitle a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos de Navegación */
+        nav {
+            background-color: #005a9c; /* Azul oscuro del título */
+            padding: 1rem 1.5rem; /* Padding vertical y horizontal */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+            display: flex; /* Usamos flexbox para alinear */
+            justify-content: center; /* Centra los elementos */
+        }
+        nav div { /* Contenedor para los links */
+             display: flex;
+             gap: 10px; /* Espacio entre links */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
+            border-radius: 6px; /* Bordes redondeados */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
+            color: #e0f7fa; /* Un color cian muy claro al pasar */
+        }
+        /* Estilos de la tabla y detalles */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            margin-top: 20px; /* Espacio antes de la tabla */
+            border-radius: 10px; /* Bordes redondeados para el contenedor */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra para el contenedor */
+            background-color: #ffffff; /* Fondo blanco para la tabla */
+        }
+        table {
+            width: 100%;
+            /* min-width: 1200px; /* Ajustado para acomodar más columnas */
+            border-collapse: collapse;
+            /* background-color: #ffffff; */ /* Movido al contenedor */
+            /* box-shadow: 0 6px 12px rgba(0,0,0,0.1); */ /* Movido al contenedor */
+            /* border-radius: 10px; */ /* Movido al contenedor */
+            /* overflow: hidden; */ /* Quitado para que la sombra del contenedor funcione */
+            /* margin-top: 20px; */ /* Movido al contenedor */
+        }
+        th, td {
+            padding: 10px 12px; /* Reducido ligeramente */
+            text-align: center; /* Centrado para mejor visualización de sílabas */
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0; /* Añadido borde derecho */
+            vertical-align: middle; /* Centrado vertical */
+            font-size: 0.9rem; /* Reducido ligeramente */
+            white-space: nowrap; /* Evita que el contenido se divida */
+        }
+        th:first-child, td:first-child {
+            text-align: left; /* Alinea la primera columna (iniciales) a la izquierda */
+            font-weight: 600;
+             background-color: #f8f9fa; /* Fondo ligeramente diferente para iniciales */
+             position: sticky; /* Fija la primera columna */
+             left: 0; /* Pega al borde izquierdo */
+             z-index: 1; /* Asegura que esté sobre las otras celdas al hacer scroll */
+             border-right: 2px solid #d0d0e0; /* Borde más grueso para separar */
+        }
+        th {
+            background-color: #0077cc;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px; /* Reducido */
+            font-size: 0.75rem; /* Reducido */
+            font-weight: 600;
+            position: sticky; /* Fija la cabecera */
+            top: 0; /* Pega al borde superior */
+            z-index: 2; /* Encima de la primera columna fija */
+        }
+        /* Asegurar que la celda superior izquierda esté encima de todo */
+        thead th:first-child {
+            z-index: 3;
+        }
+
+        tbody tr:hover { /* Hover para toda la fila */
+            background-color: #f0f8ff;
+        }
+        tbody tr:hover td:first-child { /* Mantiene el fondo de la inicial fija al hacer hover */
+             background-color: #e9ecef;
+        }
+
+        td:last-child {
+             border-right: none; /* Quita borde derecho de la última celda */
+        }
+         tbody tr:last-child td {
+             border-bottom: none; /* Quita borde inferior de la última fila */
+         }
+
+        .pinyin-note {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Resumen / Cheat Sheet */
+        .summary {
+            margin-top: 40px;
+            background-color: #e6f4ff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid #0077cc;
+        }
+        .summary h2 {
+            color: #005a9c;
+            margin-top: 0; /* Quita margen superior */
+            margin-bottom: 20px; /* Aumentado espacio */
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid #cce0ff; /* Línea divisoria sutil */
+            padding-bottom: 10px; /* Espacio bajo la línea */
+        }
+        .summary table { /* Estilo para la tabla del cheat sheet */
+            width: 100%;
+            min-width: initial; /* Anula el min-width global */
+            border-collapse: collapse;
+            background: none; /* Sin fondo propio */
+            box-shadow: none; /* Sin sombra propia */
+            border-radius: 0;
+            overflow: visible;
+            margin-top: 0;
+        }
+        .summary th, .summary td {
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid #cce0ff; /* Bordes más claros */
+            font-size: 0.9rem;
+            white-space: normal; /* Permite que el texto se ajuste */
+            vertical-align: top;
+        }
+         .summary th {
+             background-color: #b3d9ff; /* Azul más claro para cabecera */
+             color: #003366; /* Texto más oscuro */
+             font-weight: 600;
+             text-transform: none; /* Sin mayúsculas */
+             letter-spacing: normal;
+             position: static; /* Anula sticky */
+         }
+         .summary td:first-child { /* Estilo específico para la columna Pinyin */
+             font-weight: 600;
+             color: #005fa3;
+             background-color: transparent; /* Anula fondo de inicial */
+             position: static; /* Anula sticky */
+             border-right: 1px solid #cce0ff; /* Restaura borde derecho */
+         }
+         .summary code {
+             background-color: rgba(0, 95, 163, 0.1);
+             padding: 2px 5px;
+             border-radius: 4px;
+             font-family: 'Fira Code', 'Courier New', Courier, monospace;
+             font-size: 0.85rem;
+             color: #005fa3;
+         }
+
+
+        .additional-notes {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #cce0ff;
+        }
+        .additional-notes h3 {
+            color: #005a9c;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .additional-notes p, .additional-notes ul {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+         .additional-notes ul {
+             list-style: disc;
+             margin-left: 20px;
+         }
+         .additional-notes code {
+             background-color: rgba(0, 95, 163, 0.1);
+             padding: 2px 5px;
+             border-radius: 4px;
+             font-family: 'Fira Code', 'Courier New', Courier, monospace;
+             font-size: 0.85rem;
+             color: #005fa3;
+         }
+
+        /* Estilos para pre (si se usara, aunque no está en el PDF) */
+        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.9rem; line-height: 1.5; }
+        pre strong { color: #61afef; }
+        pre em { color: #c678dd; font-style: normal; }
+
+        /* Media Query */
+        @media (max-width: 768px) {
+            .main-content { padding: 10px; }
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 0.9rem; margin-bottom: 20px;}
+            th, td { padding: 8px 10px; font-size: 0.8rem; }
+            th { font-size: 0.7rem; }
+            th:first-child, td:first-child {
+                 font-size: 0.8rem; /* Asegura tamaño consistente en primera columna */
+            }
+            .summary { padding: 15px; }
+            .summary h2 { font-size: 1.3rem; }
+            .summary th, .summary td { font-size: 0.85rem; }
+            .additional-notes h3 { font-size: 1.1rem; }
+            .additional-notes p, .additional-notes ul { font-size: 0.85rem; }
+
+            /* Ajuste para el menú en móviles */
+             nav {
+                 padding: 0.8rem 1rem;
+             }
+            nav div {
+                flex-direction: column; /* Apila los links verticalmente */
+                align-items: stretch; /* Estira los links */
+                 width: 100%; /* Ocupa todo el ancho disponible */
+                 gap: 5px; /* Reduce espacio entre links */
+            }
+            nav a {
+                /* display: block; */ /* flex-direction: column ya lo hace bloque */
+                /* width: 100%; */ /* align-items: stretch lo maneja */
+                margin-bottom: 0; /* Quita margen inferior */
+                text-align: center; /* Centra el texto en el link */
+                padding: 0.6rem 0.8rem;
+            }
+            /* No es necesario :last-child { margin-bottom: 0; } con flex gap */
+        }
+
+        /* Icono expansión (no usado activamente en la tabla principal) */
+        .expand-icon::after { content: ' ▼'; font-size: 0.7em; color: #999; margin-left: 8px; display: inline-block; transition: transform 0.3s ease-in-out; }
+        .expanded .expand-icon::after { transform: rotate(180deg); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div>
+            <a href="#pinyin-table">Tabla Pinyin</a>
+            <a href="#cheat-sheet">Cheat Sheet</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1>CHINESE PINYIN CHART</h1>
+        <p class="subtitle">
+            Fuente: <a href="https://www.studycli.org" target="_blank" rel="noopener noreferrer">www.studycli.org</a> | Learn Chinese in China
+        </p>
+
+        <section id="pinyin-table">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>↓ Iniciales / Finales →</th>
+                            <th>a</th> <th>o</th> <th>e</th> <th>i</th> <th>u</th> <th>ü</th>
+                            <th>ai</th> <th>ei</th> <th>ui</th> <th>ao</th> <th>ou</th> <th>iu</th>
+                            <th>ie</th> <th>üe</th> <th>er</th> <th>an</th> <th>en</th> <th>in</th>
+                            <th>un</th> <th>ün</th> <th>ang</th> <th>eng</th> <th>ing</th> <th>ong</th>
+                            <th>ia</th> <th>iao</th> <th>ian</th> <th>iang</th> <th>iong</th>
+                            <th>ua</th> <th>uo</th> <th>uai</th> <th>uan</th> <th>uang</th> <th>üan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                             <td>(none)</td>
+                             <td>a</td> <td>o</td> <td>e</td> <td></td> <td></td> <td></td>
+                             <td>ai</td> <td>ei</td> <td></td> <td>ao</td> <td>ou</td> <td></td>
+                             <td></td> <td></td> <td>er</td> <td>an</td> <td>en</td> <td></td>
+                             <td></td> <td></td> <td>ang</td> <td>eng</td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                         </tr>
+                        <tr>
+                            <td>b</td>
+                            <td>ba</td> <td>bo</td> <td></td> <td>bi</td> <td>bu</td> <td></td>
+                            <td>bai</td> <td>bei</td> <td></td> <td>bao</td> <td></td> <td>biu</td> <td>bie</td> <td></td> <td></td> <td>ban</td> <td>ben</td> <td>bin</td>
+                            <td></td> <td></td> <td>bang</td> <td>beng</td> <td>bing</td> <td></td>
+                            <td></td> <td>biao</td> <td>bian</td> <td></td> <td></td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>p</td>
+                            <td>pa</td> <td>po</td> <td></td> <td>pi</td> <td>pu</td> <td></td>
+                            <td>pai</td> <td>pei</td> <td></td> <td>pao</td> <td>pou</td> <td></td>
+                            <td>pie</td> <td></td> <td></td> <td>pan</td> <td>pen</td> <td>pin</td>
+                            <td></td> <td></td> <td>pang</td> <td>peng</td> <td>ping</td> <td></td>
+                            <td></td> <td>piao</td> <td>pian</td> <td></td> <td></td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>m</td>
+                            <td>ma</td> <td>mo</td> <td>me</td> <td>mi</td> <td>mu</td> <td></td>
+                            <td>mai</td> <td>mei</td> <td></td> <td>mao</td> <td>mou</td> <td>miu</td>
+                            <td>mie</td> <td></td> <td></td> <td>man</td> <td>men</td> <td>min</td>
+                            <td></td> <td></td> <td>mang</td> <td>meng</td> <td>ming</td> <td></td>
+                            <td></td> <td>miao</td> <td>mian</td> <td></td> <td></td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                        </tr>
+                         <tr>
+                             <td>f</td>
+                             <td>fa</td> <td>fo</td> <td></td> <td></td> <td>fu</td> <td></td>
+                             <td></td> <td>fei</td> <td></td> <td></td> <td>fou</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>fan</td> <td>fen</td> <td></td>
+                             <td></td> <td></td> <td>fang</td> <td>feng</td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                         </tr>
+                        <tr>
+                            <td>d</td>
+                            <td>da</td> <td>de</td> <td></td> <td>di</td> <td>du</td> <td></td>
+                            <td>dai</td> <td>dei</td> <td>dui</td> <td>dao</td> <td>dou</td> <td>diu</td>
+                            <td>die</td> <td></td> <td></td> <td>dan</td> <td>den</td> <td></td> <td>dun</td> <td></td> <td>dang</td> <td>deng</td> <td>ding</td> <td>dong</td>
+                            <td></td> <td>diao</td> <td>dian</td> <td></td> <td></td>
+                            <td></td> <td>duo</td> <td></td> <td>duan</td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>t</td>
+                            <td>ta</td> <td>te</td> <td></td> <td>ti</td> <td>tu</td> <td></td>
+                            <td>tai</td> <td></td> <td>tui</td> <td>tao</td> <td>tou</td> <td></td>
+                            <td>tie</td> <td></td> <td></td> <td>tan</td> <td></td> <td></td> <td>tun</td> <td></td> <td>tang</td> <td>teng</td> <td>ting</td> <td>tong</td>
+                            <td></td> <td>tiao</td> <td>tian</td> <td></td> <td></td>
+                            <td></td> <td>tuo</td> <td></td> <td>tuan</td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>n</td>
+                            <td>na</td> <td>ne</td> <td></td> <td>ni</td> <td>nu</td> <td>nü</td>
+                            <td>nai</td> <td>nei</td> <td></td> <td>nao</td> <td>nou</td> <td>niu</td>
+                            <td>nie</td> <td>nüe</td> <td></td> <td>nan</td> <td>nen</td> <td>nin</td>
+                            <td></td> <td></td> <td>nang</td> <td>neng</td> <td>ning</td> <td>nong</td>
+                            <td></td> <td>niao</td> <td>nian</td> <td>niang</td> <td></td>
+                            <td></td> <td>nuo</td> <td></td> <td>nuan</td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>l</td>
+                            <td>la</td> <td>le</td> <td></td> <td>li</td> <td>lu</td> <td>lü</td>
+                            <td>lai</td> <td>lei</td> <td></td> <td>lao</td> <td>lou</td> <td>liu</td>
+                            <td>lie</td> <td>lüe</td> <td></td> <td>lan</td> <td></td> <td>lin</td>
+                            <td></td> <td></td> <td>lang</td> <td>leng</td> <td>ling</td> <td>long</td>
+                            <td></td> <td>liao</td> <td>lian</td> <td>liang</td> <td></td>
+                            <td></td> <td>luo</td> <td></td> <td>luan</td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>z</td>
+                            <td>za</td> <td>ze</td> <td><strong>zi</strong></td> <td>zu</td> <td></td>
+                            <td>zai</td> <td>zei</td> <td>zui</td> <td>zao</td> <td>zou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>zan</td> <td>zen</td> <td></td>
+                            <td>zun</td> <td></td> <td>zang</td> <td>zeng</td> <td></td> <td>zong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td></td> <td>zuo</td> <td></td> <td>zuan</td> <td></td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>c</td>
+                            <td>ca</td> <td>ce</td> <td><strong>ci</strong></td> <td>cu</td> <td></td>
+                            <td>cai</td> <td></td> <td>cui</td> <td>cao</td> <td>cou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>can</td> <td>cen</td> <td></td>
+                            <td>cun</td> <td></td> <td>cang</td> <td>ceng</td> <td></td> <td>cong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td></td> <td>cuo</td> <td></td> <td>cuan</td> <td></td> <td></td>
+                        </tr>
+                         <tr>
+                             <td>s</td>
+                             <td>sa</td> <td>se</td> <td><strong>si</strong></td> <td>su</td> <td></td>
+                             <td>sai</td> <td></td> <td>sui</td> <td>sao</td> <td>sou</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>san</td> <td>sen</td> <td></td>
+                             <td>sun</td> <td></td> <td>sang</td> <td>seng</td> <td></td> <td>song</td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td>suo</td> <td></td> <td>suan</td> <td></td> <td></td>
+                         </tr>
+                        <tr>
+                            <td>zh</td>
+                            <td>zha</td> <td>zhe</td> <td><strong>zhi</strong></td> <td>zhu</td> <td></td>
+                            <td>zhai</td> <td>zhei</td> <td>zhui</td> <td>zhao</td> <td>zhou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>zhan</td> <td>zhen</td> <td></td>
+                            <td>zhun</td> <td></td> <td>zhang</td> <td>zheng</td> <td></td> <td>zhong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>zhua</td> <td>zhuo</td> <td>zhuai</td> <td>zhuan</td> <td>zhuang</td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>ch</td>
+                            <td>cha</td> <td>che</td> <td><strong>chi</strong></td> <td>chu</td> <td></td>
+                            <td>chai</td> <td></td> <td>chui</td> <td>chao</td> <td>chou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>chan</td> <td>chen</td> <td></td>
+                            <td>chun</td> <td></td> <td>chang</td> <td>cheng</td> <td></td> <td>chong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>chua</td> <td>chuo</td> <td>chuai</td> <td>chuan</td> <td>chuang</td> <td></td>
+                        </tr>
+                         <tr>
+                             <td>sh</td>
+                             <td>sha</td> <td>she</td> <td><strong>shi</strong></td> <td>shu</td> <td></td>
+                             <td>shai</td> <td>shei</td> <td>shui</td> <td>shao</td> <td>shou</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>shan</td> <td>shen</td> <td></td>
+                             <td>shun</td> <td></td> <td>shang</td> <td>sheng</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td>shua</td> <td>shuo</td> <td>shuai</td> <td>shuan</td> <td>shuang</td> <td></td>
+                         </tr>
+                         <tr>
+                             <td>r</td>
+                             <td></td> <td>re</td> <td><strong>ri</strong></td> <td>ru</td> <td></td>
+                             <td></td> <td></td> <td>rui</td> <td>rao</td> <td>rou</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>ran</td> <td>ren</td> <td></td>
+                             <td>run</td> <td></td> <td>rang</td> <td>reng</td> <td></td> <td>rong</td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td>ruo</td> <td></td> <td>ruan</td> <td></td> <td></td>
+                         </tr>
+                        <tr>
+                            <td>g</td>
+                            <td>ga</td> <td>ge</td> <td></td> <td></td> <td>gu</td> <td></td>
+                            <td>gai</td> <td>gei</td> <td>gui</td> <td>gao</td> <td>gou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>gan</td> <td>gen</td> <td></td>
+                            <td>gun</td> <td></td> <td>gang</td> <td>geng</td> <td></td> <td>gong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>gua</td> <td>guo</td> <td>guai</td> <td>guan</td> <td>guang</td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>k</td>
+                            <td>ka</td> <td>ke</td> <td></td> <td></td> <td>ku</td> <td></td>
+                            <td>kai</td> <td>kei</td> <td>kui</td> <td>kao</td> <td>kou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>kan</td> <td>ken</td> <td></td>
+                            <td>kun</td> <td></td> <td>kang</td> <td>keng</td> <td></td> <td>kong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>kua</td> <td>kuo</td> <td>kuai</td> <td>kuan</td> <td>kuang</td> <td></td>
+                        </tr>
+                        <tr>
+                            <td>h</td>
+                            <td>ha</td> <td>he</td> <td></td> <td></td> <td>hu</td> <td></td>
+                            <td>hai</td> <td>hei</td> <td>hui</td> <td>hao</td> <td>hou</td> <td></td>
+                            <td></td> <td></td> <td></td> <td>han</td> <td>hen</td> <td></td>
+                            <td>hun</td> <td></td> <td>hang</td> <td>heng</td> <td></td> <td>hong</td>
+                            <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>hua</td> <td>huo</td> <td>huai</td> <td>huan</td> <td>huang</td> <td></td>
+                        </tr>
+                         <tr>
+                             <td>j</td>
+                             <td></td> <td></td> <td></td> <td>ji</td> <td>ju</td> <td>jü</td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td>jiu</td>
+                             <td>jie</td> <td>jüe</td> <td></td> <td></td> <td></td> <td>jin</td>
+                             <td>jun</td> <td>jün</td> <td></td> <td></td> <td>jing</td> <td>jiong</td>
+                             <td>jia</td> <td>jiao</td> <td>jian</td> <td>jiang</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>juan</td> <td></td> <td><strong>jüan</strong></td>
+                         </tr>
+                         <tr>
+                             <td>q</td>
+                             <td></td> <td></td> <td></td> <td>qi</td> <td>qu</td> <td>qü</td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td>qiu</td>
+                             <td>qie</td> <td>qüe</td> <td></td> <td></td> <td></td> <td>qin</td>
+                             <td>qun</td> <td>qün</td> <td></td> <td></td> <td>qing</td> <td>qiong</td>
+                             <td>qia</td> <td>qiao</td> <td>qian</td> <td>qiang</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>quan</td> <td></td> <td><strong>qüan</strong></td>
+                         </tr>
+                         <tr>
+                             <td>x</td>
+                             <td></td> <td></td> <td></td> <td>xi</td> <td>xu</td> <td>xü</td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td>xiu</td>
+                             <td>xie</td> <td>xüe</td> <td></td> <td></td> <td></td> <td>xin</td>
+                             <td>xun</td> <td>xün</td> <td></td> <td></td> <td>xing</td> <td>xiong</td>
+                             <td>xia</td> <td>xiao</td> <td>xian</td> <td>xiang</td> <td></td>
+                             <td></td> <td></td> <td></td> <td>xuan</td> <td></td> <td><strong>xüan</strong></td>
+                         </tr>
+                         <tr>
+                             <td>y</td>
+                             <td>ya</td> <td>yo</td> <td>ye</td> <td>yi</td> <td>yu</td> <td>yü</td>
+                             <td></td> <td></td> <td></td> <td>yao</td> <td>you</td> <td></td> <td></td> <td>yue</td> <td></td> <td><strong>yan</strong></td> <td>yin</td> <td></td> <td>yun</td> <td>yün</td> <td>yang</td> <td>ying</td> <td>yong</td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td><strong>yuan</strong></td> <td></td> <td></td>
+                         </tr>
+                         <tr>
+                             <td>w</td>
+                             <td>wa</td> <td>wo</td> <td></td> <td></td> <td>wu</td> <td></td>
+                             <td>wai</td> <td>wei</td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td>wan</td> <td>wen</td> <td></td>
+                             <td></td> <td></td> <td>wang</td> <td>weng</td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td>
+                             <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                         </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="pinyin-note">
+                Nota: Una sílaba pinyin en <strong>negrita</strong> indica que su sonido vocálico tiene una variación más comúnmente utilizada dentro del sistema pinyin (por ejemplo: zi vs. ni; yan vs. ban; ye vs. de; yuan vs. duan; etc.)
+            </p>
+        </section>
+
+        <section id="cheat-sheet" class="summary">
+            <h2>Pinyin Cheat Sheet</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pinyin</th>
+                        <th>Approximate sound (based on American English)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>a</td><td>Like <code>a</code> in <code>mama</code></td></tr>
+                    <tr><td>ai</td><td>Like <code>eye</code> (example: Shanghai)</td></tr>
+                    <tr><td>ao</td><td>Like <code>ow</code> in <code>cow</code> (example: Chairman Mao)</td></tr>
+                    <tr><td>an</td><td>Pinyin <code>a</code> + <code>n</code></td></tr>
+                    <tr><td>ang</td><td>Pinyin <code>an</code> + <code>g</code></td></tr>
+                    <tr><td>o</td><td>No equivalent (when <code>o</code> is preceded by a consonant, use the <code>wo</code> sound [example: bwo, pwo, mwo, fwo]; the <code>o</code> and the <code>uo</code> sounds are very similar)</td></tr>
+                    <tr><td>ong</td><td>Pinyin <code>ou</code> + <code>ng</code></td></tr>
+                    <tr><td>ou</td><td>Like <code>oh</code> in "oh no!" or the English letter <code>O</code></td></tr>
+                    <tr><td>e</td><td>Like <code>uh</code> in <code>duh</code> or <code>u</code> in <code>up</code></td></tr>
+                    <tr><td>ei</td><td>Like <code>ay</code> in <code>bay</code> or the English letter <code>A</code> (example: Beijing)</td></tr>
+                    <tr><td>en</td><td>Like <code>un</code> in <code>fun</code></td></tr>
+                    <tr><td>eng</td><td>Pinyin <code>e</code> + <code>ng</code> (like <code>ung</code> in <code>fungus</code>)</td></tr>
+                    <tr><td>er</td><td>No equivalent, but be sure to curl your tongue up near the top front of your mouth and create a vibration in the front of your mouth while making an 'r' sound</td></tr>
+                    <tr><td>i</td><td>Like <code>ee</code> in <code>bee</code> or the English letter <code>E</code></td></tr>
+                    <tr><td>zi, ci, si</td><td>No 'i' equivalent, but the sound is similar to the <code>i</code> in <code>zit</code></td></tr>
+                    <tr><td>zhi, chi, shi, ri</td><td>In <code>zhi</code>, <code>chi</code>, <code>shi</code> and <code>ri</code>, like the <code>ur</code> in <code>church</code> (for <code>ri</code>, add the 'r' sound described for <code>er</code>)</td></tr>
+                    <tr><td>zhi</td><td>Like <code>jur</code> in <code>jury</code></td></tr>
+                    <tr><td>chi</td><td>Like <code>chur</code> in <code>church</code></td></tr>
+                    <tr><td>shi</td><td>Like <code>shir</code> in <code>shirt</code></td></tr>
+                    <tr><td>ri</td><td>Like <code>r</code> + <code>ur</code> sound (see <code>er</code> and <code>zhi/chi/shi</code>)</td></tr>
+                    <tr><td>ia</td><td>The <code>ee</code> pinyin <code>i</code> + pinyin <code>a</code> (use the <code>ee</code> pinyin <code>i</code> for all <code>i</code> that follow below)</td></tr>
+                    <tr><td>iao</td><td>Pinyin <code>i</code> + pinyin <code>ao</code></td></tr>
+                    <tr><td>ie</td><td>Pinyin <code>i</code> + <code>eh</code> as in <code>education</code></td></tr>
+                    <tr><td>iu</td><td>Pinyin <code>i</code> + pinyin <code>ou</code> (sounds like the English letters <code>E</code> + <code>O</code> strung together)</td></tr>
+                    <tr><td>ian</td><td>Sounds like the English letters <code>E</code> + <code>N</code> strung together in succession</td></tr>
+                    <tr><td>iang</td><td>Pinyin <code>i</code> + pinyin <code>ang</code></td></tr>
+                    <tr><td>in</td><td>No equivalent, but similar to a cross between <code>seen</code> and <code>sin</code></td></tr>
+                    <tr><td>ing</td><td>Like <code>ing</code> in <code>sing</code></td></tr>
+                    <tr><td>iong</td><td>Pinyin <code>i</code> + pinyin <code>ong</code></td></tr>
+                    <tr><td>u</td><td>Like the <code>oo</code> in <code>too</code></td></tr>
+                    <tr><td>ua</td><td>Pinyin <code>u</code> + pinyin <code>a</code></td></tr>
+                    <tr><td>uo</td><td>Pinyin <code>u</code> + pinyin <code>o</code> (or <code>wo</code>)</td></tr>
+                    <tr><td>ui</td><td>Pinyin <code>u</code> + pinyin <code>ei</code> (example: Guilin); when following a consonant, <code>ui</code> sounds like <code>way</code></td></tr>
+                    <tr><td>uai</td><td>Pinyin <code>u</code> + pinyin <code>ai</code></td></tr>
+                    <tr><td>uan</td><td>Pinyin <code>u</code> + pinyin <code>an</code> (like the Spanish name 'Juan')</td></tr>
+                    <tr><td>un</td><td>No equivalent, but similar to a cross between <code>win</code> and <code>woon</code> (often sounds like 'wun')</td></tr>
+                    <tr><td>uang</td><td>Pinyin <code>u</code> + pinyin <code>ang</code></td></tr>
+                    <tr><td>ü</td><td>No equivalent, but be sure to round your lips tightly as if whistling, then say 'ee'</td></tr>
+                    <tr><td>üe</td><td>Pinyin <code>ü</code> + <code>eh</code> as in <code>education</code></td></tr>
+                    <tr><td>üan</td><td>Pinyin <code>ü</code> + the <code>en</code> in <code>when</code> (written as <code>uan</code> after j, q, x, y)</td></tr>
+                    <tr><td>ün</td><td>No equivalent, but similar to a cross between <code>win</code> and <code>wean</code>, with rounded lips (like <code>ü</code> + <code>n</code>)</td></tr>
+                    <tr><td>z</td><td>Like <code>ds</code> in <code>kids</code></td></tr>
+                    <tr><td>c</td><td>Like <code>ts</code> in <code>cats</code></td></tr>
+                    <tr><td>s</td><td>Like <code>s</code> in <code>say</code></td></tr>
+                    <tr><td>j</td><td>Sounds very similar to the English letter <code>J</code> (but softer, less voiced)</td></tr>
+                    <tr><td>q</td><td>No equivalent, but similar to <code>ch</code> except w/ your tongue flat against the roof of your mouth, behind teeth</td></tr>
+                    <tr><td>x</td><td>No equivalent, but similar to <code>sh</code> except w/ your tongue flat against the roof of your mouth, behind teeth</td></tr>
+                    <tr><td>y (as initial)</td><td>Like <code>y</code> in <code>yes</code></td></tr>
+                    <tr><td>w (as initial)</td><td>Like <code>w</code> in <code>we</code></td></tr>
+                    <tr><td>yan</td><td>Rhymes with 'ten' (but starts with 'y' sound)</td></tr>
+                    <tr><td>ye</td><td>Like <code>ye</code> in <code>yes</code></td></tr>
+                    <tr><td>wen</td><td>No equivalent, but similar to the English word <code>when</code></td></tr>
+                    <tr><td>yuan</td><td>Sounds like the English letters <code>U</code> + <code>N</code> strung together in succession (with initial 'y' sound)</td></tr>
+
+                </tbody>
+            </table>
+
+            <div class="additional-notes">
+                <h3>Additional notes</h3>
+                <ul>
+                    <li>When using pinyin to type Chinese characters on a computer or cell phone, <code>nü</code> and <code>lü</code> (e.g., used for "woman” 女 and “green” 绿, respectively), are typed into the keyboard as <code>nv</code> and <code>lv</code>.</li>
+                    <li>Even though the following pinyin combinations use the <code>üan</code> sound, <code>juan</code>, <code>quan</code>, <code>xuan</code> and <code>yuan</code> are written with a standard <code>u</code>, not with the umlaut (<code>ü</code>).</li>
+                    <li>* Denotes that the vowel sound has a variation within the pinyin system (for example the <code>i</code> in <code>zi</code>/<code>ci</code>/<code>si</code> vs <code>ni</code>; <code>yan</code> vs <code>ban</code>; <code>ye</code> vs <code>de</code>; <code>yuan</code> vs <code>duan</code>; etc.)</li>
+                 </ul>
+            </div>
+        </section>
+
+    </div>
+
+    </body>
+</html>
