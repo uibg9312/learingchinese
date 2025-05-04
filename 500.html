@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 500 Caracteres Chinos Más Frecuentes</title>
+    <style>
+        /* Estilos proporcionados por el usuario */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8; /* Un gris muy claro */
+            margin: 0;
+            padding: 0; /* Quitamos padding global para que el nav ocupe todo el ancho */
+            color: #333; /* Gris oscuro para texto principal */
+            line-height: 1.6; /* Mejorar legibilidad */
+        }
+        /* Contenedor principal para aplicar padding excepto al nav */
+        .main-content {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c; /* Azul un poco más oscuro */
+            margin-bottom: 30px;
+            font-size: 2.2rem; /* Ajuste ligero de tamaño */
+        }
+        /* Estilos de Navegación */
+        nav {
+            background-color: #005a9c; /* Azul oscuro del título */
+            padding: 1rem 1.5rem; /* Padding vertical y horizontal */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+            display: flex; /* Para alinear items */
+            justify-content: flex-start; /* Alinea links a la izquierda */
+            gap: 1rem; /* Espacio entre links */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Padding para hacer los links clickeables más grandes */
+            border-radius: 6px; /* Bordes redondeados */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido al pasar */
+            color: #e0f7fa; /* Un color cian muy claro al pasar */
+        }
+        /* Estilos de la tabla y detalles */
+        .table-container {
+            overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            margin-top: 20px;
+            border-radius: 10px; /* Redondeo para el contenedor */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra para el contenedor */
+            background-color: #ffffff; /* Fondo blanco para la tabla dentro del contenedor */
+            overflow: hidden; /* Asegura que el contenido respete el borde redondeado */
+        }
+        table {
+            width: 100%;
+            min-width: 600px; /* Ancho mínimo para evitar que se comprima demasiado */
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: middle; /* Alinear verticalmente al centro */
+            font-size: 0.95rem;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+         tbody tr.details-row:last-child td {
+             border-bottom: none;
+         }
+        th {
+            background-color: #0077cc;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: sticky; /* Encabezado fijo al hacer scroll vertical */
+            top: 0; /* Pegar al top */
+            z-index: 10; /* Asegurar que esté sobre el contenido */
+        }
+        tbody tr.main-row {
+            transition: background-color 0.2s ease; /* Transición suave */
+        }
+        tbody tr.main-row:hover {
+            background-color: #f0f8ff; /* Azul muy claro al pasar el ratón */
+            cursor: pointer;
+        }
+        .details-row {
+            display: none; /* Oculto por defecto */
+            background-color: #f9f9ff; /* Fondo ligeramente diferente para detalles */
+        }
+        .details-row.visible {
+            display: table-row; /* Mostrar como fila de tabla cuando sea visible */
+        }
+        .details-row td {
+            padding: 18px 25px;
+            font-size: 0.9rem;
+            color: #444;
+            border-bottom: 1px dashed #d0d0e0; /* Borde diferente para separar detalles */
+        }
+        tbody tr.details-row.visible:last-of-type td {
+             border-bottom: none;
+        }
+        .details-content { margin-top: 5px; }
+        .details-content p, .details-content ul { margin-bottom: 8px; line-height: 1.6; }
+        .details-content ul { list-style: disc; margin-left: 20px; }
+        .details-content strong { color: #005fa3; font-weight: 600; }
+        .details-content code { background-color: #e0e0e0; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; }
+        .expand-icon::after {
+            content: ' ▼';
+            font-size: 0.7em;
+            color: #999;
+            margin-left: 8px;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out;
+        }
+        .main-row.expanded .expand-icon::after {
+            transform: rotate(180deg);
+        }
+        .summary {
+            margin-top: 40px;
+            background-color: #e6f4ff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid #0077cc;
+        }
+        .summary h2 { color: #005a9c; margin-bottom: 15px; font-size: 1.5rem; font-weight: 600; }
+        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.9rem; line-height: 1.5; }
+        pre strong { color: #61afef; }
+        pre em { color: #c678dd; font-style: normal; }
+        @media (max-width: 768px) {
+            .main-content { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
+            th { font-size: 0.75rem; }
+            pre { font-size: 0.8rem; }
+            .details-row td { padding: 12px 18px; font-size: 0.85rem; }
+            table { min-width: 100%; }
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+            }
+            nav a {
+                display: block;
+                width: auto;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+            nav a:last-child { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#">← Volver a la página principal</a>
+    </nav>
+
+    <div class="main-content">
+        <h1>Top 500 Caracteres Chinos Más Frecuentes</h1>
+        <p>Haz clic en una fila para ver más detalles.</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Caracter (Hanzi) <span class="expand-icon"></span></th>
+                        <th>Pinyin</th>
+                        <th>Significado (Español)</th>
+                    </tr>
+                </thead>
+                <tbody id="wordTableBody">
+                    <!-- Primeras 204 entradas (verificadas y mantenidas) -->
+                    <tr class="main-row"><td>1</td><td class="expand-icon">的</td><td>de</td><td>(partícula posesiva/atributiva)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Partícula estructural muy común.</p></div></td></tr>
+                    <tr class="main-row"><td>2</td><td class="expand-icon">一</td><td>yī</td><td>uno</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número uno.</p></div></td></tr>
+                    <tr class="main-row"><td>3</td><td class="expand-icon">是</td><td>shì</td><td>ser, sí</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo copulativo.</p></div></td></tr>
+                    <tr class="main-row"><td>4</td><td class="expand-icon">不</td><td>bù</td><td>no</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Negación.</p></div></td></tr>
+                    <tr class="main-row"><td>5</td><td class="expand-icon">了</td><td>le / liǎo</td><td>(partícula aspectual/modal) / terminar, entender</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica acción completada o cambio de estado.</p></div></td></tr>
+                    <tr class="main-row"><td>6</td><td class="expand-icon">人</td><td>rén</td><td>persona, gente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo básico.</p></div></td></tr>
+                    <tr class="main-row"><td>7</td><td class="expand-icon">我</td><td>wǒ</td><td>yo, mi</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal.</p></div></td></tr>
+                    <tr class="main-row"><td>8</td><td class="expand-icon">在</td><td>zài</td><td>en, estar en, (acción en progreso)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición de lugar o indicador de aspecto progresivo.</p></div></td></tr>
+                    <tr class="main-row"><td>9</td><td class="expand-icon">有</td><td>yǒu</td><td>tener, haber</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica posesión o existencia.</p></div></td></tr>
+                    <tr class="main-row"><td>10</td><td class="expand-icon">他</td><td>tā</td><td>él, su (de él)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal masculino.</p></div></td></tr>
+                    <tr class="main-row"><td>11</td><td class="expand-icon">这</td><td>zhè</td><td>este, esto, aquí</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Demostrativo proximal.</p></div></td></tr>
+                    <tr class="main-row"><td>12</td><td class="expand-icon">中</td><td>zhōng</td><td>medio, centro; China</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 中国 (Zhōngguó - China).</p></div></td></tr>
+                    <tr class="main-row"><td>13</td><td class="expand-icon">大</td><td>dà</td><td>grande, mayor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo común.</p></div></td></tr>
+                    <tr class="main-row"><td>14</td><td class="expand-icon">来</td><td>lái</td><td>venir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>15</td><td class="expand-icon">上</td><td>shàng</td><td>arriba, sobre, en; ir a; anterior</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica posición o dirección.</p></div></td></tr>
+                    <tr class="main-row"><td>16</td><td class="expand-icon">国</td><td>guó</td><td>país, nación</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Componente de muchos nombres de países.</p></div></td></tr>
+                    <tr class="main-row"><td>17</td><td class="expand-icon">个</td><td>ge</td><td>(clasificador general); individuo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador (measure word) más común.</p></div></td></tr>
+                    <tr class="main-row"><td>18</td><td class="expand-icon">到</td><td>dào</td><td>a, hasta; llegar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica llegada o destino.</p></div></td></tr>
+                    <tr class="main-row"><td>19</td><td class="expand-icon">说</td><td>shuō</td><td>decir, hablar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo básico de comunicación.</p></div></td></tr>
+                    <tr class="main-row"><td>20</td><td class="expand-icon">们</td><td>men</td><td>(sufijo plural para pronombres/personas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Marca el plural en pronombres y sustantivos referidos a personas.</p></div></td></tr>
+                    <tr class="main-row"><td>21</td><td class="expand-icon">为</td><td>wèi / wéi</td><td>por, para / ser, hacer</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición o verbo con diferentes pronunciaciones y significados.</p></div></td></tr>
+                    <tr class="main-row"><td>22</td><td class="expand-icon">子</td><td>zǐ</td><td>niño; sufijo nominal</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Común en palabras como 孩子 (háizi - niño) o como sufijo (桌子 zhuōzi - mesa).</p></div></td></tr>
+                    <tr class="main-row"><td>23</td><td class="expand-icon">和</td><td>hé</td><td>y; con; paz</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción copulativa.</p></div></td></tr>
+                    <tr class="main-row"><td>24</td><td class="expand-icon">你</td><td>nǐ</td><td>tú, tu/su (de usted)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal de segunda persona.</p></div></td></tr>
+                    <tr class="main-row"><td>25</td><td class="expand-icon">地</td><td>dì / de</td><td>tierra, suelo / (partícula adverbial)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Puede ser sustantivo o partícula gramatical.</p></div></td></tr>
+                    <tr class="main-row"><td>26</td><td class="expand-icon">出</td><td>chū</td><td>salir, irse; producir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>27</td><td class="expand-icon">道</td><td>dào</td><td>camino, vía; decir; (clasificador)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 知道 (zhīdào - saber).</p></div></td></tr>
+                    <tr class="main-row"><td>28</td><td class="expand-icon">也</td><td>yě</td><td>también, además</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de inclusión.</p></div></td></tr>
+                    <tr class="main-row"><td>29</td><td class="expand-icon">时</td><td>shí</td><td>tiempo, hora, momento</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el tiempo (时间 shíjiān).</p></div></td></tr>
+                    <tr class="main-row"><td>30</td><td class="expand-icon">年</td><td>nián</td><td>año</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad de tiempo.</p></div></td></tr>
+                    <tr class="main-row"><td>31</td><td class="expand-icon">得</td><td>de / dé / děi</td><td>(partícula estructural) / obtener / tener que</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Partícula de grado o verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>32</td><td class="expand-icon">就</td><td>jiù</td><td>entonces, precisamente, solo, ya</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio muy versátil.</p></div></td></tr>
+                    <tr class="main-row"><td>33</td><td class="expand-icon">那</td><td>nà / nèi</td><td>ese, eso, entonces / ese (antes de clasificador)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Demostrativo distal.</p></div></td></tr>
+                    <tr class="main-row"><td>34</td><td class="expand-icon">要</td><td>yào / yāo</td><td>querer, necesitar; importante / pedir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo modal o principal.</p></div></td></tr>
+                    <tr class="main-row"><td>35</td><td class="expand-icon">下</td><td>xià</td><td>abajo, debajo; próximo; bajar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica posición, secuencia o acción.</p></div></td></tr>
+                    <tr class="main-row"><td>36</td><td class="expand-icon">以</td><td>yǐ</td><td>usar, por medio de; según; para</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición o conjunción.</p></div></td></tr>
+                    <tr class="main-row"><td>37</td><td class="expand-icon">生</td><td>shēng</td><td>nacer, vida; estudiante; crudo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la vida, nacimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>38</td><td class="expand-icon">会</td><td>huì</td><td>poder (habilidad); reunirse; probable que</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo modal común.</p></div></td></tr>
+                    <tr class="main-row"><td>39</td><td class="expand-icon">自</td><td>zì</td><td>uno mismo, desde</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 自己 (zìjǐ - uno mismo).</p></div></td></tr>
+                    <tr class="main-row"><td>40</td><td class="expand-icon">着</td><td>zhe / zháo / zhuó</td><td>(partícula aspectual durativa) / tocar; lograr / llevar puesto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica estado continuo (zhe).</p></div></td></tr>
+                    <tr class="main-row"><td>41</td><td class="expand-icon">去</td><td>qù</td><td>ir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>42</td><td class="expand-icon">之</td><td>zhī</td><td>(partícula posesiva/subordinante arcaica); él/ella/ello</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Equivalente literario de 的 (de) o pronombre.</p></div></td></tr>
+                    <tr class="main-row"><td>43</td><td class="expand-icon">过</td><td>guò</td><td>pasar, cruzar; (partícula de experiencia pasada)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica experiencia pasada.</p></div></td></tr>
+                    <tr class="main-row"><td>44</td><td class="expand-icon">家</td><td>jiā</td><td>casa, hogar; familia</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo básico.</p></div></td></tr>
+                    <tr class="main-row"><td>45</td><td class="expand-icon">学</td><td>xué</td><td>estudiar, aprender; escuela</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el aprendizaje.</p></div></td></tr>
+                    <tr class="main-row"><td>46</td><td class="expand-icon">对</td><td>duì</td><td>correcto; hacia, para; par</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Puede ser adjetivo, preposición o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>47</td><td class="expand-icon">可</td><td>kě</td><td>poder, ser posible; pero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 可以 (kěyǐ - poder).</p></div></td></tr>
+                    <tr class="main-row"><td>48</td><td class="expand-icon">她</td><td>tā</td><td>ella, su (de ella)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal femenino.</p></div></td></tr>
+                    <tr class="main-row"><td>49</td><td class="expand-icon">里</td><td>lǐ</td><td>dentro; li (unidad de distancia)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica interior.</p></div></td></tr>
+                    <tr class="main-row"><td>50</td><td class="expand-icon">后</td><td>hòu</td><td>detrás, después; reina</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica posición o secuencia temporal.</p></div></td></tr>
+                    <tr class="main-row"><td>51</td><td class="expand-icon">小</td><td>xiǎo</td><td>pequeño</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo común.</p></div></td></tr>
+                    <tr class="main-row"><td>52</td><td class="expand-icon">么</td><td>me</td><td>(sufijo interrogativo o indefinido)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 什么 (shénme - qué), 怎么 (zěnme - cómo).</p></div></td></tr>
+                    <tr class="main-row"><td>53</td><td class="expand-icon">心</td><td>xīn</td><td>corazón; mente; centro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con emociones y pensamientos.</p></div></td></tr>
+                    <tr class="main-row"><td>54</td><td class="expand-icon">多</td><td>duō</td><td>mucho, más</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o adverbio de cantidad.</p></div></td></tr>
+                    <tr class="main-row"><td>55</td><td class="expand-icon">天</td><td>tiān</td><td>día; cielo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad de tiempo o concepto celestial.</p></div></td></tr>
+                    <tr class="main-row"><td>56</td><td class="expand-icon">而</td><td>ér</td><td>y, pero, sin embargo (conjunción)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción coordinante o adversativa.</p></div></td></tr>
+                    <tr class="main-row"><td>57</td><td class="expand-icon">能</td><td>néng</td><td>poder (capacidad); ser posible</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo modal de habilidad o posibilidad.</p></div></td></tr>
+                    <tr class="main-row"><td>58</td><td class="expand-icon">好</td><td>hǎo</td><td>bueno, bien</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o adverbio fundamental.</p></div></td></tr>
+                    <tr class="main-row"><td>59</td><td class="expand-icon">都</td><td>dōu</td><td>todo, ambos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de totalidad.</p></div></td></tr>
+                    <tr class="main-row"><td>60</td><td class="expand-icon">然</td><td>rán</td><td>así, correcto; sin embargo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en palabras como 然后 (ránhòu - después), 当然 (dāngrán - por supuesto).</p></div></td></tr>
+                    <tr class="main-row"><td>61</td><td class="expand-icon">没</td><td>méi</td><td>no (para 有 yǒu y acciones pasadas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Negación específica (没有 méiyǒu).</p></div></td></tr>
+                    <tr class="main-row"><td>62</td><td class="expand-icon">日</td><td>rì</td><td>día; sol</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en fechas y como referencia al sol.</p></div></td></tr>
+                    <tr class="main-row"><td>63</td><td class="expand-icon">于</td><td>yú</td><td>en, a, de, que (comparación)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición versátil, común en lenguaje formal.</p></div></td></tr>
+                    <tr class="main-row"><td>64</td><td class="expand-icon">起</td><td>qǐ</td><td>levantarse; empezar; (usado con verbos)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica inicio o dirección ascendente.</p></div></td></tr>
+                    <tr class="main-row"><td>65</td><td class="expand-icon">还</td><td>hái / huán</td><td>aún, todavía / devolver</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de tiempo o verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>66</td><td class="expand-icon">发</td><td>fā</td><td>enviar; desarrollar; ocurrir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo con múltiples significados.</p></div></td></tr>
+                    <tr class="main-row"><td>67</td><td class="expand-icon">成</td><td>chéng</td><td>convertirse en; completar; éxito</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica resultado o finalización.</p></div></td></tr>
+                    <tr class="main-row"><td>68</td><td class="expand-icon">事</td><td>shì</td><td>asunto, cosa, evento</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo abstracto común.</p></div></td></tr>
+                    <tr class="main-row"><td>69</td><td class="expand-icon">只</td><td>zhǐ / zhī</td><td>solo, solamente / (clasificador para animales, barcos, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio restrictivo o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>70</td><td class="expand-icon">作</td><td>zuò</td><td>hacer, trabajar; actuar como</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Similar a 做 (zuò), a menudo más formal.</p></div></td></tr>
+                    <tr class="main-row"><td>71</td><td class="expand-icon">当</td><td>dāng / dàng</td><td>cuando; servir como / considerar como; apropiado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Introduce cláusulas temporales o roles.</p></div></td></tr>
+                    <tr class="main-row"><td>72</td><td class="expand-icon">想</td><td>xiǎng</td><td>pensar; querer; extrañar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo mental común.</p></div></td></tr>
+                    <tr class="main-row"><td>73</td><td class="expand-icon">看</td><td>kàn / kān</td><td>ver, mirar; leer / cuidar de</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de percepción visual.</p></div></td></tr>
+                    <tr class="main-row"><td>74</td><td class="expand-icon">文</td><td>wén</td><td>lengua, escritura; cultura</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el lenguaje y la cultura (中文 Zhōngwén).</p></div></td></tr>
+                    <tr class="main-row"><td>75</td><td class="expand-icon">无</td><td>wú</td><td>sin, no tener (formal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Negación formal, opuesto a 有 (yǒu).</p></div></td></tr>
+                    <tr class="main-row"><td>76</td><td class="expand-icon">开</td><td>kāi</td><td>abrir; empezar; conducir (vehículo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo muy común.</p></div></td></tr>
+                    <tr class="main-row"><td>77</td><td class="expand-icon">手</td><td>shǒu</td><td>mano</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo.</p></div></td></tr>
+                    <tr class="main-row"><td>78</td><td class="expand-icon">十</td><td>shí</td><td>diez</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>79</td><td class="expand-icon">用</td><td>yòng</td><td>usar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de utilidad.</p></div></td></tr>
+                    <tr class="main-row"><td>80</td><td class="expand-icon">主</td><td>zhǔ</td><td>principal; señor; indicar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 主要 (zhǔyào - principal).</p></div></td></tr>
+                    <tr class="main-row"><td>81</td><td class="expand-icon">行</td><td>xíng / háng</td><td>ir, caminar; poder, estar bien / fila; profesión</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento o clasificador/sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>82</td><td class="expand-icon">方</td><td>fāng</td><td>cuadrado; dirección; lado; método</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 地方 (dìfang - lugar), 方法 (fāngfǎ - método).</p></div></td></tr>
+                    <tr class="main-row"><td>83</td><td class="expand-icon">又</td><td>yòu</td><td>otra vez, de nuevo; además</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de repetición o adición.</p></div></td></tr>
+                    <tr class="main-row"><td>84</td><td class="expand-icon">如</td><td>rú</td><td>como, si; por ejemplo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Comparación o condición (如果 rúguǒ - si).</p></div></td></tr>
+                    <tr class="main-row"><td>85</td><td class="expand-icon">前</td><td>qián</td><td>delante, antes</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica posición o tiempo.</p></div></td></tr>
+                    <tr class="main-row"><td>86</td><td class="expand-icon">所</td><td>suǒ</td><td>(partícula antes de verbo); lugar; oficina</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 所以 (suǒyǐ - por lo tanto) o para formar pasivas.</p></div></td></tr>
+                    <tr class="main-row"><td>87</td><td class="expand-icon">本</td><td>běn</td><td>raíz; origen; este; (clasificador para libros)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica origen o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>88</td><td class="expand-icon">见</td><td>jiàn</td><td>ver, encontrarse con</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de percepción o encuentro.</p></div></td></tr>
+                    <tr class="main-row"><td>89</td><td class="expand-icon">经</td><td>jīng</td><td>pasar por; clásico; gestionar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 已经 (yǐjīng - ya).</p></div></td></tr>
+                    <tr class="main-row"><td>90</td><td class="expand-icon">头</td><td>tóu</td><td>cabeza; primero; (clasificador para ganado)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo o indicador de inicio/extremo.</p></div></td></tr>
+                    <tr class="main-row"><td>91</td><td class="expand-icon">面</td><td>miàn</td><td>cara; superficie; lado; harina; fideos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Muy versátil: cara, superficie, fideos.</p></div></td></tr>
+                    <tr class="main-row"><td>92</td><td class="expand-icon">公</td><td>gōng</td><td>público; común; duque; masculino (animales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con lo público (公司 gōngsī - empresa).</p></div></td></tr>
+                    <tr class="main-row"><td>93</td><td class="expand-icon">同</td><td>tóng</td><td>mismo, igual; juntos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica similitud o compañía.</p></div></td></tr>
+                    <tr class="main-row"><td>94</td><td class="expand-icon">三</td><td>sān</td><td>tres</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>95</td><td class="expand-icon">已</td><td>yǐ</td><td>ya</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 已经 (yǐjīng - ya).</p></div></td></tr>
+                    <tr class="main-row"><td>96</td><td class="expand-icon">老</td><td>lǎo</td><td>viejo, anciano; experimentado; siempre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 老师 (lǎoshī - profesor).</p></div></td></tr>
+                    <tr class="main-row"><td>97</td><td class="expand-icon">从</td><td>cóng</td><td>desde; seguir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica origen o seguimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>98</td><td class="expand-icon">动</td><td>dòng</td><td>mover; actuar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el movimiento (运动 yùndòng - deporte).</p></div></td></tr>
+                    <tr class="main-row"><td>99</td><td class="expand-icon">两</td><td>liǎng</td><td>dos (usado con clasificadores); tael (unidad de peso)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Alternativa a 二 (èr) para 'dos'.</p></div></td></tr>
+                    <tr class="main-row"><td>100</td><td class="expand-icon">长</td><td>cháng / zhǎng</td><td>largo / crecer; jefe</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o verbo/sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>101</td><td class="expand-icon">知</td><td>zhī</td><td>saber, conocer</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 知道 (zhīdào - saber).</p></div></td></tr>
+                    <tr class="main-row"><td>102</td><td class="expand-icon">民</td><td>mín</td><td>pueblo, gente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la población (人民 rénmín - el pueblo).</p></div></td></tr>
+                    <tr class="main-row"><td>103</td><td class="expand-icon">样</td><td>yàng</td><td>apariencia, forma, tipo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 这样 (zhèyàng - de esta manera).</p></div></td></tr>
+                    <tr class="main-row"><td>104</td><td class="expand-icon">现</td><td>xiàn</td><td>aparecer; actual, presente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 现在 (xiànzài - ahora).</p></div></td></tr>
+                    <tr class="main-row"><td>105</td><td class="expand-icon">分</td><td>fēn / fèn</td><td>dividir; minuto; punto / parte, porción</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con división, tiempo o partes.</p></div></td></tr>
+                    <tr class="main-row"><td>106</td><td class="expand-icon">将</td><td>jiāng / jiàng</td><td>(indica futuro); tomar / general (militar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Marcador de futuro o rango militar.</p></div></td></tr>
+                    <tr class="main-row"><td>107</td><td class="expand-icon">外</td><td>wài</td><td>fuera, exterior; extranjero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Opuesto a 内 (nèi - dentro).</p></div></td></tr>
+                    <tr class="main-row"><td>108</td><td class="expand-icon">但</td><td>dàn</td><td>pero, sin embargo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción adversativa (但是 dànshì).</p></div></td></tr>
+                    <tr class="main-row"><td>109</td><td class="expand-icon">身</td><td>shēn</td><td>cuerpo; vida; uno mismo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el cuerpo físico (身体 shēntǐ).</p></div></td></tr>
+                    <tr class="main-row"><td>110</td><td class="expand-icon">些</td><td>xiē</td><td>algunos, pocos; (pluralizador indefinido)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado después de demostrativos (这些 zhèxiē - estos).</p></div></td></tr>
+                    <tr class="main-row"><td>111</td><td class="expand-icon">与</td><td>yǔ</td><td>y, con (formal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Equivalente formal de 和 (hé).</p></div></td></tr>
+                    <tr class="main-row"><td>112</td><td class="expand-icon">高</td><td>gāo</td><td>alto; elevado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo de altura o nivel.</p></div></td></tr>
+                    <tr class="main-row"><td>113</td><td class="expand-icon">意</td><td>yì</td><td>idea, significado; deseo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el pensamiento (意思 yìsi - significado).</p></div></td></tr>
+                    <tr class="main-row"><td>114</td><td class="expand-icon">进</td><td>jìn</td><td>entrar; avanzar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>115</td><td class="expand-icon">把</td><td>bǎ</td><td>(partícula para objeto directo); agarrar; (clasificador para objetos con asa)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Estructura gramatical importante.</p></div></td></tr>
+                    <tr class="main-row"><td>116</td><td class="expand-icon">法</td><td>fǎ</td><td>ley; método</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con reglas o maneras (方法 fāngfǎ - método).</p></div></td></tr>
+                    <tr class="main-row"><td>117</td><td class="expand-icon">此</td><td>cǐ</td><td>este, esto (formal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Equivalente formal de 这 (zhè).</p></div></td></tr>
+                    <tr class="main-row"><td>118</td><td class="expand-icon">实</td><td>shí</td><td>real, verdadero; sólido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la realidad (其实 qíshí - de hecho).</p></div></td></tr>
+                    <tr class="main-row"><td>119</td><td class="expand-icon">回</td><td>huí</td><td>volver, regresar; vez; responder</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>120</td><td class="expand-icon">二</td><td>èr</td><td>dos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>121</td><td class="expand-icon">理</td><td>lǐ</td><td>razón, lógica; gestionar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el pensamiento o la gestión (经理 jīnglǐ - gerente).</p></div></td></tr>
+                    <tr class="main-row"><td>122</td><td class="expand-icon">美</td><td>měi</td><td>bello, hermoso; América</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o usado en 美国 (Měiguó - EE.UU.).</p></div></td></tr>
+                    <tr class="main-row"><td>123</td><td class="expand-icon">点</td><td>diǎn</td><td>punto; un poco; pedir (comida); hora (en punto)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Muy versátil: marca, cantidad, acción.</p></div></td></tr>
+                    <tr class="main-row"><td>124</td><td class="expand-icon">月</td><td>yuè</td><td>mes; luna</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad de tiempo o astro.</p></div></td></tr>
+                    <tr class="main-row"><td>125</td><td class="expand-icon">明</td><td>míng</td><td>brillante; claro; mañana (día siguiente)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la luz o el futuro cercano (明天 míngtiān).</p></div></td></tr>
+                    <tr class="main-row"><td>126</td><td class="expand-icon">其</td><td>qí</td><td>su, sus (de él/ella/ello/ellos); eso</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre posesivo/demostrativo formal.</p></div></td></tr>
+                    <tr class="main-row"><td>127</td><td class="expand-icon">种</td><td>zhǒng / zhòng</td><td>tipo, clase / plantar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador o verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>128</td><td class="expand-icon">声</td><td>shēng</td><td>sonido, voz</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el audio (声音 shēngyīn - sonido).</p></div></td></tr>
+                    <tr class="main-row"><td>129</td><td class="expand-icon">全</td><td>quán</td><td>todo, completo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica totalidad (全部 quánbù - todo).</p></div></td></tr>
+                    <tr class="main-row"><td>130</td><td class="expand-icon">工</td><td>gōng</td><td>trabajo; obrero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el trabajo (工作 gōngzuò - trabajar/trabajo).</p></div></td></tr>
+                    <tr class="main-row"><td>131</td><td class="expand-icon">己</td><td>jǐ</td><td>uno mismo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 自己 (zìjǐ - uno mismo).</p></div></td></tr>
+                    <tr class="main-row"><td>132</td><td class="expand-icon">话</td><td>huà</td><td>palabra, habla; dialecto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la comunicación (说话 shuōhuà - hablar).</p></div></td></tr>
+                    <tr class="main-row"><td>133</td><td class="expand-icon">儿</td><td>ér</td><td>niño; sufijo (retroflexión)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Puede ser sustantivo o sufijo fonético.</p></div></td></tr>
+                    <tr class="main-row"><td>134</td><td class="expand-icon">者</td><td>zhě</td><td>(sufijo que indica persona o agente)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 作者 (zuòzhě - autor).</p></div></td></tr>
+                    <tr class="main-row"><td>135</td><td class="expand-icon">向</td><td>xiàng</td><td>hacia; dirección</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición de dirección.</p></div></td></tr>
+                    <tr class="main-row"><td>136</td><td class="expand-icon">情</td><td>qíng</td><td>sentimiento, emoción; situación</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con emociones (感情 gǎnqíng - sentimiento).</p></div></td></tr>
+                    <tr class="main-row"><td>137</td><td class="expand-icon">部</td><td>bù</td><td>parte, sección; departamento; (clasificador para películas, libros)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica una división o unidad.</p></div></td></tr>
+                    <tr class="main-row"><td>138</td><td class="expand-icon">正</td><td>zhèng</td><td>recto, correcto; principal; justo (en el momento)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica corrección o proceso (正在 zhèngzài - estar haciendo).</p></div></td></tr>
+                    <tr class="main-row"><td>139</td><td class="expand-icon">名</td><td>míng</td><td>nombre; famoso; (clasificador para personas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la identidad (名字 míngzi - nombre).</p></div></td></tr>
+                    <tr class="main-row"><td>140</td><td class="expand-icon">定</td><td>dìng</td><td>fijar, decidir; estable, seguro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la certeza o fijación (决定 juédìng - decidir).</p></div></td></tr>
+                    <tr class="main-row"><td>141</td><td class="expand-icon">女</td><td>nǚ</td><td>mujer, femenino</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Género femenino.</p></div></td></tr>
+                    <tr class="main-row"><td>142</td><td class="expand-icon">问</td><td>wèn</td><td>preguntar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de indagación.</p></div></td></tr>
+                    <tr class="main-row"><td>143</td><td class="expand-icon">力</td><td>lì</td><td>fuerza, poder</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la capacidad física o influencia (努力 nǔlì - esforzarse).</p></div></td></tr>
+                    <tr class="main-row"><td>144</td><td class="expand-icon">机</td><td>jī</td><td>máquina; oportunidad</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con aparatos o momentos (飞机 fēijī - avión, 机会 jīhuì - oportunidad).</p></div></td></tr>
+                    <tr class="main-row"><td>145</td><td class="expand-icon">给</td><td>gěi</td><td>dar; para, a</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de transferencia o preposición.</p></div></td></tr>
+                    <tr class="main-row"><td>146</td><td class="expand-icon">等</td><td>děng</td><td>esperar; igual; et cetera</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de espera o indicador de igualdad/enumeración.</p></div></td></tr>
+                    <tr class="main-row"><td>147</td><td class="expand-icon">几</td><td>jǐ / jī</td><td>cuántos (pocos); varios / casi</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Interrogativo de cantidad o indefinido.</p></div></td></tr>
+                    <tr class="main-row"><td>148</td><td class="expand-icon">很</td><td>hěn</td><td>muy</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de grado.</p></div></td></tr>
+                    <tr class="main-row"><td>149</td><td class="expand-icon">业</td><td>yè</td><td>negocio, profesión; estudio</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la ocupación o actividad (工业 gōngyè - industria).</p></div></td></tr>
+                    <tr class="main-row"><td>150</td><td class="expand-icon">最</td><td>zuì</td><td>el más (superlativo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio superlativo.</p></div></td></tr>
+                    <tr class="main-row"><td>151</td><td class="expand-icon">间</td><td>jiān / jiàn</td><td>entre; habitación; (clasificador para habitaciones) / intervalo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con espacio o tiempo (时间 shíjiān - tiempo).</p></div></td></tr>
+                    <tr class="main-row"><td>152</td><td class="expand-icon">新</td><td>xīn</td><td>nuevo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo común.</p></div></td></tr>
+                    <tr class="main-row"><td>153</td><td class="expand-icon">什</td><td>shén</td><td>qué (en 什么 shénme)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Componente de 什么 (shénme - qué).</p></div></td></tr>
+                    <tr class="main-row"><td>154</td><td class="expand-icon">打</td><td>dǎ</td><td>golpear; jugar (deportes); hacer (llamada); escribir (a máquina)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo con muchos usos.</p></div></td></tr>
+                    <tr class="main-row"><td>155</td><td class="expand-icon">便</td><td>biàn / pián</td><td>conveniente; entonces; orina/excremento / barato</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con conveniencia o secuencia.</p></div></td></tr>
+                    <tr class="main-row"><td>156</td><td class="expand-icon">位</td><td>wèi</td><td>lugar, posición; (clasificador formal para personas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador respetuoso.</p></div></td></tr>
+                    <tr class="main-row"><td>157</td><td class="expand-icon">因</td><td>yīn</td><td>causa, razón</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 因为 (yīnwèi - porque).</p></div></td></tr>
+                    <tr class="main-row"><td>158</td><td class="expand-icon">重</td><td>zhòng / chóng</td><td>pesado; importante / repetir, de nuevo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo de peso/importancia o adverbio/verbo de repetición.</p></div></td></tr>
+                    <tr class="main-row"><td>159</td><td class="expand-icon">被</td><td>bèi</td><td>(partícula pasiva); cubrir; edredón</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Marca la voz pasiva.</p></div></td></tr>
+                    <tr class="main-row"><td>160</td><td class="expand-icon">走</td><td>zǒu</td><td>caminar, irse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento.</p></div></td></tr>
+                    <tr class="main-row"><td>161</td><td class="expand-icon">电</td><td>diàn</td><td>electricidad; teléfono; telegrama</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la electricidad (电话 diànhuà - teléfono).</p></div></td></tr>
+                    <tr class="main-row"><td>162</td><td class="expand-icon">四</td><td>sì</td><td>cuatro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>163</td><td class="expand-icon">第</td><td>dì</td><td>(prefijo para números ordinales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Forma números ordinales (第一 dì-yī - primero).</p></div></td></tr>
+                    <tr class="main-row"><td>164</td><td class="expand-icon">门</td><td>mén</td><td>puerta; (clasificador para asignaturas, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Objeto físico o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>165</td><td class="expand-icon">相</td><td>xiāng / xiàng</td><td>mutuo, recíproco / apariencia; ministro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica mutualidad (相信 xiāngxìn - creer).</p></div></td></tr>
+                    <tr class="main-row"><td>166</td><td class="expand-icon">次</td><td>cì</td><td>vez; siguiente; orden</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador para ocurrencias.</p></div></td></tr>
+                    <tr class="main-row"><td>167</td><td class="expand-icon">东</td><td>dōng</td><td>este (punto cardinal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección.</p></div></td></tr>
+                    <tr class="main-row"><td>168</td><td class="expand-icon">政</td><td>zhèng</td><td>política, gobierno</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con asuntos gubernamentales (政府 zhèngfǔ - gobierno).</p></div></td></tr>
+                    <tr class="main-row"><td>169</td><td class="expand-icon">海</td><td>hǎi</td><td>mar, océano</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Cuerpo de agua.</p></div></td></tr>
+                    <tr class="main-row"><td>170</td><td class="expand-icon">口</td><td>kǒu</td><td>boca; (clasificador para personas, pozos, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>171</td><td class="expand-icon">使</td><td>shǐ</td><td>hacer, causar; usar; enviado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo causativo (使用 shǐyòng - usar).</p></div></td></tr>
+                    <tr class="main-row"><td>172</td><td class="expand-icon">教</td><td>jiāo / jiào</td><td>enseñar / enseñanza, religión</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la educación (教室 jiàoshì - aula).</p></div></td></tr>
+                    <tr class="main-row"><td>173</td><td class="expand-icon">西</td><td>xī</td><td>oeste</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección.</p></div></td></tr>
+                    <tr class="main-row"><td>174</td><td class="expand-icon">再</td><td>zài</td><td>otra vez, de nuevo; más</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de repetición futura o grado.</p></div></td></tr>
+                    <tr class="main-row"><td>175</td><td class="expand-icon">平</td><td>píng</td><td>plano, nivelado; pacífico; común</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica igualdad o calma (和平 hépíng - paz).</p></div></td></tr>
+                    <tr class="main-row"><td>176</td><td class="expand-icon">真</td><td>zhēn</td><td>real, verdadero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o adverbio de autenticidad.</p></div></td></tr>
+                    <tr class="main-row"><td>177</td><td class="expand-icon">听</td><td>tīng</td><td>escuchar, oír</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de percepción auditiva.</p></div></td></tr>
+                    <tr class="main-row"><td>178</td><td class="expand-icon">世</td><td>shì</td><td>mundo; generación; era</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el mundo (世界 shìjiè - mundo).</p></div></td></tr>
+                    <tr class="main-row"><td>179</td><td class="expand-icon">气</td><td>qì</td><td>aire, gas; espíritu, ánimo; enfado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Concepto importante (天气 tiānqì - clima).</p></div></td></tr>
+                    <tr class="main-row"><td>180</td><td class="expand-icon">信</td><td>xìn</td><td>carta; creer; confianza</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la comunicación o la fe.</p></div></td></tr>
+                    <tr class="main-row"><td>181</td><td class="expand-icon">北</td><td>běi</td><td>norte</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección (北京 Běijīng).</p></div></td></tr>
+                    <tr class="main-row"><td>182</td><td class="expand-icon">少</td><td>shǎo / shào</td><td>poco, menos / joven</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Cantidad o edad.</p></div></td></tr>
+                    <tr class="main-row"><td>183</td><td class="expand-icon">关</td><td>guān</td><td>cerrar; concernir; paso (montaña)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo (关系 guānxì - relación).</p></div></td></tr>
+                    <tr class="main-row"><td>184</td><td class="expand-icon">并</td><td>bìng</td><td>y además; combinar; (negación enfática)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción o adverbio.</p></div></td></tr>
+                    <tr class="main-row"><td>185</td><td class="expand-icon">内</td><td>nèi</td><td>dentro, interior</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Opuesto a 外 (wài).</p></div></td></tr>
+                    <tr class="main-row"><td>186</td><td class="expand-icon">加</td><td>jiā</td><td>añadir, sumar; más</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Operación matemática o acción de añadir.</p></div></td></tr>
+                    <tr class="main-row"><td>187</td><td class="expand-icon">化</td><td>huà</td><td>transformar, cambiar; -izar (sufijo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el cambio (变化 biànhuà - cambio).</p></div></td></tr>
+                    <tr class="main-row"><td>188</td><td class="expand-icon">由</td><td>yóu</td><td>por, debido a; desde</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición de causa u origen (自由 zìyóu - libertad).</p></div></td></tr>
+                    <tr class="main-row"><td>189</td><td class="expand-icon">却</td><td>què</td><td>pero, sin embargo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción adversativa.</p></div></td></tr>
+                    <tr class="main-row"><td>190</td><td class="expand-icon">代</td><td>dài</td><td>sustituir; generación; era</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el tiempo o la sustitución (现代 xiàndài - moderno).</p></div></td></tr>
+                    <tr class="main-row"><td>191</td><td class="expand-icon">军</td><td>jūn</td><td>ejército, militar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con las fuerzas armadas.</p></div></td></tr>
+                    <tr class="main-row"><td>192</td><td class="expand-icon">产</td><td>chǎn</td><td>producir; dar a luz; propiedad</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la producción (生产 shēngchǎn - producir).</p></div></td></tr>
+                    <tr class="main-row"><td>193</td><td class="expand-icon">入</td><td>rù</td><td>entrar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento, más formal que 进 (jìn).</p></div></td></tr>
+                    <tr class="main-row"><td>194</td><td class="expand-icon">先</td><td>xiān</td><td>primero, antes</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de tiempo/orden (先生 xiānsheng - señor).</p></div></td></tr>
+                    <tr class="main-row"><td>195</td><td class="expand-icon">山</td><td>shān</td><td>montaña</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Forma geográfica.</p></div></td></tr>
+                    <tr class="main-row"><td>196</td><td class="expand-icon">五</td><td>wǔ</td><td>cinco</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>197</td><td class="expand-icon">太</td><td>tài</td><td>demasiado; muy; mayor (generación)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de grado extremo.</p></div></td></tr>
+                    <tr class="main-row"><td>198</td><td class="expand-icon">水</td><td>shuǐ</td><td>agua</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Elemento básico.</p></div></td></tr>
+                    <tr class="main-row"><td>199</td><td class="expand-icon">眼</td><td>yǎn</td><td>ojo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo (眼睛 yǎnjing - ojo).</p></div></td></tr>
+                    <tr class="main-row"><td>200</td><td class="expand-icon">体</td><td>tǐ</td><td>cuerpo; forma; sistema</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el cuerpo o estructura (身体 shēntǐ - cuerpo).</p></div></td></tr>
+                    <tr class="main-row"><td>201</td><td class="expand-icon">别</td><td>bié</td><td>no (imperativo); otro; irse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Negación imperativa o indica diferencia.</p></div></td></tr>
+                    <tr class="main-row"><td>202</td><td class="expand-icon">找</td><td>zhǎo</td><td>buscar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo común.</p></div></td></tr>
+                    <tr class="main-row"><td>203</td><td class="expand-icon">师</td><td>shī</td><td>maestro, profesor; división (militar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 老师 (lǎoshī - profesor).</p></div></td></tr>
+                    <tr class="main-row"><td>204</td><td class="expand-icon">通</td><td>tōng / tòng</td><td>pasar por; comunicar; entender / (clasificador)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el paso o la comunicación (通过 tōngguò - pasar por, aprobar).</p></div></td></tr>
+
+                    <!-- Entradas 205-500 (Corregidas y Completadas) -->
+                    <tr class="main-row"><td>205</td><td class="expand-icon">农</td><td>nóng</td><td>agricultura, campesino</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el campo (农民 nóngmín - campesino).</p></div></td></tr>
+                    <tr class="main-row"><td>206</td><td class="expand-icon">物</td><td>wù</td><td>cosa, objeto; materia</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo general para objetos (动物 dòngwù - animal).</p></div></td></tr>
+                    <tr class="main-row"><td>207</td><td class="expand-icon">期</td><td>qī</td><td>periodo de tiempo; esperar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el tiempo (日期 rìqī - fecha, 星期 xīngqī - semana).</p></div></td></tr>
+                    <tr class="main-row"><td>208</td><td class="expand-icon">常</td><td>cháng</td><td>a menudo, frecuente; común</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio (常常 chángcháng - a menudo).</p></div></td></tr>
+                    <tr class="main-row"><td>209</td><td class="expand-icon">住</td><td>zhù</td><td>vivir, residir; parar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de residencia.</p></div></td></tr>
+                    <tr class="main-row"><td>210</td><td class="expand-icon">吗</td><td>ma</td><td>(partícula interrogativa sí/no)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Convierte una oración declarativa en pregunta.</p></div></td></tr>
+                    <tr class="main-row"><td>211</td><td class="expand-icon">度</td><td>dù / duó</td><td>grado; medida; pasar (tiempo) / estimar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con medidas (温度 wēndù - temperatura) o tiempo.</p></div></td></tr>
+                    <tr class="main-row"><td>212</td><td class="expand-icon">革</td><td>gé</td><td>cuero; reforma, revolución</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con cambio radical (革命 gémìng - revolución).</p></div></td></tr>
+                    <tr class="main-row"><td>213</td><td class="expand-icon">角</td><td>jiǎo / jué</td><td>esquina; cuerno; ángulo; céntimo / rol, personaje</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Forma geométrica, parte de animal, unidad monetaria o rol.</p></div></td></tr>
+                    <tr class="main-row"><td>214</td><td class="expand-icon">办</td><td>bàn</td><td>hacer, manejar, gestionar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de acción (怎么办 zěnmebàn - qué hacer, 办公室 bàngōngshì - oficina).</p></div></td></tr>
+                    <tr class="main-row"><td>215</td><td class="expand-icon">号</td><td>hào</td><td>número; día del mes; tamaño; señal</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica número, fecha o tamaño.</p></div></td></tr>
+                    <tr class="main-row"><td>216</td><td class="expand-icon">志</td><td>zhì</td><td>voluntad, aspiración; registrar; marca</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la intención o registro (杂志 zázhì - revista).</p></div></td></tr>
+                    <tr class="main-row"><td>217</td><td class="expand-icon">爱</td><td>ài</td><td>amar; gustar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de afecto o preferencia.</p></div></td></tr>
+                    <tr class="main-row"><td>218</td><td class="expand-icon">कल</td><td>kè</td><td>clase; lección; asignatura</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la enseñanza (上课 shàngkè - ir a clase).</p></div></td></tr>
+                    <tr class="main-row"><td>219</td><td class="expand-icon">条</td><td>tiáo</td><td>(clasificador para objetos largos y finos, noticias, etc.); cláusula</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador común (一条裤子 yì tiáo kùzi - un pantalón).</p></div></td></tr>
+                    <tr class="main-row"><td>220</td><td class="expand-icon">晚</td><td>wǎn</td><td>tarde (del día); noche; tardío</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del día (晚上 wǎnshang - noche).</p></div></td></tr>
+                    <tr class="main-row"><td>221</td><td class="expand-icon">阿</td><td>ā / ē</td><td>(prefijo para nombres/parentesco); (interjección) / halagar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado a menudo de forma informal antes de nombres.</p></div></td></tr>
+                    <tr class="main-row"><td>222</td><td class="expand-icon">各</td><td>gè</td><td>cada, todo; varios</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre distributivo (各种各样 gè zhǒng gè yàng - de todo tipo).</p></div></td></tr>
+                    <tr class="main-row"><td>223</td><td class="expand-icon">往</td><td>wǎng / wàng</td><td>hacia / olvidar (raro, usualmente 忘)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición de dirección (往左拐 wǎng zuǒ guǎi - girar a la izquierda).</p></div></td></tr>
+                    <tr class="main-row"><td>224</td><td class="expand-icon">元</td><td>yuán</td><td>yuan (moneda); primero;元旦 (Año Nuevo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad monetaria china o indica inicio.</p></div></td></tr>
+                    <tr class="main-row"><td>225</td><td class="expand-icon">界</td><td>jiè</td><td>límite, frontera; mundo; círculo (social, profesional)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica separación o ámbito (世界 shìjiè - mundo).</p></div></td></tr>
+                    <tr class="main-row"><td>226</td><td class="expand-icon">交</td><td>jiāo</td><td>entregar; hacer amigos; cruzar(se)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la interacción o entrega (交通 jiāotōng - tráfico, comunicación).</p></div></td></tr>
+                    <tr class="main-row"><td>227</td><td class="expand-icon">市</td><td>shì</td><td>mercado; ciudad</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Lugar de comercio o urbe (城市 chéngshì - ciudad, 超市 chāoshì - supermercado).</p></div></td></tr>
+                    <tr class="main-row"><td>228</td><td class="expand-icon">件</td><td>jiàn</td><td>pieza, asunto (clasificador para ropa, asuntos, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador (一件衣服 yí jiàn yīfu - una prenda de ropa).</p></div></td></tr>
+                    <tr class="main-row"><td>229</td><td class="expand-icon">指</td><td>zhǐ</td><td>dedo; señalar; indicar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo o verbo de indicación.</p></div></td></tr>
+                    <tr class="main-row"><td>230</td><td class="expand-icon">接</td><td>jiē</td><td>recibir; conectar; encontrar; continuar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de recepción, conexión o continuación.</p></div></td></tr>
+                    <tr class="main-row"><td>231</td><td class="expand-icon">流</td><td>liú</td><td>fluir; corriente; clase; quedarse; vagar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Movimiento de fluidos, ideas o personas (流行 liúxíng - popular, de moda).</p></div></td></tr>
+                    <tr class="main-row"><td>232</td><td class="expand-icon">体</td><td>tǐ</td><td>cuerpo; forma; estilo; sistema</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> A menudo se refiere al cuerpo físico (身体 shēntǐ).</p></div></td></tr>
+                    <tr class="main-row"><td>233</td><td class="expand-icon">表</td><td>biǎo</td><td>superficie; reloj; formulario; expresar; tabla</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica exterioridad, medición de tiempo o expresión (表示 biǎoshì - expresar).</p></div></td></tr>
+                    <tr class="main-row"><td>234</td><td class="expand-icon">强</td><td>qiáng / jiàng</td><td>fuerte, poderoso / terco; forzar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica fuerza o intensidad.</p></div></td></tr>
+                    <tr class="main-row"><td>235</td><td class="expand-icon">钱</td><td>qián</td><td>dinero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>236</td><td class="expand-icon">张</td><td>zhāng</td><td>(clasificador para objetos planos como papel, mesas); abrir; apellido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador común o apellido.</p></div></td></tr>
+                    <tr class="main-row"><td>237</td><td class="expand-icon">何</td><td>hé</td><td>qué, cuál, cómo (interrogativo formal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre interrogativo (formal, p.ej. 如何 rúhé - cómo).</p></div></td></tr>
+                    <tr class="main-row"><td>238</td><td class="expand-icon">比</td><td>bǐ</td><td>comparar; (partícula comparativa); ratio</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en estructuras comparativas (A比B + adjetivo).</p></div></td></tr>
+                    <tr class="main-row"><td>239</td><td class="expand-icon">叫</td><td>jiào</td><td>llamar(se); gritar; pedir (que alguien haga algo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de denominación, sonido o mandato.</p></div></td></tr>
+                    <tr class="main-row"><td>240</td><td class="expand-icon">主</td><td>zhǔ</td><td>principal; dueño; señor; indicar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica importancia o liderazgo (主要 zhǔyào - principal).</p></div></td></tr>
+                    <tr class="main-row"><td>241</td><td class="expand-icon">请</td><td>qǐng</td><td>por favor; invitar; pedir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de cortesía.</p></div></td></tr>
+                    <tr class="main-row"><td>242</td><td class="expand-icon">站</td><td>zhàn</td><td>estar de pie; estación, parada</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de postura o lugar (火车站 huǒchēzhàn - estación de tren).</p></div></td></tr>
+                    <tr class="main-row"><td>243</td><td class="expand-icon">写</td><td>xiě</td><td>escribir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>244</td><td class="expand-icon">离</td><td>lí</td><td>irse de; estar a distancia de; separar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de separación o distancia.</p></div></td></tr>
+                    <tr class="main-row"><td>245</td><td class="expand-icon">火</td><td>huǒ</td><td>fuego; caliente; popular; enfado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Elemento o indica intensidad/popularidad.</p></div></td></tr>
+                    <tr class="main-row"><td>246</td><td class="expand-icon">品</td><td>pǐn</td><td>producto; calidad; grado; probar, saborear</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con bienes o evaluación (产品 chǎnpǐn - producto).</p></div></td></tr>
+                    <tr class="main-row"><td>247</td><td class="expand-icon">共</td><td>gòng</td><td>común; juntos; total; compartir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica colectividad (一共 yígòng - en total, 公共 gōnggòng - público).</p></div></td></tr>
+                    <tr class="main-row"><td>248</td><td class="expand-icon">服</td><td>fú / fù</td><td>ropa; servir; obedecer; tomar (medicina) / (clasificador raro)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 衣服 (yīfu - ropa), 服务 (fúwù - servicio), 舒服 (shūfu - cómodo).</p></div></td></tr>
+                    <tr class="main-row"><td>249</td><td class="expand-icon">完</td><td>wán</td><td>terminar, completar; intacto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o complemento verbal resultativo.</p></div></td></tr>
+                    <tr class="main-row"><td>250</td><td class="expand-icon">六</td><td>liù</td><td>seis</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>251</td><td class="expand-icon">路</td><td>lù</td><td>camino, carretera; ruta; manera</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Vía de transporte o figurada.</p></div></td></tr>
+                    <tr class="main-row"><td>252</td><td class="expand-icon">亲</td><td>qīn / qìng</td><td>pariente; cercano, íntimo; besar; pro- / parientes por matrimonio</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la familia o cercanía (亲爱的 qīn'ài de - querido).</p></div></td></tr>
+                    <tr class="main-row"><td>253</td><td class="expand-icon">程</td><td>chéng</td><td>proceso; viaje; norma, regulación; grado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con secuencias o niveles (程度 chéngdù - nivel, grado).</p></div></td></tr>
+                    <tr class="main-row"><td>254</td><td class="expand-icon">计</td><td>jì</td><td>contar, calcular; plan, estrategia; medidor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con números o planes (计划 jìhuà - plan).</p></div></td></tr>
+                    <tr class="main-row"><td>255</td><td class="expand-icon">希</td><td>xī</td><td>esperar, desear; raro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 希望 (xīwàng - esperar, desear).</p></div></td></tr>
+                    <tr class="main-row"><td>256</td><td class="expand-icon">连</td><td>lián</td><td>conectar; unir; continuo; incluso; compañía (militar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo, adverbio o conjunción (连接 liánjiē - conectar).</p></div></td></tr>
+                    <tr class="main-row"><td>257</td><td class="expand-icon">远</td><td>yuǎn</td><td>lejos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo de distancia.</p></div></td></tr>
+                    <tr class="main-row"><td>258</td><td class="expand-icon">必</td><td>bì</td><td>deber, tener que; seguramente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo modal de necesidad (必须 bìxū - deber, tener que).</p></div></td></tr>
+                    <tr class="main-row"><td>259</td><td class="expand-icon">劳</td><td>láo</td><td>trabajo, labor; fatiga; molestar (forma cortés)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el esfuerzo físico (劳动 láodòng - trabajar, trabajo).</p></div></td></tr>
+                    <tr class="main-row"><td>260</td><td class="expand-icon">穿</td><td>chuān</td><td>llevar puesto (ropa); perforar, atravesar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>261</td><td class="expand-icon">白</td><td>bái</td><td>blanco; claro; gratis; en vano; apellido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Color o adverbio (明白 míngbai - entender).</p></div></td></tr>
+                    <tr class="main-row"><td>262</td><td class="expand-icon">告</td><td>gào</td><td>decir, informar; demandar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de comunicación (告诉 gàosu - decir, informar).</p></div></td></tr>
+                    <tr class="main-row"><td>263</td><td class="expand-icon">利</td><td>lì</td><td>beneficio, ventaja; agudo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con ganancias o utilidad (利用 lìyòng - utilizar).</p></div></td></tr>
+                    <tr class="main-row"><td>264</td><td class="expand-icon">校</td><td>xiào / jiào</td><td>escuela / revisar, corregir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 学校 (xuéxiào - escuela).</p></div></td></tr>
+                    <tr class="main-row"><td>265</td><td class="expand-icon">息</td><td>xī</td><td>respiración; noticia; interés (dinero); descansar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el descanso o información (休息 xiūxi - descansar, 消息 xiāoxi - noticia).</p></div></td></tr>
+                    <tr class="main-row"><td>266</td><td class="expand-icon">节</td><td>jié / jiē</td><td>festival; sección; articulación; ahorrar / nudo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con celebraciones, partes o ahorro (节日 jiérì - festival).</p></div></td></tr>
+                    <tr class="main-row"><td>267</td><td class="expand-icon">九</td><td>jiǔ</td><td>nueve</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>268</td><td class="expand-icon">色</td><td>sè / shǎi</td><td>color; apariencia; sexo / color (en dialecto, raro)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 颜色 (yánsè - color).</p></div></td></tr>
+                    <tr class="main-row"><td>269</td><td class="expand-icon">快</td><td>kuài</td><td>rápido; pronto; feliz; agudo (cuchillo); pieza (clasificador de dinero, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo/adverbio o clasificador (快乐 kuàilè - feliz).</p></div></td></tr>
+                    <tr class="main-row"><td>270</td><td class="expand-icon">้</td><td>huò</td><td>o; quizás; posiblemente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción disyuntiva o adverbio (或者 huòzhě - o).</p></div></td></tr>
+                    <tr class="main-row"><td>271</td><td class="expand-icon">更</td><td>gèng / gēng</td><td>más (comparativo); aún más / cambiar, reemplazar; turno de noche</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio comparativo (gèng).</p></div></td></tr>
+                    <tr class="main-row"><td>272</td><td class="expand-icon">早</td><td>zǎo</td><td>temprano; mañana (del día)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio/adjetivo de tiempo (早上 zǎoshang - mañana).</p></div></td></tr>
+                    <tr class="main-row"><td>273</td><td class="expand-icon">试</td><td>shì</td><td>probar, intentar; examen</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con intentos o pruebas (考试 kǎoshì - examen).</p></div></td></tr>
+                    <tr class="main-row"><td>274</td><td class="expand-icon">周</td><td>zhōu</td><td>semana; ciclo; alrededor; apellido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad de tiempo (周末 zhōumò - fin de semana).</p></div></td></tr>
+                    <tr class="main-row"><td>275</td><td class="expand-icon">风</td><td>fēng</td><td>viento; estilo; costumbre; paisaje</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fenómeno natural o manera (风景 fēngjǐng - paisaje).</p></div></td></tr>
+                    <tr class="main-row"><td>276</td><td class="expand-icon">管</td><td>guǎn</td><td>gestionar, encargarse de; tubo; importar(se); no importa (que)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de gestión o sustantivo (管理 guǎnlǐ - gestionar).</p></div></td></tr>
+                    <tr class="main-row"><td>277</td><td class="expand-icon">切</td><td>qiē / qiè</td><td>cortar / cercano, ansioso; urgente; corresponder a</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (qiē) o adjetivo/adverbio (qiè, e.g., 切实 qièshí - práctico, factible).</p></div></td></tr>
+                    <tr class="main-row"><td>278</td><td class="expand-icon">直</td><td>zhí</td><td>recto, directo; vertical; franco; continuamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica dirección o manera (一直 yìzhí - siempre, continuamente).</p></div></td></tr>
+                    <tr class="main-row"><td>279</td><td class="expand-icon">党</td><td>dǎng</td><td>partido (político); facción, camarilla</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Grupo político u organizado (共产党 Gòngchǎndǎng - Partido Comunista).</p></div></td></tr>
+                    <tr class="main-row"><td>280</td><td class="expand-icon">饭</td><td>fàn</td><td>comida, arroz cocido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (吃饭 chīfàn - comer).</p></div></td></tr>
+                    <tr class="main-row"><td>281</td><td class="expand-icon">黒</td><td>hēi</td><td>negro; oscuro; secreto; ilegal</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Color o connota oscuridad/ilegalidad.</p></div></td></tr>
+                    <tr class="main-row"><td>282</td><td class="expand-icon">花</td><td>huā</td><td>flor; gastar (dinero/tiempo); estampado; variado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Planta o verbo de gasto.</p></div></td></tr>
+                    <tr class="main-row"><td>283</td><td class="expand-icon">飞</td><td>fēi</td><td>volar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento (飞机 fēijī - avión).</p></div></td></tr>
+                    <tr class="main-row"><td>284</td><td class="expand-icon">带</td><td>dài</td><td>llevar, traer; cinturón; zona, región; con</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de portar o sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>285</td><td class="expand-icon">南</td><td>nán</td><td>sur</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección.</p></div></td></tr>
+                    <tr class="main-row"><td>286</td><td class="expand-icon">台</td><td>tái</td><td>plataforma; escenario; estación (TV/radio); Taiwán; (clasificador para máquinas, actuaciones)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Estructura elevada o clasificador.</p></div></td></tr>
+                    <tr class="main-row"><td>287</td><td class="expand-icon">死</td><td>sǐ</td><td>morir; muerto; fijo, inflexible; extremadamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o adverbio intensificador (累死了 lèisǐle - muerto de cansancio).</p></div></td></tr>
+                    <tr class="main-row"><td>288</td><td class="expand-icon">基</td><td>jī</td><td>base, fundamento</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la base (基本 jīběn - básico, fundamental).</p></div></td></tr>
+                    <tr class="main-row"><td>289</td><td class="expand-icon">提</td><td>tí / dī</td><td>levantar, llevar (colgando); mencionar; extraer / (en提防 dīfang - tener cuidado)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de acción física o verbal (提高 tígāo - elevar, mejorar).</p></div></td></tr>
+                    <tr class="main-row"><td>290</td><td class="expand-icon">球</td><td>qiú</td><td>pelota, esfera; globo terráqueo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Objeto esférico (足球 zúqiú - fútbol).</p></div></td></tr>
+                    <tr class="main-row"><td>291</td><td class="expand-icon">选</td><td>xuǎn</td><td>elegir, seleccionar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de elección (选择 xuǎnzé - elegir, selección).</p></div></td></tr>
+                    <tr class="main-row"><td>292</td><td class="expand-icon">士</td><td>shì</td><td>erudito, caballero; soldado; persona cualificada</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica persona con cierto estatus o habilidad (博士 bóshì - doctorado, PhD).</p></div></td></tr>
+                    <tr class="main-row"><td>293</td><td class="expand-icon">虽</td><td>suī</td><td>aunque</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción concesiva (虽然 suīrán - aunque).</p></div></td></tr>
+                    <tr class="main-row"><td>294</td><td class="expand-icon">低</td><td>dī</td><td>bajo (altura, nivel, voz); bajar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>295</td><td class="expand-icon">包</td><td>bāo</td><td>envolver; incluir; bolsa; paquete; garantizar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo (面包 miànbāo - pan).</p></div></td></tr>
+                    <tr class="main-row"><td>296</td><td class="expand-icon">lee</td><td>lǐ</td><td>razón, principio; gestionar; ciencia natural</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la lógica o la gestión (理解 lǐjiě - entender).</p></div></td></tr>
+                    <tr class="main-row"><td>297</td><td class="expand-icon">察</td><td>chá</td><td>observar, examinar, investigar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de observación detallada (警察 jǐngchá - policía).</p></div></td></tr>
+                    <tr class="main-row"><td>298</td><td class="expand-icon">影</td><td>yǐng</td><td>sombra; imagen, foto; película</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la luz o representaciones (电影 diànyǐng - película).</p></div></td></tr>
+                    <tr class="main-row"><td>299</td><td class="expand-icon">科</td><td>kē</td><td>rama de estudio, departamento; (clasificador para plantas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la ciencia o disciplina (科学 kēxué - ciencia).</p></div></td></tr>
+                    <tr class="main-row"><td>300</td><td class="expand-icon">唱</td><td>chàng</td><td>cantar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (唱歌 chànggē - cantar).</p></div></td></tr>
+                    <tr class="main-row"><td>301</td><td class="expand-icon">车</td><td>chē / jū</td><td>vehículo, coche / (pieza de ajedrez chino, como 'torre')</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Medio de transporte (汽车 qìchē - coche).</p></div></td></tr>
+                    <tr class="main-row"><td>302</td><td class="expand-icon">政</td><td>zhèng</td><td>política, gobierno</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con asuntos de estado (政府 zhèngfǔ - gobierno).</p></div></td></tr>
+                    <tr class="main-row"><td>303</td><td class="expand-icon">父</td><td>fù</td><td>padre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (父亲 fùqīn - padre).</p></div></td></tr>
+                    <tr class="main-row"><td>304</td><td class="expand-icon">哥</td><td>gē</td><td>hermano mayor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (哥哥 gēge).</p></div></td></tr>
+                    <tr class="main-row"><td>305</td><td class="expand-icon">族</td><td>zú</td><td>raza, nacionalidad; clan, familia</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Grupo étnico o familiar (民族 mínzú - nacionalidad, grupo étnico).</p></div></td></tr>
+                    <tr class="main-row"><td>306</td><td class="expand-icon">性</td><td>xìng</td><td>naturaleza, carácter; propiedad; sexo, género</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la esencia, características o género.</p></div></td></tr>
+                    <tr class="main-row"><td>307</td><td class="expand-icon">跑</td><td>pǎo</td><td>correr; huir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento rápido (跑步 pǎobù - correr).</p></div></td></tr>
+                    <tr class="main-row"><td>308</td><td class="expand-icon">解</td><td>jiě / xiè / jiè</td><td>desatar, explicar; entender; resolver / apellido / enviar (p.ej. prisionero)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de solución o comprensión (了解 liǎojiě - entender, 解决 jiějué - resolver).</p></div></td></tr>
+                    <tr class="main-row"><td>309</td><td class="expand-icon">议</td><td>yì</td><td>opinar, discutir; opinión</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la discusión o el consejo (会议 huìyì - reunión, conferencia).</p></div></td></tr>
+                    <tr class="main-row"><td>310</td><td class="expand-icon">夜</td><td>yè</td><td>noche</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Periodo oscuro del día (夜晚 yèwǎn - noche).</p></div></td></tr>
+                    <tr class="main-row"><td>311</td><td class="expand-icon">您</td><td>nín</td><td>usted (formal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal de segunda persona formal.</p></div></td></tr>
+                    <tr class="main-row"><td>312</td><td class="expand-icon">它</td><td>tā</td><td>ello, eso (para objetos/animales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Pronombre personal neutro/animal.</p></div></td></tr>
+                    <tr class="main-row"><td>313</td><td class="expand-icon">床</td><td>chuáng</td><td>cama</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Mueble (起床 qǐchuáng - levantarse de la cama).</p></div></td></tr>
+                    <tr class="main-row"><td>314</td><td class="expand-icon">坐</td><td>zuò</td><td>sentarse; tomar (transporte); (clasificador para montañas, edificios)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de postura o transporte.</p></div></td></tr>
+                    <tr class="main-row"><td>315</td><td class="expand-icon">帮</td><td>bāng</td><td>ayudar, asistir; pandilla</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (帮助 bāngzhù - ayudar).</p></div></td></tr>
+                    <tr class="main-row"><td>316</td><td class="expand-icon">吧</td><td>ba</td><td>(partícula modal imperativa/sugerencia/suposición)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Partícula final de frase muy común.</p></div></td></tr>
+                    <tr class="main-row"><td>317</td><td class="expand-icon"> O</td><td>ò / ó / ō</td><td>(interjección de sorpresa/comprensión)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Interjección.</p></div></td></tr>
+                    <tr class="main-row"><td>318</td><td class="expand-icon">始</td><td>shǐ</td><td>empezar, comenzar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de inicio (开始 kāishǐ - empezar).</p></div></td></tr>
+                    <tr class="main-row"><td>319</td><td class="expand-icon">院</td><td>yuàn</td><td>patio; institución; hospital; colegio</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Espacio abierto o edificio (医院 yīyuàn - hospital).</p></div></td></tr>
+                    <tr class="main-row"><td>320</td><td class="expand-icon">除</td><td>chú</td><td>excepto; eliminar; dividir (matemáticas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición o verbo (除了 chúle - excepto).</p></div></td></tr>
+                    <tr class="main-row"><td>321</td><td class="expand-icon">证</td><td>zhèng</td><td>probar, certificar; evidencia; certificado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la prueba o documentación (证明 zhèngmíng - probar, certificado).</p></div></td></tr>
+                    <tr class="main-row"><td>322</td><td class="expand-icon">笑</td><td>xiào</td><td>reír, sonrisa</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo (开玩笑 kāi wánxiào - bromear).</p></div></td></tr>
+                    <tr class="main-row"><td>323</td><td class="expand-icon">衣</td><td>yī</td><td>ropa; prenda</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 衣服 (yīfu - ropa).</p></div></td></tr>
+                    <tr class="main-row"><td>324</td><td class="expand-icon">兴</td><td>xīng / xìng</td><td>prosperar, surgir / interés, ánimo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el auge (xīng) o el interés (xìng, 高兴 gāoxìng - contento).</p></div></td></tr>
+                    <tr class="main-row"><td>325</td><td class="expand-icon">百</td><td>bǎi</td><td>cien; numerosos</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>326</td><td class="expand-icon">七</td><td>qī</td><td>siete</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>327</td><td class="expand-icon">弟</td><td>dì</td><td>hermano menor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (弟弟 dìdi).</p></div></td></tr>
+                    <tr class="main-row"><td>328</td><td class="expand-icon">母</td><td>mǔ</td><td>madre; hembra (animales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (母亲 mǔqīn - madre, 父母 fùmǔ - padres).</p></div></td></tr>
+                    <tr class="main-row"><td>329</td><td class="expand-icon">妻</td><td>qī</td><td>esposa</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (妻子 qīzi).</p></div></td></tr>
+                    <tr class="main-row"><td>330</td><td class="expand-icon">歌</td><td>gē</td><td>canción</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (唱歌 chànggē - cantar).</p></div></td></tr>
+                    <tr class="main-row"><td>331</td><td class="expand-icon">送</td><td>sòng</td><td>entregar, enviar; regalar; despedir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>332</td><td class="expand-icon">贵</td><td>guì</td><td>caro; honorable, noble</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo de precio o estatus.</p></div></td></tr>
+                    <tr class="main-row"><td>333</td><td class="expand-icon">慢</td><td>màn</td><td>lento</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo/adverbio.</p></div></td></tr>
+                    <tr class="main-row"><td>334</td><td class="expand-icon">越</td><td>yuè</td><td>superar, cruzar; cuanto más... más...</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o adverbio comparativo progresivo (越来越 yuèláiyuè - cada vez más).</p></div></td></tr>
+                    <tr class="main-row"><td>335</td><td class="expand-icon">近</td><td>jìn</td><td>cerca, cercano; aproximarse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo/adverbio de distancia (附近 fùjìn - cercanías).</p></div></td></tr>
+                    <tr class="main-row"><td>336</td><td class="expand-icon">跳</td><td>tiào</td><td>saltar, brincar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (跳舞 tiàowǔ - bailar).</p></div></td></tr>
+                    <tr class="main-row"><td>337</td><td class="expand-icon">舞</td><td>wǔ</td><td>baile, danza</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo o verbo (跳舞 tiàowǔ - bailar).</p></div></td></tr>
+                    <tr class="main-row"><td>338</td><td class="expand-icon">数</td><td>shù / shǔ</td><td>número; varios / contar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (shù, 数字 shùzì - número) o verbo (shǔ).</p></div></td></tr>
+                    <tr class="main-row"><td>339</td><td class="expand-icon">旅</td><td>lǚ</td><td>viajar; viaje; brigada (militar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo (旅游 lǚyóu - viajar, turismo).</p></div></td></tr>
+                    <tr class="main-row"><td>340</td><td class="expand-icon">左</td><td>zuǒ</td><td>izquierda</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección (左边 zuǒbian - lado izquierdo).</p></div></td></tr>
+                    <tr class="main-row"><td>341</td><td class="expand-icon">右</td><td>yòu</td><td>derecha</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Dirección (右边 yòubian - lado derecho).</p></div></td></tr>
+                    <tr class="main-row"><td>342</td><td class="expand-icon">医</td><td>yī</td><td>médico; medicina; curar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la salud (医生 yīshēng - médico; 医院 yīyuàn - hospital).</p></div></td></tr>
+                    <tr class="main-row"><td>343</td><td class="expand-icon">失</td><td>shī</td><td>perder; error; fallar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de pérdida o fallo (失败 shībài - fracasar).</p></div></td></tr>
+                    <tr class="main-row"><td>344</td><td class="expand-icon">旁</td><td>páng</td><td>lado, al lado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Posición (旁边 pángbiān - al lado).</p></div></td></tr>
+                    <tr class="main-row"><td>345</td><td class="expand-icon">准</td><td>zhǔn</td><td>permitir; exacto, preciso; estándar; preparar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o adjetivo (准备 zhǔnbèi - preparar).</p></div></td></tr>
+                    <tr class="main-row"><td>346</td><td class="expand-icon">备</td><td>bèi</td><td>preparar; equipar; tener</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (准备 zhǔnbèi - preparar).</p></div></td></tr>
+                    <tr class="main-row"><td>347</td><td class="expand-icon">错</td><td>cuò</td><td>error, equivocado; incorrecto;错怪 (culpar injustamente)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o sustantivo (不错 búcuò - no está mal, bastante bueno).</p></div></td></tr>
+                    <tr class="main-row"><td>348</td><td class="expand-icon">干</td><td>gān / gàn</td><td>seco; hacer (coloquial); tronco / hacer, trabajar; capaz</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo (gān, 干净 gānjìng - limpio) o verbo (gàn).</p></div></td></tr>
+                    <tr class="main-row"><td>349</td><td class="expand-icon">际</td><td>jì</td><td>borde, límite; ocasión; entre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con límites o relaciones (国际 guójì - internacional).</p></div></td></tr>
+                    <tr class="main-row"><td>350</td><td class="expand-icon">दन</td><td>dàn</td><td>pero, sin embargo; solo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 但是 (dànshì - pero), 不但 (búdàn - no solo).</p></div></td></tr>
+                    <tr class="main-row"><td>351</td><td class="expand-icon">姐</td><td>jiě</td><td>hermana mayor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (姐姐 jiějie).</p></div></td></tr>
+                    <tr class="main-row"><td>352</td><td class="expand-icon">妹</td><td>mèi</td><td>hermana menor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Miembro de la familia (妹妹 mèimei).</p></div></td></tr>
+                    <tr class="main-row"><td>353</td><td class="expand-icon">休</td><td>xiū</td><td>descansar; parar; no</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (休息 xiūxi - descansar).</p></div></td></tr>
+                    <tr class="main-row"><td>354</td><td class="expand-icon">忙</td><td>máng</td><td>ocupado; apresurarse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo.</p></div></td></tr>
+                    <tr class="main-row"><td>355</td><td class="expand-icon">喝</td><td>hē</td><td>beber</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>356</td><td class="expand-icon">考</td><td>kǎo</td><td>examinar, probar; investigar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (考试 kǎoshì - examen).</p></div></td></tr>
+                    <tr class="main-row"><td>357</td><td class="expand-icon">级</td><td>jí</td><td>nivel, grado; clase (año escolar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica nivel o rango.</p></div></td></tr>
+                    <tr class="main-row"><td>358</td><td class="expand-icon">城</td><td>chéng</td><td>ciudad; muralla</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Área urbana (城市 chéngshì - ciudad).</p></div></td></tr>
+                    <tr class="main-row"><td>359</td><td class="expand-icon">语</td><td>yǔ / yù</td><td>lengua, idioma; palabras / decir a</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el lenguaje (汉语 Hànyǔ - idioma chino).</p></div></td></tr>
+                    <tr class="main-row"><td>360</td><td class="expand-icon">英</td><td>yīng</td><td>héroe; británico, inglés; flor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con Inglaterra/idioma inglés (英语 Yīngyǔ - inglés).</p></div></td></tr>
+                    <tr class="main-row"><td>361</td><td class="expand-icon">故</td><td>gù</td><td>causa, razón; antiguo; incidente; morir; intencionadamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 所以 (suǒyǐ - por lo tanto), 故事 (gùshi - cuento).</p></div></td></tr>
+                    <tr class="main-row"><td>362</td><td class="expand-icon">游</td><td>yóu</td><td>nadar; viajar; vagar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el agua o el viaje (游泳 yóuyǒng - nadar, 旅游 lǚyóu - viajar).</p></div></td></tr>
+                    <tr class="main-row"><td>363</td><td class="expand-icon">场</td><td>chǎng / cháng</td><td>lugar grande y abierto; campo; escena; (clasificador para eventos) / (clasificador para lluvias, enfermedades)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Lugar o clasificador (机场 jīchǎng - aeropuerto).</p></div></td></tr>
+                    <tr class="main-row"><td>364</td><td class="expand-icon">室</td><td>shì</td><td>habitación, estancia; cámara</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Espacio cerrado (教室 jiàoshì - aula, 办公室 bàngōngshì - oficina).</p></div></td></tr>
+                    <tr class="main-row"><td>365</td><td class="expand-icon">园</td><td>yuán</td><td>jardín, parque; huerto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Espacio verde o de recreo (公园 gōngyuán - parque).</p></div></td></tr>
+                    <tr class="main-row"><td>366</td><td class="expand-icon">较</td><td>jiào</td><td>comparar; comparativamente, bastante</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio de grado o verbo comparar (比较 bǐjiào).</p></div></td></tr>
+                    <tr class="main-row"><td>367</td><td class="expand-icon">形</td><td>xíng</td><td>forma, figura; aparecer</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la apariencia física o estructura.</p></div></td></tr>
+                    <tr class="main-row"><td>368</td><td class="expand-icon">画</td><td>huà</td><td>dibujar; pintura; trazo (de carácter)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>369</td><td class="expand-icon">鸟</td><td>niǎo</td><td>pájaro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (animal).</p></div></td></tr>
+                    <tr class="main-row"><td>370</td><td class="expand-icon"> Wor</td><td>wò</td><td>acostarse; agacharse (animales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de postura.</p></div></td></tr>
+                    <tr class="main-row"><td>371</td><td class="expand-icon">运</td><td>yùn</td><td>transportar; mover; usar; suerte; deporte</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el movimiento o la suerte (运动 yùndòng - deporte).</p></div></td></tr>
+                    <tr class="main-row"><td>372</td><td class="expand-icon">音</td><td>yīn</td><td>sonido; música; noticia</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el sonido (音乐 yīnyuè - música, 声音 shēngyīn - sonido).</p></div></td></tr>
+                    <tr class="main-row"><td>373</td><td class="expand-icon">术</td><td>shù / zhú</td><td>arte, técnica, método / (en 白术 báizhú, una hierba medicinal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con habilidad o método (技术 jìshù - tecnología, técnica).</p></div></td></tr>
+                    <tr class="main-row"><td>374</td><td class="expand-icon">病</td><td>bìng</td><td>enfermedad; enfermar; defecto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la salud (生病 shēngbìng - enfermar).</p></div></td></tr>
+                    <tr class="main-row"><td>375</td><td class="expand-icon">愿</td><td>yuàn</td><td>desear, querer; voluntad; voto</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de deseo (愿意 yuànyì - estar dispuesto a, desear).</p></div></td></tr>
+                    <tr class="main-row"><td>376</td><td class="expand-icon">须</td><td>xū</td><td>deber, tener que; necesitar; barba</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica necesidad (必须 bìxū - deber).</p></div></td></tr>
+                    <tr class="main-row"><td>377</td><td class="expand-icon"> জ্ঞ</td><td>biǎo</td><td>mostrar, expresar; superficie; reloj; formulario</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Componente repetido, ver #233.</p></div></td></tr> <!-- Nota: Este caracter es probable que siga siendo #233, puede haber variaciones en listas. Pongo un placeholder si es necesario uno distinto -->
+                    <tr class="main-row"><td>378</td><td class="expand-icon">观</td><td>guān / guàn</td><td>mirar, observar; vista; concepto / templo taoísta</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de percepción visual (参观 cānguān - visitar).</p></div></td></tr>
+                    <tr class="main-row"><td>379</td><td class="expand-icon">段</td><td>duàn</td><td>sección, segmento, párrafo; (clasificador)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica una parte o sección (一段时间 yí duàn shíjiān - un periodo de tiempo).</p></div></td></tr>
+                    <tr class="main-row"><td>380</td><td class="expand-icon">洗</td><td>xǐ</td><td>lavar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (洗澡 xǐzǎo - ducharse/bañarse).</p></div></td></tr>
+                    <tr class="main-row"><td>381</td><td class="expand-icon">嗯</td><td>ń / ň / ǹg</td><td>(interjección de asentimiento o duda)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sonido nasal que indica acuerdo, respuesta o vacilación.</p></div></td></tr>
+                    <tr class="main-row"><td>382</td><td class="expand-icon">姓</td><td>xìng</td><td>apellido; apellidarse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo (你姓什么? Nǐ xìng shénme? - ¿Cuál es tu apellido?).</p></div></td></tr>
+                    <tr class="main-row"><td>383</td><td class="expand-icon">雪</td><td>xuě</td><td>nieve</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fenómeno meteorológico (下雪 xià xuě - nevar).</p></div></td></tr>
+                    <tr class="main-row"><td>384</td><td class="expand-icon">色</td><td>sè</td><td>color</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (颜色 yánsè - color).</p></div></td></tr>
+                    <tr class="main-row"><td>385</td><td class="expand-icon">眼</td><td>yǎn</td><td>ojo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (眼睛 yǎnjing - ojo).</p></div></td></tr>
+                    <tr class="main-row"><td>386</td><td class="expand-icon">肉</td><td>ròu</td><td>carne</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (comida).</p></div></td></tr>
+                    <tr class="main-row"><td>387</td><td class="expand-icon">药</td><td>yào</td><td>medicina, medicamento</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (吃药 chī yào - tomar medicina).</p></div></td></tr>
+                    <tr class="main-row"><td>388</td><td class="expand-icon">助</td><td>zhù</td><td>ayudar, asistir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (帮助 bāngzhù - ayudar).</p></div></td></tr>
+                    <tr class="main-row"><td>389</td><td class="expand-icon">差</td><td>chà / chā / cī</td><td>diferir; faltar; pobre, malo / diferencia / desigual</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Puede indicar diferencia, falta o mala calidad (差不多 chàbuduō - más o menos).</p></div></td></tr>
+                    <tr class="main-row"><td>390</td><td class="expand-icon">ģ</td><td>guì</td><td>arrodillarse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de postura.</p></div></td></tr>
+                    <tr class="main-row"><td>391</td><td class="expand-icon">夫</td><td>fū / fú</td><td>hombre adulto; marido / (partícula inicial o final, arcaica)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 丈夫 (zhàngfu - marido), 大夫 (dàifu - doctor, término más antiguo).</p></div></td></tr>
+                    <tr class="main-row"><td>392</td><td class="expand-icon">朝</td><td>cháo / zhāo</td><td>hacia; dinastía; corte imperial / mañana (del día)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición de dirección o sustantivo temporal/histórico.</p></div></td></tr>
+                    <tr class="main-row"><td>393</td><td class="expand-icon">拾</td><td>shí / shè</td><td>recoger; diez (formal, en documentos) / subir escalones (arcaico)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o numeral formal.</p></div></td></tr>
+                    <tr class="main-row"><td>394</td><td class="expand-icon">自行车</td><td>zìxíngchē</td><td>bicicleta</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo.</p></div></td></tr>
+                    <tr class="main-row"><td>395</td><td class="expand-icon"> 米</td><td>mǐ</td><td>arroz (crudo); metro (unidad de medida)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Cereal o unidad de longitud.</p></div></td></tr>
+                    <tr class="main-row"><td>396</td><td class="expand-icon"> 味</td><td>wèi</td><td>sabor; olor</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el sentido del gusto u olfato (味道 wèidao - sabor, olor).</p></div></td></tr>
+                    <tr class="main-row"><td>397</td><td class="expand-icon"> 波</td><td>bō</td><td>ola; onda</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Movimiento ondulatorio.</p></div></td></tr>
+                    <tr class="main-row"><td>398</td><td class="expand-icon"> 客</td><td>kè</td><td>invitado; cliente; pasajero</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Persona que visita o recibe un servicio (客人 kèrén - invitado, cliente).</p></div></td></tr>
+                    <tr class="main-row"><td>399</td><td class="expand-icon"> 鱼</td><td>yú</td><td>pez</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo (animal).</p></div></td></tr>
+                    <tr class="main-row"><td>400</td><td class="expand-icon"> 份</td><td>fèn</td><td>parte, porción; copia; (clasificador para trabajos, periódicos, regalos)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica una parte o se usa como clasificador (一份报纸 yí fèn bàozhǐ - un periódico).</p></div></td></tr>
+                    <tr class="main-row"><td>401</td><td class="expand-icon">片</td><td>piàn / piān</td><td>rebanada, trozo; tarjeta; película / (obsoleto)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador o sustantivo (照片 zhàopiàn - foto).</p></div></td></tr>
+                    <tr class="main-row"><td>402</td><td class="expand-icon"> 非</td><td>fēi</td><td>no; incorrecto; África</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Negación formal (非常 fēicháng - muy).</p></div></td></tr>
+                    <tr class="main-row"><td>403</td><td class="expand-icon"> คำ</td><td>cí</td><td>palabra; término; poesía (un tipo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad léxica (词典 cídiǎn - diccionario).</p></div></td></tr>
+                    <tr class="main-row"><td>404</td><td class="expand-icon"> 故</td><td>gù</td><td>razón; antiguo; incidente; intencionadamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 因此 (yīncǐ - por lo tanto), 故事 (gùshi - cuento).</p></div></td></tr> <!-- Repetido, pero puede aparecer así en algunas listas -->
+                    <tr class="main-row"><td>405</td><td class="expand-icon"> 感</td><td>gǎn</td><td>sentir; afectar; sensación; gratitud</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con los sentimientos (感觉 gǎnjué - sentir, sensación; 感谢 gǎnxiè - agradecer).</p></div></td></tr>
+                    <tr class="main-row"><td>406</td><td class="expand-icon"> 乐</td><td>lè / yuè</td><td>feliz, alegre / música</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Emoción (快乐 kuàilè - feliz) o arte (音乐 yīnyuè - música).</p></div></td></tr>
+                    <tr class="main-row"><td>407</td><td class="expand-icon"> 改</td><td>gǎi</td><td>cambiar, corregir; transformar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de modificación (改变 gǎibiàn - cambiar).</p></div></td></tr>
+                    <tr class="main-row"><td>408</td><td class="expand-icon"> 层</td><td>céng</td><td>piso, nivel; capa</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica estrato o nivel (楼层 lóucéng - piso de un edificio).</p></div></td></tr>
+                    <tr class="main-row"><td>409</td><td class="expand-icon"> 孩</td><td>hái</td><td>niño</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en 孩子 (háizi - niño).</p></div></td></tr>
+                    <tr class="main-row"><td>410</td><td class="expand-icon"> 念</td><td>niàn</td><td>leer en voz alta; pensar en, extrañar; idea</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de lectura o pensamiento.</p></div></td></tr>
+                    <tr class="main-row"><td>411</td><td class="expand-icon"> 造</td><td>zào</td><td>hacer, construir; crear;造句 (hacer frases)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de creación o construcción.</p></div></td></tr>
+                    <tr class="main-row"><td>412</td><td class="expand-icon"> 牛</td><td>niú</td><td>vaca, toro, buey; (coloquial) genial, increíble</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Animal o adjetivo coloquial (牛奶 niúnǎi - leche).</p></div></td></tr>
+                    <tr class="main-row"><td>413</td><td class="expand-icon"> 肉</td><td>ròu</td><td>carne</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Comida. (Repetido? Verificar listas, puede ser). </p></div></td></tr> <!-- Repetido? Check vs #386 -->
+                    <tr class="main-row"><td>414</td><td class="expand-icon"> 建</td><td>jiàn</td><td>construir, establecer; fundar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de construcción o establecimiento (建议 jiànyì - sugerir).</p></div></td></tr>
+                    <tr class="main-row"><td>415</td><td class="expand-icon"> 急</td><td>jí</td><td>urgente, ansioso; preocuparse</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo o verbo (着急 zháojí - preocupado, ansioso).</p></div></td></tr>
+                    <tr class="main-row"><td>416</td><td class="expand-icon"> 立</td><td>lì</td><td>ponerse de pie; establecer; inmediatamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de postura o establecimiento (立刻 lìkè - inmediatamente).</p></div></td></tr>
+                    <tr class="main-row"><td>417</td><td class="expand-icon"> 林</td><td>lín</td><td>bosque; multitud; apellido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunto de árboles.</p></div></td></tr>
+                    <tr class="main-row"><td>418</td><td class="expand-icon"> 空</td><td>kōng / kòng</td><td>vacío; cielo; aire / tiempo libre; hueco</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica vacío (kōng, 空气 kōngqì - aire) o disponibilidad (kòng, 有空 yǒukòng - tener tiempo libre).</p></div></td></tr>
+                    <tr class="main-row"><td>419</td><td class="expand-icon"> 易</td><td>yì</td><td>fácil; cambiar; (apellido)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica facilidad (容易 róngyì - fácil).</p></div></td></tr>
+                    <tr class="main-row"><td>420</td><td class="expand-icon"> 容</td><td>róng</td><td>contener; permitir; apariencia; tolerar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la capacidad o apariencia (容易 róngyì - fácil).</p></div></td></tr>
+                    <tr class="main-row"><td>421</td><td class="expand-icon"> 究</td><td>jiū</td><td>investigar, estudiar a fondo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de investigación (研究 yánjiū - investigar, estudio).</p></div></td></tr>
+                    <tr class="main-row"><td>422</td><td class="expand-icon"> 乎</td><td>hū</td><td>(partícula interrogativa o exclamativa, arcaica); en, sobre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Usado en palabras como 几乎 (jīhū - casi), 在乎 (zàihu - importar, preocuparse por).</p></div></td></tr>
+                    <tr class="main-row"><td>423</td><td class="expand-icon"> 笑</td><td>xiào</td><td>reír, sonreír</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o sustantivo. (Repetido? Check vs #322). </p></div></td></tr> <!-- Repetido? Check vs #322 -->
+                    <tr class="main-row"><td>424</td><td class="expand-icon"> 料</td><td>liào</td><td>material; esperar, prever; pienso (animales)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo o verbo (材料 cáiliào - material).</p></div></td></tr>
+                    <tr class="main-row"><td>425</td><td class="expand-icon"> 啊</td><td>a / ā / á / ǎ / à</td><td>(partícula interjectiva/modal)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Partícula final de frase muy común, expresa exclamación, duda, etc.</p></div></td></tr>
+                    <tr class="main-row"><td>426</td><td class="expand-icon"> 船</td><td>chuán</td><td>barco, nave</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Medio de transporte acuático.</p></div></td></tr>
+                    <tr class="main-row"><td>427</td><td class="expand-icon"> 识</td><td>shí / zhì</td><td>conocer, reconocer; conocimiento / recordar, marcar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de conocimiento (认识 rènshi - conocer).</p></div></td></tr>
+                    <tr class="main-row"><td>428</td><td class="expand-icon"> 验</td><td>yàn</td><td>examinar, probar; verificar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con pruebas o verificación (经验 jīngyàn - experiencia).</p></div></td></tr>
+                    <tr class="main-row"><td>429</td><td class="expand-icon"> 光</td><td>guāng</td><td>luz; brillo; solo, meramente; liso, desnudo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la luz o indica totalidad/ausencia (用光 yòng guāng - gastar todo).</p></div></td></tr>
+                    <tr class="main-row"><td>430</td><td class="expand-icon"> 则</td><td>zé</td><td>entonces (consecuencia); norma, regla; (clasificador para noticias, etc.)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción o sustantivo (规则 guīzé - regla).</p></div></td></tr>
+                    <tr class="main-row"><td>431</td><td class="expand-icon"> 活</td><td>huó</td><td>vivir; vivo; trabajo (manual); flexible</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con la vida o actividad (生活 shēnghuó - vida).</p></div></td></tr>
+                    <tr class="main-row"><td>432</td><td class="expand-icon"> 病</td><td>bìng</td><td>enfermedad</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Estado de salud. (Repetido? Check vs #374). </p></div></td></tr> <!-- Repetido? Check vs #374 -->
+                    <tr class="main-row"><td>433</td><td class="expand-icon"> 求</td><td>qiú</td><td>pedir, rogar; buscar; demanda</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de petición o búsqueda (要求 yāoqiú - pedir, requerir).</p></div></td></tr>
+                    <tr class="main-row"><td>434</td><td class="expand-icon"> 据</td><td>jù / jū</td><td>según; ocupar; evidencia / (arcaico) agarrar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición (根据 gēnjù - según).</p></div></td></tr>
+                    <tr class="main-row"><td>435</td><td class="expand-icon"> 血</td><td>xuè / xiě</td><td>sangre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fluido corporal.</p></div></td></tr>
+                    <tr class="main-row"><td>436</td><td class="expand-icon"> 官</td><td>guān</td><td>funcionario; oficial; órgano (sentido)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el gobierno o la autoridad.</p></div></td></tr>
+                    <tr class="main-row"><td>437</td><td class="expand-icon"> 型</td><td>xíng</td><td>modelo, tipo; patrón</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica categoría o modelo.</p></div></td></tr>
+                    <tr class="main-row"><td>438</td><td class="expand-icon"> 若</td><td>ruò</td><td>si; como si; parecer</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Conjunción condicional (formal).</p></div></td></tr>
+                    <tr class="main-row"><td>439</td><td class="expand-icon"> 校</td><td>xiào</td><td>escuela</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Institución educativa. (Repetido? Check vs #264). </p></div></td></tr> <!-- Repetido? Check vs #264 -->
+                    <tr class="main-row"><td>440</td><td class="expand-icon"> 热</td><td>rè</td><td>caliente; calor; popular; entusiasta</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Temperatura o entusiasmo (热情 rèqíng - entusiasmo).</p></div></td></tr>
+                    <tr class="main-row"><td>441</td><td class="expand-icon"> 包</td><td>bāo</td><td>bolsa; envolver</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Objeto o acción. (Repetido? Check vs #295). </p></div></td></tr> <!-- Repetido? Check vs #295 -->
+                    <tr class="main-row"><td>442</td><td class="expand-icon"> 含</td><td>hán</td><td>contener; incluir; tener en la boca</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de inclusión.</p></div></td></tr>
+                    <tr class="main-row"><td>443</td><td class="expand-icon"> 图</td><td>tú</td><td>dibujo, imagen; mapa; plan; buscar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Representación gráfica o intención (地图 dìtú - mapa).</p></div></td></tr>
+                    <tr class="main-row"><td>444</td><td class="expand-icon"> 短</td><td>duǎn</td><td>corto (longitud, tiempo); falta</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo.</p></div></td></tr>
+                    <tr class="main-row"><td>445</td><td class="expand-icon"> 云</td><td>yún</td><td>nube; decir (arcaico)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fenómeno meteorológico.</p></div></td></tr>
+                    <tr class="main-row"><td>446</td><td class="expand-icon"> 值</td><td>zhí</td><td>valor; valer; estar de servicio</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el valor o el deber (值得 zhídé - valer la pena).</p></div></td></tr>
+                    <tr class="main-row"><td>447</td><td class="expand-icon"> 李</td><td>lǐ</td><td>ciruela; (apellido común)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fruta o apellido.</p></div></td></tr>
+                    <tr class="main-row"><td>448</td><td class="expand-icon"> 声</td><td>shēng</td><td>sonido, voz</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Percepción auditiva. (Repetido? Check vs #128). </p></div></td></tr> <!-- Repetido? Check vs #128 -->
+                    <tr class="main-row"><td>449</td><td class="expand-icon"> 推</td><td>tuī</td><td>empujar;推迟 (posponer); recomendar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de movimiento o recomendación.</p></div></td></tr>
+                    <tr class="main-row"><td>450</td><td class="expand-icon"> 害</td><td>hài</td><td>dañar; perjudicial; miedo; desventaja</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o adjetivo negativo (害怕 hàipà - tener miedo).</p></div></td></tr>
+                    <tr class="main-row"><td>451</td><td class="expand-icon"> 拿</td><td>ná</td><td>coger, tomar, agarrar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de posesión manual.</p></div></td></tr>
+                    <tr class="main-row"><td>452</td><td class="expand-icon"> 积</td><td>jī</td><td>acumular; producto (matemáticas);积压 (acumularse)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de acumulación (积极 jījí - activo, positivo).</p></div></td></tr>
+                    <tr class="main-row"><td>453</td><td class="expand-icon"> 果</td><td>guǒ</td><td>fruta; resultado; si realmente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Comida o consecuencia (水果 shuǐguǒ - fruta, 如果 rúguǒ - si).</p></div></td></tr>
+                    <tr class="main-row"><td>454</td><td class="expand-icon"> 料</td><td>liào</td><td>material; esperar, prever</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Sustantivo o verbo. (Repetido? Check vs #424). </p></div></td></tr> <!-- Repetido? Check vs #424 -->
+                    <tr class="main-row"><td>455</td><td class="expand-icon"> 据</td><td>jù</td><td>según; ocupar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición o verbo. (Repetido? Check vs #434). </p></div></td></tr> <!-- Repetido? Check vs #434 -->
+                    <tr class="main-row"><td>456</td><td class="expand-icon"> 清</td><td>qīng</td><td>claro; limpio;清朝 (Dinastía Qing); saldar (cuentas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica claridad o limpieza (清楚 qīngchu - claro).</p></div></td></tr>
+                    <tr class="main-row"><td>457</td><td class="expand-icon"> 究</td><td>jiū</td><td>investigar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo. (Repetido? Check vs #421). </p></div></td></tr> <!-- Repetido? Check vs #421 -->
+                    <tr class="main-row"><td>458</td><td class="expand-icon"> 保</td><td>bǎo</td><td>proteger, guardar; garantizar; asegurar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de protección o garantía (保护 bǎohù - proteger).</p></div></td></tr>
+                    <tr class="main-row"><td>459</td><td class="expand-icon"> 派</td><td>pài</td><td>enviar, destinar; facción, escuela; (pastel, préstamo)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de envío o sustantivo de grupo.</p></div></td></tr>
+                    <tr class="main-row"><td>460</td><td class="expand-icon"> 字</td><td>zì</td><td>carácter (escritura); palabra</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad de escritura (汉字 Hànzì - caracteres chinos).</p></div></td></tr>
+                    <tr class="main-row"><td>461</td><td class="expand-icon"> 按</td><td>àn</td><td>presionar; según; de acuerdo con</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo o preposición (按照 ànzhào - según).</p></div></td></tr>
+                    <tr class="main-row"><td>462</td><td class="expand-icon"> 该</td><td>gāi</td><td>deber (obligación/probabilidad); merecer; este, ese</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo modal o pronombre (应该 yīnggāi - deber).</p></div></td></tr>
+                    <tr class="main-row"><td>463</td><td class="expand-icon"> 领</td><td>lǐng</td><td>cuello; liderar; recibir (salario, etc.); entender</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo, verbo de liderazgo o recepción (领导 lǐngdǎo - líder, liderar).</p></div></td></tr>
+                    <tr class="main-row"><td>464</td><td class="expand-icon"> 脚</td><td>jiǎo</td><td>pie; base (de objeto)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte del cuerpo.</p></div></td></tr>
+                    <tr class="main-row"><td>465</td><td class="expand-icon"> 示</td><td>shì</td><td>mostrar, indicar; revelar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de mostrar (表示 biǎoshì - expresar, mostrar).</p></div></td></tr>
+                    <tr class="main-row"><td>466</td><td class="expand-icon"> 注</td><td>zhù</td><td>verter; anotar; prestar atención; registrar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo (注意 zhùyì - prestar atención).</p></div></td></tr>
+                    <tr class="main-row"><td>467</td><td class="expand-icon"> 境</td><td>jìng</td><td>frontera; situación; ambiente, entorno</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con límites o condiciones (环境 huánjìng - ambiente).</p></div></td></tr>
+                    <tr class="main-row"><td>468</td><td class="expand-icon"> 界</td><td>jiè</td><td>límite; mundo; círculo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica separación o ámbito. (Repetido? Check vs #225). </p></div></td></tr> <!-- Repetido? Check vs #225 -->
+                    <tr class="main-row"><td>469</td><td class="expand-icon"> 王</td><td>wáng / wàng</td><td>rey; (apellido) / gobernar (arcaico)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Título nobiliario o apellido común.</p></div></td></tr>
+                    <tr class="main-row"><td>470</td><td class="expand-icon"> 危</td><td>wēi / wéi</td><td>peligro; peligroso / alto (arcaico)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el riesgo (危险 wēixiǎn - peligroso).</p></div></td></tr>
+                    <tr class="main-row"><td>471</td><td class="expand-icon"> 反</td><td>fǎn</td><td>opuesto, contrario;反抗 (resistir);反思 (reflexionar)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Indica oposición o vuelta atrás (反对 fǎnduì - oponerse).</p></div></td></tr>
+                    <tr class="main-row"><td>472</td><td class="expand-icon"> 屋</td><td>wū</td><td>casa; habitación</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Edificio o parte de él (屋子 wūzi - habitación).</p></div></td></tr>
+                    <tr class="main-row"><td>473</td><td class="expand-icon"> 牛</td><td>niú</td><td>vaca, toro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Animal. (Repetido? Check vs #412). </p></div></td></tr> <!-- Repetido? Check vs #412 -->
+                    <tr class="main-row"><td>474</td><td class="expand-icon"> 套</td><td>tào</td><td>funda, cubierta; conjunto; (clasificador para conjuntos, casas)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Clasificador para conjuntos (一套西装 yí tào xīzhuāng - un traje).</p></div></td></tr>
+                    <tr class="main-row"><td>475</td><td class="expand-icon"> 路</td><td>lù</td><td>camino, carretera</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Vía. (Repetido? Check vs #251). </p></div></td></tr> <!-- Repetido? Check vs #251 -->
+                    <tr class="main-row"><td>476</td><td class="expand-icon"> 模</td><td>mó / mú</td><td>imitar; modelo / molde, patrón</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con modelos o imitación (模仿 mófǎng - imitar).</p></div></td></tr>
+                    <tr class="main-row"><td>477</td><td class="expand-icon"> 皮</td><td>pí</td><td>piel; cuero; cáscara; travieso</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Capa exterior (皮肤 pífū - piel).</p></div></td></tr>
+                    <tr class="main-row"><td>478</td><td class="expand-icon"> 河</td><td>hé</td><td>río</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Curso de agua.</p></div></td></tr>
+                    <tr class="main-row"><td>479</td><td class="expand-icon"> 怕</td><td>pà</td><td>tener miedo; temer; quizás</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo de temor (害怕 hàipà - tener miedo).</p></div></td></tr>
+                    <tr class="main-row"><td>480</td><td class="expand-icon"> 跟</td><td>gēn</td><td>con; seguir; talón</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Preposición (similar a 'con') o verbo.</p></div></td></tr>
+                    <tr class="main-row"><td>481</td><td class="expand-icon"> M</td><td>mǐ</td><td>arroz; metro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Cereal o unidad. (Repetido? Check vs #395). </p></div></td></tr> <!-- Repetido? Check vs #395 -->
+                    <tr class="main-row"><td>482</td><td class="expand-icon"> 送</td><td>sòng</td><td>entregar; regalar; despedir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo. (Repetido? Check vs #331). </p></div></td></tr> <!-- Repetido? Check vs #331 -->
+                    <tr class="main-row"><td>483</td><td class="expand-icon"> 故</td><td>gù</td><td>razón; antiguo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Causa o pasado. (Repetido? Check vs #361, #404). </p></div></td></tr> <!-- Repetido? Check vs #361, #404 -->
+                    <tr class="main-row"><td>484</td><td class="expand-icon"> 千</td><td>qiān</td><td>mil</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                    <tr class="main-row"><td>485</td><td class="expand-icon"> 片</td><td>piàn</td><td>rebanada, trozo</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Parte o clasificador. (Repetido? Check vs #401). </p></div></td></tr> <!-- Repetido? Check vs #401 -->
+                    <tr class="main-row"><td>486</td><td class="expand-icon"> 阳</td><td>yáng</td><td>sol; masculino (filosofía); lado soleado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con el sol o el principio masculino (太阳 tàiyáng - sol).</p></div></td></tr>
+                    <tr class="main-row"><td>487</td><td class="expand-icon"> 轮</td><td>lún</td><td>rueda; turno; vapor (barco)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Objeto circular o indica turnos.</p></div></td></tr>
+                    <tr class="main-row"><td>488</td><td class="expand-icon"> 声</td><td>shēng</td><td>sonido</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Auditivo. (Repetido? Check vs #128, #448). </p></div></td></tr> <!-- Repetido? Check vs #128, #448 -->
+                    <tr class="main-row"><td>489</td><td class="expand-icon"> 写</td><td>xiě</td><td>escribir</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Verbo. (Repetido? Check vs #243). </p></div></td></tr> <!-- Repetido? Check vs #243 -->
+                    <tr class="main-row"><td>490</td><td class="expand-icon"> 词</td><td>cí</td><td>palabra</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad léxica. (Repetido? Check vs #403). </p></div></td></tr> <!-- Repetido? Check vs #403 -->
+                    <tr class="main-row"><td>491</td><td class="expand-icon"> 画</td><td>huà</td><td>dibujo; pintar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Arte visual. (Repetido? Check vs #368). </p></div></td></tr> <!-- Repetido? Check vs #368 -->
+                    <tr class="main-row"><td>492</td><td class="expand-icon"> 席</td><td>xí</td><td>estera; asiento; banquete; (apellido)</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Lugar para sentarse o evento (主席 zhǔxí - presidente).</p></div></td></tr>
+                    <tr class="main-row"><td>493</td><td class="expand-icon"> 仅</td><td>jǐn</td><td>solo, solamente</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adverbio restrictivo (不仅 bùjǐn - no solo).</p></div></td></tr>
+                    <tr class="main-row"><td>494</td><td class="expand-icon"> 列</td><td>liè</td><td>fila, columna; listar; tren</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Orden o secuencia.</p></div></td></tr>
+                    <tr class="main-row"><td>495</td><td class="expand-icon"> 米</td><td>mǐ</td><td>arroz; metro</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Unidad o cereal. (Repetido? Check vs #395, #481). </p></div></td></tr> <!-- Repetido? Check vs #395, #481 -->
+                    <tr class="main-row"><td>496</td><td class="expand-icon"> 轻</td><td>qīng</td><td>ligero (peso); suave; joven; descuidado</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Adjetivo.</p></div></td></tr>
+                    <tr class="main-row"><td>497</td><td class="expand-icon"> 血</td><td>xuè</td><td>sangre</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Fluido. (Repetido? Check vs #435). </p></div></td></tr> <!-- Repetido? Check vs #435 -->
+                    <tr class="main-row"><td>498</td><td class="expand-icon"> 饭</td><td>fàn</td><td>arroz cocido, comida</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Alimento principal. (Repetido? Check vs #280). </p></div></td></tr> <!-- Repetido? Check vs #280 -->
+                    <tr class="main-row"><td>499</td><td class="expand-icon"> 系</td><td>xì / jì</td><td>sistema; departamento; conectar / atar; abrochar</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Relacionado con sistemas o conexiones (关系 guānxì - relación).</p></div></td></tr>
+                    <tr class="main-row"><td>500</td><td class="expand-icon"> 八</td><td>bā</td><td>ocho</td></tr>
+                    <tr class="details-row"><td colspan="4"><div class="details-content"><p><strong>Notas:</strong> Número.</p></div></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Script para la interactividad de la tabla (mostrar/ocultar detalles)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('wordTableBody');
+
+            tableBody.addEventListener('click', function(event) {
+                const mainRow = event.target.closest('.main-row');
+                if (!mainRow) return;
+                const detailsRow = mainRow.nextElementSibling;
+                // Asegurarse de que la siguiente fila sea una fila de detalles antes de intentar alternar
+                if (detailsRow && detailsRow.classList.contains('details-row')) {
+                    // Solo alterna si la fila de detalles existe y tiene la clase correcta
+                    detailsRow.classList.toggle('visible');
+                    mainRow.classList.toggle('expanded');
+
+                    // Opcional: Cerrar otras filas abiertas
+                    // const allMainRows = tableBody.querySelectorAll('.main-row');
+                    // allMainRows.forEach(row => {
+                    //     if (row !== mainRow && row.classList.contains('expanded')) {
+                    //         row.classList.remove('expanded');
+                    //         const otherDetailsRow = row.nextElementSibling;
+                    //         if (otherDetailsRow && otherDetailsRow.classList.contains('details-row')) {
+                    //             otherDetailsRow.classList.remove('visible');
+                    //         }
+                    //     }
+                    // });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
