@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mnemotecnia de Radicales Chinos</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .main-content {
+            padding: 20px;
+            max-width: 900px; /* Centrar contenido */
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #005a9c;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        h2 {
+            text-align: center;
+            color: #0077cc;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+        nav.top-nav { /* Navegación específica para esta página */
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #005a9c;
+            border-radius: 0 0 8px 8px; /* Redondeo solo abajo */
+        }
+        nav.top-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background-color 0.2s ease-in-out;
+        }
+        nav.top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden; /* Para que el redondeo aplique a th/td */
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eef2f5; /* Borde más claro */
+            vertical-align: top; /* Mejor para mnemotecnias largas */
+        }
+        th {
+            background-color: #0077cc;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none; /* Sin borde para la última fila */
+        }
+        tbody tr:hover {
+            background-color: #f8faff;
+        }
+
+        .hanzi-pinyin-cell {
+            font-family: 'SimSun', 'Songti SC', serif;
+            text-align: center;
+            min-width: 100px; /* Espacio mínimo */
+            white-space: normal; /* Permitir que el pinyin se ajuste */
+        }
+        .hanzi-pinyin-cell .hanzi {
+            font-size: 2em; /* Hanzi más grande */
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .hanzi-pinyin-cell .pinyin {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            font-family: 'Inter', 'Segoe UI', sans-serif; /* Pinyin con fuente sans-serif */
+        }
+
+        .explanation-cell {
+            font-style: normal;
+            font-size: 0.95rem; /* Ligeramente más grande */
+            color: #34495e;
+            line-height: 1.7; /* Más espaciado */
+        }
+        .explanation-cell strong {
+            color: #005a9c;
+            font-weight: 600;
+        }
+        .explanation-cell .example-link {
+            color: #2980b9;
+            text-decoration: underline;
+            cursor: help;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Vista de Tarjeta para móviles (simplificada para 2 columnas) */
+        @media (max-width: 700px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.1rem; }
+            .main-content { padding: 10px; }
+            
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: none; /* Sin borde exterior de la tarjeta TR */
+                border-radius: 0; /* Quitamos redondeo de TR */
+                margin-bottom: 15px;
+                padding: 0;
+                background-color: transparent; /* TR transparente */
+                box-shadow: none; /* Sin sombra en TR */
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eef2f5; /* Separador entre "campos" de la tarjeta */
+                padding: 15px;
+                background-color: #ffffff; /* Fondo blanco para cada TD (sección de tarjeta) */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.03); /* Sombra sutil por TD */
+            }
+            td:first-child { /* Celda Hanzi/Pinyin */
+                border-radius: 8px 8px 0 0; /* Redondeo arriba */
+            }
+            td:last-child { /* Celda Mnemotecnia */
+                border-bottom: none; /* Sin borde inferior para la última celda de la "tarjeta" */
+                border-radius: 0 0 8px 8px; /* Redondeo abajo */
+                margin-bottom: 15px; /* Espacio entre tarjetas */
+            }
+
+            .hanzi-pinyin-cell {
+                padding: 20px 15px; /* Más padding vertical */
+            }
+            .hanzi-pinyin-cell .hanzi {
+                font-size: 2.5em; /* Aún más grande */
+            }
+            .explanation-cell {
+                font-size: 1rem; /* Más legible en móvil */
+                 padding-top: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container mx-auto flex flex-wrap justify-center md:justify-start md:space-x-6">
+            <a href="#" aria-current="page">Super Tabla Gramatical</a>
+            <a href="index.html">Inicio</a>
+            <a href="words.html">Palabras Similares</a>
+            <a href="pinyin.html">Pinyin</a>
+            <a href="table.html">Tabla</a>
+            <a href="500.html">500</a>
+            <a href="caracteres.html">Mnemotecnica</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1>Mnemotecnia de Radicales</h1>
+        <h2>Visualizaciones y asociaciones para aprender los 100 radicales chinos más comunes</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Carácter (Pinyin)</th>
+                        <th>Visualización / Mnemotecnia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">人</span>
+                            <span class="pinyin">rén</span>
+                        </td>
+                        <td class="explanation-cell">¡Mira sus piernitas! 🚶 Es una persona caminando. Pinyin <strong>rén</strong>, como un '<strong>ren</strong>o' bípedo. Variante 亻 es un perfil. Base de 大 (grande), 天 (cielo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">口</span>
+                            <span class="pinyin">kǒu</span>
+                        </td>
+                        <td class="explanation-cell">Un cuadrito abierto, ¡<strong>co</strong>mo una boca! 👄 Pinyin <strong>kǒu</strong>, piensa en '<strong>Co</strong>mer!'. No es 囗 (recinto). Base de 叫 (llamar), 古 (antiguo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">土</span>
+                            <span class="pinyin">tǔ</span>
+                        </td>
+                        <td class="explanation-cell">Planta 🌱 (+) brotando del suelo (一). ¡Tierra! Pinyin <strong>tǔ</strong>, como '<strong>tú</strong> eres tierra'. No es 士 (erudito). Base de 在 (estar en), 地 (suelo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">女</span>
+                            <span class="pinyin">nǚ</span>
+                        </td>
+                        <td class="explanation-cell">Figura sentada con gracia 💃. ¡Femenino! Pinyin <strong>nǚ</strong>, como '<strong>nu</strong>nca subestimes...'. Base de 好 (bueno),妈 (madre).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">心</span>
+                            <span class="pinyin">xīn</span>
+                        </td>
+                        <td class="explanation-cell">Corazón ❤️. Pinyin <strong>xīn</strong>, como '<strong>sin</strong> corazón no hay vida'. Variante 忄 (3 gotas). Base de 想 (pensar), 忙 (ocupado).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">手</span>
+                            <span class="pinyin">shǒu</span>
+                        </td>
+                        <td class="explanation-cell">¡Deditos! 🖐️ Pinyin <strong>shǒu</strong>, como un '<strong>show</strong>' de manos. Variante 扌 (mano de lado). No es 毛 (pelo). Base de 打 (golpear), 找 (buscar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">日</span>
+                            <span class="pinyin">rì</span>
+                        </td>
+                        <td class="explanation-cell">Sol cuadrado 🌞 con rayito. Pinyin <strong>rì</strong>, como el '<strong>ri</strong>elar' del sol. No es 曰 (decir) ni 目 (ojo). Base de 时 (tiempo), 明 (brillante).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">月</span>
+                            <span class="pinyin">yuè</span>
+                        </td>
+                        <td class="explanation-cell">Luna creciente 🌙 / carne 🥩. Pinyin <strong>yuè</strong>, suena a '<strong>llue</strong>ve'. Base de 朋友 (amigo), 有 (tener - carne).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">木</span>
+                            <span class="pinyin">mù</span>
+                        </td>
+                        <td class="explanation-cell">¡Arbolito! 🌳 Pinyin <strong>mù</strong>, como el mugido '<strong>muuu</strong>' de vaca bajo el árbol. No es 禾 (grano). Base de 林 (bosque), 本 (raíz).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">水</span>
+                            <span class="pinyin">shuǐ</span>
+                        </td>
+                        <td class="explanation-cell">Río 🏞️ con gotas 💧. Pinyin <strong>shuǐ</strong>, como si algo se '<strong>sui</strong>cidara' en el agua. Variante 氵 (3 gotas). No es 冫 (hielo). Base de 法 (ley), 海 (mar).</td>
+                    </tr>
+                     <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">火</span>
+                            <span class="pinyin">huǒ</span>
+                        </td>
+                        <td class="explanation-cell">Llama con chispas 🔥. Pinyin <strong>huǒ</strong>, ¡'<strong>FUE</strong>GO!' corto. Variante 灬 (4 brasas). No es 人 ni 大. Base de 灯 (luz), 灰 (ceniza).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">纟</span>
+                            <span class="pinyin">mì / sī</span>
+                        </td>
+                        <td class="explanation-cell">Capullo de seda 🧵. Pinyin <strong>mì</strong> ('<strong>mi</strong> seda') o <strong>sī</strong> ('<strong>sí</strong>, suave'). La forma tradicional es 糸. Base de 红 (rojo), 纸 (papel).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">艹</span>
+                            <span class="pinyin">cǎo</span>
+                        </td>
+                        <td class="explanation-cell">¡Hierba! 🌱🌱 Pinyin <strong>cǎo</strong>, como '<strong>cao</strong>s' de hierba. La forma tradicional es 艸. Base de 花 (flor), 茶 (té).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">讠</span>
+                            <span class="pinyin">yán</span>
+                        </td>
+                        <td class="explanation-cell">Boca con ondas sonoras 🗣️. Pinyin <strong>yán</strong>, como '<strong>hien</strong>as' parloteando. La forma tradicional es 言. Base de 说 (hablar), 谁 (quién).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">辶</span>
+                            <span class="pinyin">chuò</span>
+                        </td>
+                        <td class="explanation-cell">Pie moviéndose 🚶. Pinyin <strong>chuò</strong>, como 'an<strong>cho</strong>' pie para caminar. La forma tradicional es 辵. Base de 这 (esto), 远 (lejos).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">钅</span>
+                            <span class="pinyin">jīn</span>
+                        </td>
+                        <td class="explanation-cell">Pepitas de oro bajo tierra ✨. Pinyin <strong>jīn</strong>, '<strong>chin-chin</strong>' del metal. La forma tradicional es 金. Base de 钱 (dinero), 银行 (banco).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">刂</span>
+                            <span class="pinyin">dāo</span>
+                        </td>
+                        <td class="explanation-cell">¡Cuchillo! 🔪 Pinyin <strong>dāo</strong>, '<strong>dáo</strong>ndo' un tajo. La forma tradicional es 刀. No es 力 (fuerza). Base de 分 (dividir), 到 (llegar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">宀</span>
+                            <span class="pinyin">mián</span>
+                        </td>
+                        <td class="explanation-cell">¡Techo! 🏠 Pinyin <strong>mián</strong>, '<strong>mi an</strong>tiguo techo'. No es 冖 ni 亠. Base de 家 (casa), 字 (letra).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">贝</span>
+                            <span class="pinyin">bèi</span>
+                        </td>
+                        <td class="explanation-cell">Concha (dinero antiguo) 🐚💰. Pinyin <strong>bèi</strong>, '¡<strong>Ve y</strong> compra!'. La forma tradicional es 貝. No es 见 (ver). Base de 贵 (caro), 买 (comprar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">一</span>
+                            <span class="pinyin">yī</span>
+                        </td>
+                        <td class="explanation-cell">Línea horizontal. ¡Uno! 🥇 Pinyin <strong>yī</strong>, '<strong>¡Yiiiii</strong>... uno!'. Base de 世 (mundo), 王 (rey).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">力</span>
+                            <span class="pinyin">lì</span>
+                        </td>
+                        <td class="explanation-cell">Brazo musculoso 💪 / arado. ¡Fuerza! Pinyin <strong>lì</strong>, '¡<strong>Li</strong>sto!'. No es 刀. Base de 男 (hombre), 功 (mérito).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">又</span>
+                            <span class="pinyin">yòu</span>
+                        </td>
+                        <td class="explanation-cell">Mano derecha 🖐️ / 'otra vez'. Pinyin <strong>yòu</strong>, '<strong>Yo u</strong>na vez más'. Base de 友 (amigo), 受 (recibir).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">犭</span>
+                            <span class="pinyin">quǎn</span>
+                        </td>
+                        <td class="explanation-cell">Perro de lado 🐕. Pinyin <strong>quǎn</strong>, ladrido '¡<strong>Cuan, cuan</strong>!'. La forma tradicional es 犬. No es 大. Base de 猫 (gato), 狱 (prisión).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">禾</span>
+                            <span class="pinyin">hé</span>
+                        </td>
+                        <td class="explanation-cell">Cereal con espiga 🌾. ¡Grano! Pinyin <strong>hé</strong>, '<strong>Eh!</strong> Mira este grano'. No es 木. Base de 科 (ciencia), 秋 (otoño).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">⺮</span>
+                            <span class="pinyin">zhú</span>
+                        </td>
+                        <td class="explanation-cell">¡Bambú!🎋 Pinyin <strong>zhú</strong>, tren '<strong>Chú... chú...</strong>'. La forma tradicional es 竹. Base de 笑 (reír), 简 (simple).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">虫</span>
+                            <span class="pinyin">chóng</span>
+                        </td>
+                        <td class="explanation-cell">Gusanito 🐛. Pinyin <strong>chóng</strong>, '¡qué asco de <strong>chong</strong>o!'. Base de 风 (viento), 蛇 (serpiente).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">阝</span>
+                            <span class="pinyin">fù (izq.)</span>
+                        </td>
+                        <td class="explanation-cell">Montículo, presa ⛰️ (a la izquierda). Pinyin <strong>fù</strong>, '<strong>fu</strong>erte' montaña. La forma tradicional es 阜. Base de 险 (peligro), 院 (patio).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">大</span>
+                            <span class="pinyin">dà</span>
+                        </td>
+                        <td class="explanation-cell">Persona con brazos abiertos 🧍. ¡Grande! Pinyin <strong>dà</strong>, '¡<strong>Da</strong>le, qué grande!'. Base de 太 (demasiado), 夫 (esposo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">广</span>
+                            <span class="pinyin">guǎng</span>
+                        </td>
+                        <td class="explanation-cell">Casa en acantilado 🛖. Pinyin <strong>guǎng</strong>, '<strong>guar</strong>ida amplia'. No es 厂. Base de 店 (tienda), 床 (cama).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">田</span>
+                            <span class="pinyin">tián</span>
+                        </td>
+                        <td class="explanation-cell">Campo dividido 🏞️. Pinyin <strong>tián</strong>, '<strong>tin tin</strong>' de herramientas. Base de 男 (hombre), 思 (pensar).</td>
+                    </tr>
+                     <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">目</span>
+                            <span class="pinyin">mù</span>
+                        </td>
+                        <td class="explanation-cell">Ojo de lado 👀. Pinyin <strong>mù</strong>, '<strong>mu</strong>ñeca' con ojos. Variante 罒 (red/ojo). Base de 看 (ver), 眉 (ceja).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">石</span>
+                            <span class="pinyin">shí</span>
+                        </td>
+                        <td class="explanation-cell">Roca bajo acantilado 🗿. Pinyin <strong>shí</strong>, '<strong>chi</strong>spa' de piedra. Base de 破 (romper), 砂 (arena).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">衤</span>
+                            <span class="pinyin">yī</span>
+                        </td>
+                        <td class="explanation-cell">Túnica 👕. Pinyin <strong>yī</strong>, '<strong>Yih</strong>a, ¡qué ropa!'. La forma tradicional es 衣. No es 示. Base de 裤 (pantalones), 初 (principio).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">足</span>
+                            <span class="pinyin">zú</span>
+                        </td>
+                        <td class="explanation-cell">Pierna y pie 🦶. Pinyin <strong>zú</strong>, 'a<strong>zu</strong>l' calcetín. Base de 跑 (correr), 路 (camino).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">马</span>
+                            <span class="pinyin">mǎ</span>
+                        </td>
+                        <td class="explanation-cell">Caballo 🐎. Pinyin <strong>mǎ</strong>, ¡sonido del caballo! La forma tradicional es 馬. Base de 妈 (mamá), 骂 (insultar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">页</span>
+                            <span class="pinyin">yè</span>
+                        </td>
+                        <td class="explanation-cell">Cabeza grande / página 👤📄. Pinyin <strong>yè</strong>, '<strong>ye</strong>ma' del huevo (cabeza). La forma tradicional es 頁. Base de 头 (cabeza), 题 (tema).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">巾</span>
+                            <span class="pinyin">jīn</span>
+                        </td>
+                        <td class="explanation-cell">Turbante, tela colgando 🧣. Pinyin <strong>jīn</strong>, '<strong>gin</strong>ete' con turbante. Base de 市 (ciudad), 布 (tela).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">米</span>
+                            <span class="pinyin">mǐ</span>
+                        </td>
+                        <td class="explanation-cell">Planta de arroz con granos 🍚. Pinyin <strong>mǐ</strong>, '<strong>mi</strong> arroz'. Base de 粉 (harina), 糖 (azúcar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">车</span>
+                            <span class="pinyin">chē</span>
+                        </td>
+                        <td class="explanation-cell">Carro visto desde arriba 🚗. Pinyin <strong>chē</strong>, '¡<strong>Che</strong>, qué auto!'. La forma tradicional es 車. Base de 军 (militar), 轮 (rueda).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">八</span>
+                            <span class="pinyin">bā</span>
+                        </td>
+                        <td class="explanation-cell">Dos líneas separándose. ¡Ocho! 8️⃣. Pinyin <strong>bā</strong>, '<strong>ba</strong>rco' con dos remos. No es 人. Base de 分 (dividir), 公 (público).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">尸</span>
+                            <span class="pinyin">shī</span>
+                        </td>
+                        <td class="explanation-cell">Persona agachada/cadáver 💩. Pinyin <strong>shī</strong>, '**chi**sto... está muerto'. No es 户. Base de 尺 (medida), 展 (desplegar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">寸</span>
+                            <span class="pinyin">cùn</span>
+                        </td>
+                        <td class="explanation-cell">Mano con marca/pulgada 👍. Pinyin <strong>cùn</strong>, '**zun**chito' (pequeño). Base de 寺 (templo), 对 (correcto).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">山</span>
+                            <span class="pinyin">shān</span>
+                        </td>
+                        <td class="explanation-cell">¡Tres picos de montaña! ⛰️ Pinyin <strong>shān</strong>, '**shan**tala' (canto). Base de 岩 (roca), 岛 (isla).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">攵</span>
+                            <span class="pinyin">pū</span>
+                        </td>
+                        <td class="explanation-cell">Mano con palo 몽둥이. ¡Golpear! Pinyin <strong>pū</strong>, golpe '¡<strong>Pu</strong>m!'. La forma tradicional es 攴. No es 夂. Base de 收 (recoger), 政 (gobierno).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">彳</span>
+                            <span class="pinyin">chì</span>
+                        </td>
+                        <td class="explanation-cell">Medio 行, paso pequeño 🚶‍♀️. Pinyin <strong>chì</strong>, '**chi</strong>quito paso'. No es 亻. Base de 很 (muy), 律 (ley).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">十</span>
+                            <span class="pinyin">shí</span>
+                        </td>
+                        <td class="explanation-cell">Cruz. ¡Diez! ➕. Pinyin <strong>shí</strong>, '**chi**co, ¡son las diez!'. Base de 针 (aguja), 古 (antiguo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">工</span>
+                            <span class="pinyin">gōng</span>
+                        </td>
+                        <td class="explanation-cell">Herramienta de trabajo 🛠️. Pinyin <strong>gōng</strong>, '**con**seguir trabajo'. Base de 左 (izquierda), 功 (mérito).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">方</span>
+                            <span class="pinyin">fāng</span>
+                        </td>
+                        <td class="explanation-cell">Cuadrado/dirección ⏹️. Pinyin <strong>fāng</strong>, '**fan**tasma' cuadrado. No es 万. Base de 房 (habitación), 访 (visitar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">门</span>
+                            <span class="pinyin">mén</span>
+                        </td>
+                        <td class="explanation-cell">Puerta de dos hojas 🚪. Pinyin <strong>mén</strong>, '**men**ear la puerta'. La forma tradicional es 門. Base de 问 (pregunta), 闻 (escuchar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">饣</span>
+                            <span class="pinyin">shí</span>
+                        </td>
+                        <td class="explanation-cell">Recipiente con comida 🍲. Pinyin <strong>shí</strong>, '**chi**nchar para comer'. La forma tradicional es 食. Base de 饭 (arroz), 饿 (hambriento).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">欠</span>
+                            <span class="pinyin">qiàn</span>
+                        </td>
+                        <td class="explanation-cell">Persona bostezando/falta 🥱. Pinyin <strong>qiàn</strong>, '**quien** te falta'. Base de 欢 (alegre), 次 (siguiente).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">儿</span>
+                            <span class="pinyin">ér</span>
+                        </td>
+                        <td class="explanation-cell">Bebé/piernas 👶. Pinyin <strong>ér</strong>, '**er**es un bebé'. No es 人 ni 八. Base de 元 (primero), 兄 (hermano mayor).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">冫</span>
+                            <span class="pinyin">bīng</span>
+                        </td>
+                        <td class="explanation-cell">Dos bloques de hielo ❄️. Pinyin <strong>bīng</strong>, '**bing**o, ¡frío!'. No es 水. Base de 冬 (invierno), 冷 (frío).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">子</span>
+                            <span class="pinyin">zǐ</span>
+                        </td>
+                        <td class="explanation-cell">Niño/semilla 🍼. Pinyin <strong>zǐ</strong>, '**zi**pizape' de niño. Base de 字 (letra), 学 (estudiar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">疒</span>
+                            <span class="pinyin">nè</span>
+                        </td>
+                        <td class="explanation-cell">Persona enferma en cama 🤒. Pinyin <strong>nè</strong>, '**ne**cesito doctor'. Base de 病 (enfermedad), 痛 (dolor).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">隹</span>
+                            <span class="pinyin">zhuī</span>
+                        </td>
+                        <td class="explanation-cell">Pájaro cola corta 🐦. Pinyin <strong>zhuī</strong>, '**chui**-chui' pajarito. Base de 推 (empujar), 谁 (quién).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">斤</span>
+                            <span class="pinyin">jīn</span>
+                        </td>
+                        <td class="explanation-cell">Hacha/libra 🪓. Pinyin <strong>jīn</strong>, '**gin**ete' con hacha. Base de 所 (lugar), 新 (nuevo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">亠</span>
+                            <span class="pinyin">tóu</span>
+                        </td>
+                        <td class="explanation-cell">Tapa simple. Pinyin <strong>tóu</strong>, '**to**do tapado'. No es 宀 ni 冖. Base de 亡 (morir), 京 (capital).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">王</span>
+                            <span class="pinyin">wáng / yù</span>
+                        </td>
+                        <td class="explanation-cell">Rey/Jade 👑💎. Pinyin <strong>wáng</strong> (rey), <strong>yù</strong> (jade, radical real es 玉). Base de 主 (principal), 玩 (jugar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">白</span>
+                            <span class="pinyin">bái</span>
+                        </td>
+                        <td class="explanation-cell">Gota de sol. ¡Blanco! ⚪. Pinyin <strong>bái</strong>, '**bai**lar en blanco'. No es 日. Base de 的 (de), 百 (cien).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">立</span>
+                            <span class="pinyin">lì</span>
+                        </td>
+                        <td class="explanation-cell">Persona de pie firme 🧍. Pinyin <strong>lì</strong>, '**li**sto para levantarse'. Base de 音 (sonido), 位 (posición).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">羊</span>
+                            <span class="pinyin">yáng</span>
+                        </td>
+                        <td class="explanation-cell">Cabeza de oveja 🐑. Pinyin <strong>yáng</strong>, balido 'Yaaang'. Variante ⺶. Base de 洋 (océano), 美 (bonito).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">艮</span>
+                            <span class="pinyin">gèn</span>
+                        </td>
+                        <td class="explanation-cell">Ojo mirando atrás. ¡Detenerse! 👀🛑. Pinyin <strong>gèn</strong>, '**gen**te, ¡alto!'. Base de 很 (muy), 根 (raíz).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">冖</span>
+                            <span class="pinyin">mì</span>
+                        </td>
+                        <td class="explanation-cell">Cubierta/velo. Pinyin <strong>mì</strong>, '**mi**sterio cubierto'. No es 宀 ni 亠. Base de 写 (escribir), 军 (ejército).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">厂</span>
+                            <span class="pinyin">chǎng / hàn</span>
+                        </td>
+                        <td class="explanation-cell">Acantilado rocoso 🧗. Pinyin <strong>chǎng</strong>, '**chang**arro'. No es 广. Base de 原 (original), 厨 (cocina).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">皿</span>
+                            <span class="pinyin">mǐn</span>
+                        </td>
+                        <td class="explanation-cell">Plato de lado 🍽️. Pinyin <strong>mǐn</strong>, '**min**iatura de plato'. Base de 血 (sangre), 监 (vigilar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">礻</span>
+                            <span class="pinyin">shì</span>
+                        </td>
+                        <td class="explanation-cell">Altar para espíritus 🙏. Pinyin <strong>shì</strong>, '**chi**star a espíritus'. La forma tradicional es 示. No es 衤. Base de 神 (dios), 福 (bendición).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">穴</span>
+                            <span class="pinyin">xué</span>
+                        </td>
+                        <td class="explanation-cell">Cueva/hueco ⛰️🕳️. Pinyin <strong>xué</strong>, '**hue**co'. Base de 空 (vacío), 窗 (ventana).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">走</span>
+                            <span class="pinyin">zǒu</span>
+                        </td>
+                        <td class="explanation-cell">Persona corriendo 🏃. Pinyin <strong>zǒu</strong>, '**zo**rro' que corre. Base de 起 (levantarse), 超 (superar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">雨</span>
+                            <span class="pinyin">yǔ</span>
+                        </td>
+                        <td class="explanation-cell">Nubes con gotas. ¡Lluvia! ☔. Pinyin <strong>yǔ</strong>, '**yu**ca' mojada. Base de 雪 (nieve), 电 (electricidad).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">囗</span>
+                            <span class="pinyin">wéi</span>
+                        </td>
+                        <td class="explanation-cell">Recinto que encierra 🥅. Pinyin <strong>wéi</strong>, '**ve y** encierra'. No es 口. Base de 国 (país), 因 (causa).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">小</span>
+                            <span class="pinyin">xiǎo</span>
+                        </td>
+                        <td class="explanation-cell">Tres puntitos. ¡Pequeño! ✨. Pinyin <strong>xiǎo</strong>, '**ciao**, pequeñín'. Variante ⺌. Base de 少 (poco), 尖 (punta).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">戈</span>
+                            <span class="pinyin">gē</span>
+                        </td>
+                        <td class="explanation-cell">Alabarda/lanza ⚔️. Pinyin <strong>gē</strong>, '**gue**rra'. Base de 我 (yo), 战 (luchar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">几</span>
+                            <span class="pinyin">jī</span>
+                        </td>
+                        <td class="explanation-cell">Mesita baja/taburete 🛋️. Pinyin <strong>jī</strong>, '**aquí** la mesita'. Base de 机 (máquina), 风 (viento).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">舌</span>
+                            <span class="pinyin">shé</span>
+                        </td>
+                        <td class="explanation-cell">Lengua saliendo de boca 👅. Pinyin <strong>shé</strong>, '**che**, qué lengua'. Base de 话 (hablar), 活 (flexible).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">干</span>
+                            <span class="pinyin">gān</span>
+                        </td>
+                        <td class="explanation-cell">Escudo/seco 🌵. Pinyin <strong>gān</strong>, '**gan**as de agua'. Base de 汗 (sudor), 肝 (hígado).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">殳</span>
+                            <span class="pinyin">shū</span>
+                        </td>
+                        <td class="explanation-cell">Mano con arma larga 몽둥이. Pinyin <strong>shū</strong>, '**chu**sco' de golpe. Base de 段 (sección), 投 (lanzar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">夕</span>
+                            <span class="pinyin">xī</span>
+                        </td>
+                        <td class="explanation-cell">Luna sin interior. ¡Atardecer! 🌇. Pinyin <strong>xī</strong>, '**chi**n, ya es tarde'. Base de 外 (exterior), 夜 (noche).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">止</span>
+                            <span class="pinyin">zhǐ</span>
+                        </td>
+                        <td class="explanation-cell">Huella de pie. ¡Parar! 👣🛑. Pinyin <strong>zhǐ</strong>, '**chi**to, ¡para!'. Base de 正 (correcto), 步 (paso).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">牛</span>
+                            <span class="pinyin">niú</span>
+                        </td>
+                        <td class="explanation-cell">Cabeza de vaca 🐮. Pinyin <strong>niú</strong>, 'Niuuu'. Variante 牜. Base de 告 (decir), 物 (cosa).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">皮</span>
+                            <span class="pinyin">pí</span>
+                        </td>
+                        <td class="explanation-cell">Mano despellejando/piel. Pinyin <strong>pí</strong>, '**pi**el de gallina'. Base de 波 (ola), 疲 (cansado).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">耳</span>
+                            <span class="pinyin">ěr</span>
+                        </td>
+                        <td class="explanation-cell">¡Oreja! 👂. Pinyin <strong>ěr</strong>, '**er**es todo oídos'. Base de 取 (tomar), 闻 (escuchar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">辛</span>
+                            <span class="pinyin">xīn</span>
+                        </td>
+                        <td class="explanation-cell">Cincel/amargo 😖🌶️. Pinyin <strong>xīn</strong>, estar '**sin**' algo amargo. Base de 辞 (renunciar), 辣 (picante).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">阝</span>
+                            <span class="pinyin">yì (der.)</span>
+                        </td>
+                        <td class="explanation-cell">Ciudad/asentamiento 🏙️ (a la derecha). Pinyin <strong>yì</strong>, '**y hi**zo una ciudad'. La forma tradicional es 邑. Base de 都 (capital), 邮 (correo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">酉</span>
+                            <span class="pinyin">yǒu</span>
+                        </td>
+                        <td class="explanation-cell">Jarra de vino 🍷. Pinyin <strong>yǒu</strong>, '**Yo u**na copa'. Base de 酒 (alcohol), 酸 (ácido).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">青</span>
+                            <span class="pinyin">qīng</span>
+                        </td>
+                        <td class="explanation-cell">Planta y pozo. ¡Verde/azul! 🌿💧. Pinyin <strong>qīng</strong>, '**King** Kong verde'. Base de 请 (por favor), 情 (sentimiento).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">鸟</span>
+                            <span class="pinyin">niǎo</span>
+                        </td>
+                        <td class="explanation-cell">Pájaro detallado 🦜. Pinyin <strong>niǎo</strong>, como el canto 'niau-niau'. La forma tradicional es 鳥. No es 隹. Base de 鸭 (pato), 鸡 (pollo).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">弓</span>
+                            <span class="pinyin">gōng</span>
+                        </td>
+                        <td class="explanation-cell">¡Arco! 🏹. Pinyin <strong>gōng</strong>, como '**con** un arco'. Base de 引 (guiar), 张 (abrir).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">厶</span>
+                            <span class="pinyin">sī</span>
+                        </td>
+                        <td class="explanation-cell">Algo cerrado/privado 🤫. Pinyin <strong>sī</strong>, '**sí**, es privado'. Base de 公 (público), 去 (ir).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">户</span>
+                            <span class="pinyin">hù</span>
+                        </td>
+                        <td class="explanation-cell">Puerta de una hoja 🚪. Pinyin <strong>hù</strong>, '**fu**era por esa puerta'. La forma tradicional es 戶. No es 门 ni 尸. Base de 所 (lugar), 房 (habitación).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">羽</span>
+                            <span class="pinyin">yǔ</span>
+                        </td>
+                        <td class="explanation-cell">¡Dos plumas! 🪶. Pinyin <strong>yǔ</strong>, como '<strong>yu</strong>nta' de plumas. Base de 习 (practicar), 翅 (ala).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">舟</span>
+                            <span class="pinyin">zhōu / chuán</span>
+                        </td>
+                        <td class="explanation-cell">Barquito/canoa 🛶. Pinyin <strong>zhōu</strong>, '<strong>show</strong> en bote'. Base de 船 (barco), 航 (navegar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">里</span>
+                            <span class="pinyin">lǐ</span>
+                        </td>
+                        <td class="explanation-cell">Campo y tierra. ¡Aldea/milla! 🏘️. Pinyin <strong>lǐ</strong>, '<strong>li</strong>nda aldea'. Base de 野 (salvaje), 量 (medir).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">匕</span>
+                            <span class="pinyin">bǐ</span>
+                        </td>
+                        <td class="explanation-cell">Persona invertida/cuchara 🥄. Pinyin <strong>bǐ</strong>, '<strong>bi</strong>en, una cuchara'. Base de 北 (norte), 比 (comparar).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">夂</span>
+                            <span class="pinyin">suī / zhǐ</span>
+                        </td>
+                        <td class="explanation-cell">Pie visto desde atrás. ¡Ir despacio! 🐢. Pinyin <strong>suī</strong>, '<strong>sui</strong>zo va lento'. No es 攵. Base de 各 (cada), 夏 (verano).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">见</span>
+                            <span class="pinyin">jiàn</span>
+                        </td>
+                        <td class="explanation-cell">Ojo sobre piernas. ¡Ver! 👀🚶‍♂️. Pinyin <strong>jiàn</strong>, '<strong>quien</strong> ve'. La forma tradicional es 見. No es 贝. Base de 观 (observar), 觉 (sentir).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">卩</span>
+                            <span class="pinyin">jié</span>
+                        </td>
+                        <td class="explanation-cell">Persona arrodillada/sello 🧎‍♂️📜. Pinyin <strong>jié</strong>, '<strong>que el</strong> sello sirva'. Base de 印 (imprimir), 危 (peligro).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">网</span>
+                            <span class="pinyin">wǎng</span>
+                        </td>
+                        <td class="explanation-cell">¡Red de pesca! 🕸️🎣. Pinyin <strong>wǎng</strong>, '<strong>van g</strong>uindando en la red'. Variante 罒 (ojo/red). Base de 罗 (atrapar), 罪 (crimen).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">士</span>
+                            <span class="pinyin">shì</span>
+                        </td>
+                        <td class="explanation-cell">Erudito/hombre adulto 👨‍🎓. Pinyin <strong>shì</strong>, '**chi**co listo'. No es 土. Base de 吉 (afortunado), 志 (voluntad).</td>
+                    </tr>
+                    <tr>
+                        <td class="hanzi-pinyin-cell">
+                            <span class="hanzi">勹</span>
+                            <span class="pinyin">bāo</span>
+                        </td>
+                        <td class="explanation-cell">Brazos rodeando. ¡Abrazar/envolver! 🤗. Pinyin <strong>bāo</strong>, '**bao**babs que abrazan'. Base de 包 (paquete), 勿 (no hacer).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>Mnemotecnias diseñadas para facilitar el aprendizaje de radicales chinos.</p>
+        <p>Subpágina generada para Gama.</p>
+    </footer>
+
+</body>
+</html>
