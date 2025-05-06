@@ -55,7 +55,7 @@
         }
         table {
             width: 100%;
-            /* min-width: 900px; */ /* Aumentamos un poco el min-width por la nueva columna */
+            /* min-width: 800px; */ /* Ajustado por una columna menos */
             border-collapse: collapse; /* Colapsa los bordes */
         }
         th, td {
@@ -65,19 +65,19 @@
             vertical-align: middle; /* Alineación vertical */
             font-size: 0.95rem; /* Tamaño de fuente */
         }
-        /* Estilos para celdas con caracteres chinos */
-        td:nth-child(1), td:nth-child(2), td:nth-child(3) {
-             font-size: 1.2rem; /* Hacer los caracteres un poco más grandes */
-             font-family: 'SimSun', 'Songti SC', serif; /* Fuentes comunes para Chino */
-             text-align: center; /* Centrar los caracteres */
-             white-space: nowrap; /* Evitar que los caracteres se partan */
+        /* Estilos para celdas con caracteres chinos (SC, Variante) */
+        td:nth-child(1), td:nth-child(2) { /* SC y Variante */
+             font-size: 1.2rem;
+             font-family: 'SimSun', 'Songti SC', serif;
+             text-align: center;
+             white-space: nowrap;
         }
          /* Estilo específico para la columna de ejemplos */
-        td:nth-child(7) { /* Ajustado el índice por la nueva columna */
+        td:nth-child(6) { /* Ejemplos (nuevo índice) */
              font-size: 1.1rem;
              font-family: 'SimSun', 'Songti SC', serif;
         }
-         /* Estilo para la nueva columna de explicación */
+         /* Estilo para la columna de visualización/mnemotecnia */
         td.explanation-cell {
             font-style: italic;
             font-size: 0.9rem;
@@ -107,13 +107,42 @@
             color: #666;
         }
 
+        /* Estilo para botón de mostrar/ocultar TC y el span de TC */
+        .toggle-tc-btn {
+            margin-left: 8px;
+            padding: 1px 5px;
+            font-size: 0.65rem;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .toggle-tc-btn:hover {
+            background-color: #d0d0d0;
+        }
+        .toggle-tc-btn.active {
+            background-color: #0077cc;
+            color: white;
+        }
+        .tc-display {
+            margin-left: 5px;
+            color: #555;
+            font-style: italic;
+            font-size: 0.95em; /* Relativo al tamaño del SC */
+            vertical-align: middle;
+        }
+
+
         /* Media Query para Responsividad */
-        @media (max-width: 900px) { /* Ajustar breakpoint si es necesario */
+        @media (max-width: 900px) {
             .main-content { padding: 15px; }
             h1 { font-size: 1.8rem; }
             th, td { padding: 10px 12px; font-size: 0.9rem; }
-            td:nth-child(1), td:nth-child(2), td:nth-child(3) { font-size: 1.1rem; }
-            td:nth-child(7) { font-size: 1rem; }
+            td:nth-child(1), td:nth-child(2) { font-size: 1.1rem; } /* SC y Variante */
+            td:nth-child(6) { font-size: 1rem; } /* Ejemplos */
             td.explanation-cell { font-size: 0.85rem;}
             th { font-size: 0.75rem; }
 
@@ -129,7 +158,7 @@
 
              /* Forzar scroll horizontal de la tabla si es necesario */
             .table-container { overflow-x: auto; }
-             table { min-width: 800px; } /* Ajustar según necesidad */
+             table { min-width: 750px; } /* Ajustar según necesidad, un poco menos por la columna eliminada */
         }
          /* Estilo para variantes verticales */
         .vertical-variant {
@@ -151,12 +180,10 @@
             <a href="pinyin.html">Pinyin</a>
             <a href="table.html">Tabla</a>
             <a href="500.html">500</a>
-
         </div>
     </nav>
 
     <div class="main-content">
-
         <h1>Los 100 Radicales Chinos Más Comunes (部首)</h1>
         <p style="text-align: center; margin-bottom: 20px;">Lista completa con visualizaciones/mnemotecnia.</p>
 
@@ -165,1133 +192,1460 @@
                 <thead>
                     <tr>
                         <th>Simplificado (SC)</th>
-                        <th>Tradicional (TC)</th>
                         <th>Variante</th>
                         <th>Significado</th>
-                        <th>Visualización / Mnemotecnia</th> { }
                         <th>Pinyin</th>
+                        <th>Visualización / Mnemotecnia</th>
                         <th>Ejemplos</th>
                         <th>Comentarios</th>
                         <th>Nombre Coloquial</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/* */}
                     <tr>
-                        <td>人</td>
-                        <td>人</td>
+                        <td data-tc="人">
+                            <span class="sc-char">人</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>亻</td>
                         <td>humano, persona</td>
-                        <td class="explanation-cell">¡Mira sus piernitas! Es una persona caminando. La variante 亻 es como un perfil.</td>
                         <td>rén</td>
+                        <td class="explanation-cell">¡Mira sus piernitas! Es una persona caminando. La variante 亻 es como un perfil.</td>
                         <td>今, 仁, 休, 位, 他</td>
                         <td>Similar a 八 (ocho).</td>
                         <td>单人旁 (dān rén páng), 人字头 (rén zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>口</td>
-                        <td>口</td>
+                        <td data-tc="口">
+                            <span class="sc-char">口</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>boca, apertura</td>
-                        <td class="explanation-cell">Un cuadrito abierto, ¡como una boca lista para hablar o un hoyo!</td>
                         <td>kǒu</td>
+                        <td class="explanation-cell">Un cuadrito abierto, ¡como una boca lista para hablar o un hoyo!</td>
                         <td>古, 可, 名, 告, 吃</td>
                         <td>Similar a 囗 (recinto).</td>
                         <td>口字旁 (kǒu zì páng)</td>
                     </tr>
                     <tr>
-                        <td>土</td>
-                        <td>土</td>
+                        <td data-tc="土">
+                            <span class="sc-char">土</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>tierra</td>
-                        <td class="explanation-cell">Una planta (+) brotando del suelo (一). ¡Es la tierra!</td>
                         <td>tǔ</td>
+                        <td class="explanation-cell">Una planta (+) brotando del suelo (一). ¡Es la tierra!</td>
                         <td>在, 地, 型, 城, 埋</td>
                         <td>Similar a 士 (erudito).</td>
                         <td>提土旁 (tí tǔ páng)</td>
                     </tr>
                     <tr>
-                        <td>女</td>
-                        <td>女</td>
+                        <td data-tc="女">
+                            <span class="sc-char">女</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>mujer, femenino</td>
-                        <td class="explanation-cell">Una figura sentada con gracia o haciendo una reverencia. ¡Pura elegancia femenina!</td>
                         <td>nǚ</td>
+                        <td class="explanation-cell">Una figura sentada con gracia o haciendo una reverencia. ¡Pura elegancia femenina!</td>
                         <td>好, 妄, 始, 姓, 她</td>
                         <td></td>
                         <td>女子旁 (nǚ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>心</td>
-                        <td>心</td>
+                        <td data-tc="心">
+                            <span class="sc-char">心</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>忄, <span class="vertical-variant">⺗</span></td>
                         <td>corazón</td>
-                        <td class="explanation-cell">Un dibujo simplificado del órgano, con sus curvitas. La variante 忄 son como 3 gotitas de sentimiento.</td>
                         <td>xīn</td>
+                        <td class="explanation-cell">Un dibujo simplificado del órgano, con sus curvitas. La variante 忄 son como 3 gotitas de sentimiento.</td>
                         <td>必, 忙, 忘, 性, 想</td>
                         <td></td>
                         <td>竖心旁 (shù xīn páng), 心字底 (xīn zì dǐ), 竖心底 (<span class="vertical-variant">⺗</span>)</td>
                     </tr>
                     <tr>
-                        <td>手</td>
-                        <td>手</td>
+                        <td data-tc="手">
+                            <span class="sc-char">手</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>扌</td>
                         <td>mano</td>
-                        <td class="explanation-cell">¡Parecen deditos! El trazo largo es la palma. La variante 扌 es una mano de lado, lista para agarrar algo.</td>
                         <td>shǒu</td>
+                        <td class="explanation-cell">¡Parecen deditos! El trazo largo es la palma. La variante 扌 es una mano de lado, lista para agarrar algo.</td>
                         <td>持, 掌, 打, 抱, 押</td>
                         <td></td>
                         <td>提手旁 (tí shǒu páng), 手字旁 (shǒu zì páng)</td>
                     </tr>
                     <tr>
-                        <td>日</td>
-                        <td>日</td>
+                        <td data-tc="日">
+                            <span class="sc-char">日</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>sol, día</td>
-                        <td class="explanation-cell">Un sol cuadrado (¡licencia artística!) con un rayito de luz o mancha solar en medio.</td>
                         <td>rì</td>
+                        <td class="explanation-cell">Un sol cuadrado (¡licencia artística!) con un rayito de luz o mancha solar en medio.</td>
                         <td>早, 是, 明, 时, 晚</td>
                         <td>Similar a 曰 (decir) y 白 (blanco).</td>
                         <td>日字旁 (rì zì páng)</td>
                     </tr>
                     <tr>
-                        <td>月</td>
-                        <td>月</td>
+                        <td data-tc="月">
+                            <span class="sc-char">月</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>luna, mes / carne</td>
-                        <td class="explanation-cell">Como una luna creciente 🌙 o un filete de carne con sus vetas. ¡Doble función!</td>
                         <td>yuè</td>
+                        <td class="explanation-cell">Como una luna creciente 🌙 o un filete de carne con sus vetas. ¡Doble función!</td>
                         <td>有, 服, 青, 朝, 能</td>
                         <td>Puede ser luna (月) o carne (肉).</td>
                         <td>月字旁 (yuè zì páng)</td>
                     </tr>
                     <tr>
-                        <td>木</td>
-                        <td>木</td>
+                        <td data-tc="木">
+                            <span class="sc-char">木</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>árbol, madera</td>
-                        <td class="explanation-cell">Un tronco con ramas (arriba) y raíces (abajo). ¡Un arbolito! 🌳</td>
                         <td>mù</td>
+                        <td class="explanation-cell">Un tronco con ramas (arriba) y raíces (abajo). ¡Un arbolito! 🌳</td>
                         <td>板, 根, 本, 林, 来</td>
                         <td>Similar a 禾 (grano).</td>
                         <td>木字旁 (mù zì páng)</td>
                     </tr>
                     <tr>
-                        <td>水</td>
-                        <td>水</td>
+                        <td data-tc="水">
+                            <span class="sc-char">水</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>氵, <span class="vertical-variant">氺</span></td>
                         <td>agua</td>
-                        <td class="explanation-cell">El río principal (trazo central) con gotas o afluentes a los lados. ¡Pura agüita! 💧</td>
                         <td>shuǐ</td>
+                        <td class="explanation-cell">El río principal (trazo central) con gotas o afluentes a los lados. ¡Pura agüita! 💧</td>
                         <td>永, 泳, 海, 洋, 沙</td>
                         <td>Similar a 冫 (hielo).</td>
                         <td>三点水 (sān diǎn shuǐ), 水字旁 (shuǐ zì páng), 泰字底 (<span class="vertical-variant">氺</span>)</td>
                     </tr>
-                    {/* */}
                     <tr>
-                        <td>火</td>
-                        <td>火</td>
+                        <td data-tc="火">
+                            <span class="sc-char">火</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>灬</td>
                         <td>fuego</td>
-                        <td class="explanation-cell">Una llama central con chispas saltando a los lados 🔥. La variante 灬 son 4 chispitas o brasas.</td>
                         <td>huǒ</td>
+                        <td class="explanation-cell">Una llama central con chispas saltando a los lados 🔥. La variante 灬 son 4 chispitas o brasas.</td>
                         <td>灯, 炎, 点, 然, 炸</td>
                         <td></td>
                         <td>火字旁 (huǒ zì páng), 四点底 (sì diǎn dǐ)</td>
                     </tr>
                     <tr>
-                        <td>纟</td>
-                        <td>糸</td>
+                        <td data-tc="糸">
+                            <span class="sc-char">纟</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>seda</td>
-                        <td class="explanation-cell">Como un capullo o madeja de hilo de seda. ¡Muy fino!</td>
                         <td>mì / sī</td>
+                        <td class="explanation-cell">Como un capullo o madeja de hilo de seda. ¡Muy fino!</td>
                         <td>纪, 纸, 累, 细, 绩</td>
                         <td></td>
                         <td>绞丝旁 (jiǎo sī páng), 独立绞丝 (dúlì jiǎo sī)</td>
                     </tr>
                     <tr>
-                        <td>艹</td>
-                        <td>艸</td>
+                        <td data-tc="艸">
+                            <span class="sc-char">艹</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>hierba</td>
-                        <td class="explanation-cell">¡Dos plantitas de hierba creciendo! 🌱🌱 El tradicional 艸 es más frondoso.</td>
                         <td>cǎo</td>
+                        <td class="explanation-cell">¡Dos plantitas de hierba creciendo! 🌱🌱 El tradicional 艸 es más frondoso.</td>
                         <td>花, 英, 苦, 草, 茶</td>
                         <td>Variante tradicional 艸 tiene 4 trazos arriba.</td>
                         <td>草字头 (cǎo zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>讠</td>
-                        <td>言</td>
+                        <td data-tc="言">
+                            <span class="sc-char">讠</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>言</td>
                         <td>habla</td>
-                        <td class="explanation-cell">Una boca (口) con "ondas sonoras" o palabras (辛 arriba) saliendo. ¡A hablar se ha dicho! 🗣️</td>
                         <td>yán</td>
+                        <td class="explanation-cell">Una boca (口) con "ondas sonoras" o palabras (辛 arriba) saliendo. ¡A hablar se ha dicho! 🗣️</td>
                         <td>说, 讲, 识, 评, 试</td>
                         <td></td>
                         <td>言字旁 (yán zì páng)</td>
                     </tr>
                     <tr>
-                        <td>辶</td>
-                        <td>辵</td>
+                        <td data-tc="辵">
+                            <span class="sc-char">辶</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>caminar</td>
-                        <td class="explanation-cell">Representa un pie (止) moviéndose, dejando un rastro. ¡A darle al camino! 🚶</td>
                         <td>chuò</td>
+                        <td class="explanation-cell">Representa un pie (止) moviéndose, dejando un rastro. ¡A darle al camino! 🚶</td>
                         <td>迎, 通, 道, 这, 近</td>
                         <td></td>
                         <td>走之旁 (zǒu zhī páng)</td>
                     </tr>
                     <tr>
-                        <td>钅</td>
-                        <td>金</td>
+                        <td data-tc="金">
+                            <span class="sc-char">钅</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>金</td>
                         <td>oro, metal</td>
-                        <td class="explanation-cell">Originalmente, dos pepitas de oro (los puntos) bajo tierra (土) cubiertas (人 arriba). ¡Metal precioso! ✨</td>
                         <td>jīn</td>
+                        <td class="explanation-cell">Originalmente, dos pepitas de oro (los puntos) bajo tierra (土) cubiertas (人 arriba). ¡Metal precioso! ✨</td>
                         <td>银, 针, 钱, 铁, 钟</td>
                         <td></td>
                         <td>金字旁 (jīn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>刂</td>
-                        <td>刀</td>
+                        <td data-tc="刀">
+                            <span class="sc-char">刂</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>刀</td>
                         <td>cuchillo, espada</td>
-                        <td class="explanation-cell">¡La forma de un cuchillo! 🔪 La variante 刂 es como la hoja vista de lado.</td>
                         <td>dāo</td>
+                        <td class="explanation-cell">¡La forma de un cuchillo! 🔪 La variante 刂 es como la hoja vista de lado.</td>
                         <td>分, 切, 别, 利, 刻</td>
                         <td>Similar a 力 (fuerza).</td>
                         <td>立刀旁 (lì dāo páng), 刀字旁 (dāo zì páng)</td>
                     </tr>
                     <tr>
-                        <td>宀</td>
-                        <td>宀</td>
+                        <td data-tc="宀">
+                            <span class="sc-char">宀</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>techo</td>
-                        <td class="explanation-cell">¡Un techo! El puntito es la cumbrera y las líneas, las paredes o el tejado. 🏠</td>
                         <td>mián</td>
+                        <td class="explanation-cell">¡Un techo! El puntito es la cumbrera y las líneas, las paredes o el tejado. 🏠</td>
                         <td>守, 家, 室, 字, 宅</td>
                         <td>Similar a 冖 (cubrir) y 亠 (tapa).</td>
                         <td>宝盖头 (bǎo gài tóu)</td>
                     </tr>
                     <tr>
-                        <td>贝</td>
-                        <td>貝</td>
+                        <td data-tc="貝">
+                            <span class="sc-char">贝</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>concha</td>
-                        <td class="explanation-cell">La forma de una concha de cauri, ¡antiguamente usada como dinero! 🐚💰</td>
                         <td>bèi</td>
+                        <td class="explanation-cell">La forma de una concha de cauri, ¡antiguamente usada como dinero! 🐚💰</td>
                         <td>财, 贪, 货, 贸, 负</td>
                         <td>Similar a 见 (ver).</td>
                         <td>贝字旁 (bèi zì páng)</td>
                     </tr>
                     <tr>
-                        <td>一</td>
-                        <td>一</td>
+                        <td data-tc="一">
+                            <span class="sc-char">一</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>uno</td>
-                        <td class="explanation-cell">Una línea horizontal. ¡El más fácil! Representa el número uno o el horizonte.</td>
                         <td>yī</td>
+                        <td class="explanation-cell">Una línea horizontal. ¡El más fácil! Representa el número uno o el horizonte.</td>
                         <td>三, 上, 下, 不, 两</td>
                         <td></td>
                         <td>横 (héng)</td>
                     </tr>
-                    {/* */}
                     <tr>
-                        <td>力</td>
-                        <td>力</td>
+                        <td data-tc="力">
+                            <span class="sc-char">力</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>fuerza</td>
-                        <td class="explanation-cell">Como un brazo musculoso 💪 o un arado antiguo. ¡Pura potencia!</td>
                         <td>lì</td>
+                        <td class="explanation-cell">Como un brazo musculoso 💪 o un arado antiguo. ¡Pura potencia!</td>
                         <td>力, 加, 助, 勉, 动</td>
                         <td>Similar a 刀 (cuchillo).</td>
                         <td>力字旁 (lì zì páng)</td>
                     </tr>
                     <tr>
-                        <td>又</td>
-                        <td>又</td>
+                        <td data-tc="又">
+                            <span class="sc-char">又</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>mano derecha, otra vez</td>
-                        <td class="explanation-cell">¡La imagen de una mano derecha! 🖐️ También significa "de nuevo".</td>
                         <td>yòu</td>
+                        <td class="explanation-cell">¡La imagen de una mano derecha! 🖐️ También significa "de nuevo".</td>
                         <td>反, 取, 受, 友, 发</td>
                         <td></td>
                         <td>又字旁 (yòu zì páng)</td>
                     </tr>
                     <tr>
-                        <td>犭</td>
-                        <td>犬</td>
+                        <td data-tc="犬">
+                            <span class="sc-char">犭</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>犬</td>
                         <td>perro</td>
-                        <td class="explanation-cell">Un perro estilizado, visto de lado. 🐕 ¡Guau!</td>
                         <td>quǎn</td>
+                        <td class="explanation-cell">Un perro estilizado, visto de lado. 🐕 ¡Guau!</td>
                         <td>犯, 狂, 狗, 献, 猪</td>
                         <td>Similar a 大 (grande).</td>
                         <td>反犬旁 (fǎn quǎn páng), 犬字旁 (quǎn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>禾</td>
-                        <td>禾</td>
+                        <td data-tc="禾">
+                            <span class="sc-char">禾</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>grano</td>
-                        <td class="explanation-cell">Una planta de cereal (como 木) con una espiga madura inclinada en la punta. 🌾</td>
                         <td>hé</td>
+                        <td class="explanation-cell">Una planta de cereal (como 木) con una espiga madura inclinada en la punta. 🌾</td>
                         <td>私, 科, 秒, 秀, 秘</td>
                         <td>Similar a 木 (árbol).</td>
                         <td>禾木旁 (hé mù páng)</td>
                     </tr>
                     <tr>
-                        <td>⺮</td>
-                        <td>竹</td>
+                        <td data-tc="竹">
+                            <span class="sc-char">⺮</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>bambú</td>
-                        <td class="explanation-cell">¡Dos tallos de bambú con sus hojitas!🎋</td>
                         <td>zhú</td>
+                        <td class="explanation-cell">¡Dos tallos de bambú con sus hojitas!🎋</td>
                         <td>笑, 第, 简, 筷, 算</td>
                         <td></td>
                         <td>竹字头 (zhú zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>虫</td>
-                        <td>虫</td>
+                        <td data-tc="虫">
+                            <span class="sc-char">虫</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>insecto</td>
-                        <td class="explanation-cell">Un gusanito o larva retorciéndose. 🐛 ¡Auch!</td>
                         <td>chóng</td>
+                        <td class="explanation-cell">Un gusanito o larva retorciéndose. 🐛 ¡Auch!</td>
                         <td>強, 独, 蛇, 蛋, 蚊</td>
                         <td>Usado para muchos organismos.</td>
                         <td>虫字旁 (chóng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>阝 (izq.)</td>
-                        <td>阜</td>
+                        <td data-tc="阜">
+                            <span class="sc-char">阝</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
-                        <td>montículo, presa</td>
-                        <td class="explanation-cell">Escalones subiendo una colina o un montículo de tierra. ¡A la izquierda es tierra! ⛰️</td>
+                        <td>montículo, presa (izq.)</td>
                         <td>fù</td>
+                        <td class="explanation-cell">Escalones subiendo una colina o un montículo de tierra. ¡A la izquierda es tierra! ⛰️</td>
                         <td>防, 阻, 陆, 院, 陈</td>
-                        <td>Radical doble: izq.=montículo, der.=ciudad (邑).</td>
+                        <td>Radical doble: izq.=montículo, der.=ciudad (邑). Este es el de la izquierda.</td>
                         <td>双耳刀 (shuāng ěr dāo), 左耳刀 (zuǒ ěr dāo)</td>
                     </tr>
                     <tr>
-                        <td>大</td>
-                        <td>大</td>
+                        <td data-tc="大">
+                            <span class="sc-char">大</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>grande, muy</td>
-                        <td class="explanation-cell">Una persona (人) con los brazos abiertos, ¡ocupando mucho espacio! ¡Qué grande!</td>
                         <td>dà</td>
+                        <td class="explanation-cell">Una persona (人) con los brazos abiertos, ¡ocupando mucho espacio! ¡Qué grande!</td>
                         <td>天, 尖, 因, 奇, 美</td>
                         <td></td>
                         <td>大字旁 (dà zì páng), 大字头 (dà zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>广</td>
-                        <td>广</td>
+                        <td data-tc="广">
+                            <span class="sc-char">广</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>casa en acantilado</td>
-                        <td class="explanation-cell">Un acantilado (厂) con un techo o refugio (el punto) encima. ¡Una casa con vistas!</td>
                         <td>guǎng</td>
+                        <td class="explanation-cell">Un acantilado (厂) con un techo o refugio (el punto) encima. ¡Una casa con vistas!</td>
                         <td>店, 府, 度, 座, 庭</td>
                         <td>Similar a 厂 (acantilado, sin punto).</td>
                         <td>广字旁 (guǎng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>田</td>
-                        <td>田</td>
+                        <td data-tc="田">
+                            <span class="sc-char">田</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>campo</td>
-                        <td class="explanation-cell">¡Un campo de cultivo dividido en parcelas! Listo para sembrar. 🏞️</td>
                         <td>tián</td>
+                        <td class="explanation-cell">¡Un campo de cultivo dividido en parcelas! Listo para sembrar. 🏞️</td>
                         <td>思, 留, 略, 番, 累</td>
                         <td></td>
                         <td>田字旁 (tián zì páng)</td>
                     </tr>
-                     {/* */}
                     <tr>
-                        <td>目</td>
-                        <td>目</td>
+                        <td data-tc="目">
+                            <span class="sc-char">目</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>罒</td>
                         <td>ojo</td>
-                        <td class="explanation-cell">¡Un ojo visto de lado! Con la pupila en medio. 👀 La variante 罒 es como una red o un ojo mirando hacia abajo.</td>
                         <td>mù</td>
+                        <td class="explanation-cell">¡Un ojo visto de lado! Con la pupila en medio. 👀 La variante 罒 es como una red o un ojo mirando hacia abajo.</td>
                         <td>眼, 睛, 看, 相, 省</td>
                         <td>Variante 罒 también puede ser 'red'.</td>
                         <td>目字旁 (mù zì páng), 四字头 (sì zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>石</td>
-                        <td>石</td>
+                        <td data-tc="石">
+                            <span class="sc-char">石</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>piedra</td>
-                        <td class="explanation-cell">Una roca (口) debajo de un acantilado (厂). ¡Pura piedra! 🗿</td>
                         <td>shí</td>
+                        <td class="explanation-cell">Una roca (口) debajo de un acantilado (厂). ¡Pura piedra! 🗿</td>
                         <td>砂, 破, 碑, 矿, 码</td>
                         <td></td>
                         <td>石字旁 (shí zì páng)</td>
                     </tr>
                     <tr>
-                        <td>衤</td>
-                        <td>衣</td>
+                        <td data-tc="衣">
+                            <span class="sc-char">衤</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>ropa</td>
-                        <td class="explanation-cell">Originalmente un pictograma de una túnica o prenda de vestir. 👕</td>
                         <td>yī</td>
+                        <td class="explanation-cell">Originalmente un pictograma de una túnica o prenda de vestir. 👕</td>
                         <td>初, 被, 裁, 裤, 袜</td>
                         <td>Similar a 示 (señal, espíritu).</td>
                         <td>衣字旁 (yī zì páng)</td>
                     </tr>
                     <tr>
-                        <td>足</td>
-                        <td>足</td>
+                        <td data-tc="足">
+                            <span class="sc-char">足</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>pie</td>
-                        <td class="explanation-cell">Arriba una rodilla o pierna (口 forma simplificada) y abajo el pie (止). ¡A caminar! 🦶</td>
                         <td>zú</td>
+                        <td class="explanation-cell">Arriba una rodilla o pierna (口 forma simplificada) y abajo el pie (止). ¡A caminar! 🦶</td>
                         <td>跑, 跨, 跟, 路, 距</td>
                         <td></td>
                         <td>足字旁 (zú zì páng)</td>
                     </tr>
                     <tr>
-                        <td>马</td>
-                        <td>馬</td>
+                        <td data-tc="馬">
+                            <span class="sc-char">马</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>caballo</td>
-                        <td class="explanation-cell">Un caballo estilizado con su crin, cabeza, cuerpo y patas (灬). ¡Arre! 🐎</td>
                         <td>mǎ</td>
+                        <td class="explanation-cell">Un caballo estilizado con su crin, cabeza, cuerpo y patas (灬). ¡Arre! 🐎</td>
                         <td>码, 驾, 骂, 驻, 妈</td>
                         <td></td>
                         <td>马字旁 (mǎ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>页</td>
-                        <td>頁</td>
+                        <td data-tc="頁">
+                            <span class="sc-char">页</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>hoja, página</td>
-                        <td class="explanation-cell">Representa una cabeza (首) grande, enfatizando el cráneo. Relacionado con la cabeza o páginas. 👤</td>
                         <td>yè</td>
+                        <td class="explanation-cell">Representa una cabeza (首) grande, enfatizando el cráneo. Relacionado con la cabeza o páginas. 👤</td>
                         <td>顺, 须, 领, 预, 顶</td>
                         <td></td>
                         <td>页字旁 (yè zì páng)</td>
                     </tr>
                     <tr>
-                        <td>巾</td>
-                        <td>巾</td>
+                        <td data-tc="巾">
+                            <span class="sc-char">巾</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>turbante, bufanda</td>
-                        <td class="explanation-cell">Un trozo de tela colgando, como una toalla o un pañuelo. 🧣</td>
                         <td>jīn</td>
+                        <td class="explanation-cell">Un trozo de tela colgando, como una toalla o un pañuelo. 🧣</td>
                         <td>市, 布, 帝, 帐, 帽</td>
                         <td></td>
                         <td>巾字旁 (jīn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>米</td>
-                        <td>米</td>
+                        <td data-tc="米">
+                            <span class="sc-char">米</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>arroz</td>
-                        <td class="explanation-cell">Una planta de arroz (木) con granos (los puntos) a los lados. ¡Qué rico! 🍚</td>
                         <td>mǐ</td>
+                        <td class="explanation-cell">Una planta de arroz (木) con granos (los puntos) a los lados. ¡Qué rico! 🍚</td>
                         <td>类, 粉, 迷, 粗, 糖</td>
                         <td></td>
                         <td>米字旁 (mǐ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>车</td>
-                        <td>車</td>
+                        <td data-tc="車">
+                            <span class="sc-char">车</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>carro, vehículo</td>
-                        <td class="explanation-cell">Un carro visto desde arriba: el eje central y las dos ruedas. 🚗</td>
                         <td>chē</td>
+                        <td class="explanation-cell">Un carro visto desde arriba: el eje central y las dos ruedas. 🚗</td>
                         <td>轮, 软, 军, 较, 输</td>
                         <td></td>
                         <td>车字旁 (chē zì páng)</td>
                     </tr>
                     <tr>
-                        <td>八</td>
-                        <td>八</td>
+                        <td data-tc="八">
+                            <span class="sc-char">八</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>ocho</td>
-                        <td class="explanation-cell">Dos líneas separándose, como dividiendo algo. Representa el número ocho.</td>
                         <td>bā</td>
+                        <td class="explanation-cell">Dos líneas separándose, como dividiendo algo. Representa el número ocho.</td>
                         <td>公, 分, 趴, 兵, 共</td>
                         <td>Similar a 人 (humano).</td>
                         <td>八字旁 (bā zì páng), 八字头 (bā zì tóu)</td>
                     </tr>
-                     {/* */}
                     <tr>
-                        <td>尸</td>
-                        <td>尸</td>
+                        <td data-tc="尸">
+                            <span class="sc-char">尸</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>cadáver</td>
-                        <td class="explanation-cell">Una persona agachada o sentada. A veces relacionado con el cuerpo o excremento. 💩</td>
                         <td>shī</td>
+                        <td class="explanation-cell">Una persona agachada o sentada. A veces relacionado con el cuerpo o excremento. 💩</td>
                         <td>尺, 局, 尾, 居, 展</td>
                         <td>Similar a 户 (puerta).</td>
                         <td>尸字头 (shī zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>寸</td>
-                        <td>寸</td>
+                        <td data-tc="寸">
+                            <span class="sc-char">寸</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>pulgar, pulgada</td>
-                        <td class="explanation-cell">Una mano (又) con una marquita (一) indicando un punto en la muñeca (medicina china) o una medida corta.</td>
                         <td>cùn</td>
+                        <td class="explanation-cell">Una mano (又) con una marquita (一) indicando un punto en la muñeca (medicina china) o una medida corta.</td>
                         <td>寺, 尊, 对, 射, 付</td>
                         <td></td>
                         <td>寸字旁 (cùn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>山</td>
-                        <td>山</td>
+                        <td data-tc="山">
+                            <span class="sc-char">山</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>montaña</td>
-                        <td class="explanation-cell">¡Tres picos de montaña! ⛰️ ¡Clarísimo!</td>
                         <td>shān</td>
+                        <td class="explanation-cell">¡Tres picos de montaña! ⛰️ ¡Clarísimo!</td>
                         <td>岩, 岛, 岁, 崗, 岔</td>
                         <td></td>
                         <td>山字旁 (shān zì páng), 山字头 (shān zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>攵</td>
-                        <td>攴</td>
+                        <td data-tc="攴">
+                            <span class="sc-char">攵</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>支</td>
                         <td>golpear, tocar</td>
-                        <td class="explanation-cell">Una mano (又) sosteniendo un palo o vara (卜). ¡Listo para la acción!</td>
                         <td>pū</td>
+                        <td class="explanation-cell">Una mano (又) sosteniendo un palo o vara (卜). ¡Listo para la acción!</td>
                         <td>收, 改, 攻, 做, 政</td>
                         <td>Similar a 夂 (ir despacio).</td>
                         <td>反文旁 (fǎn wén páng), 旧反文旁 (jiù fǎn wén páng)</td>
                     </tr>
                     <tr>
-                        <td>彳</td>
-                        <td>彳</td>
+                        <td data-tc="彳">
+                            <span class="sc-char">彳</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>paso (pequeño)</td>
-                        <td class="explanation-cell">La mitad izquierda de 行 (caminar), representa un paso o una calle. 🚶‍♀️</td>
                         <td>chì</td>
+                        <td class="explanation-cell">La mitad izquierda de 行 (caminar), representa un paso o una calle. 🚶‍♀️</td>
                         <td>彼, 很, 律, 微, 德</td>
                         <td>Similar a 亻 (humano).</td>
                         <td>双人旁 (shuāng rén páng)</td>
                     </tr>
                     <tr>
-                        <td>十</td>
-                        <td>十</td>
+                        <td data-tc="十">
+                            <span class="sc-char">十</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>diez</td>
-                        <td class="explanation-cell">Una cruz. Representa el número diez, la totalidad o perfección. ➕</td>
                         <td>shí</td>
+                        <td class="explanation-cell">Una cruz. Representa el número diez, la totalidad o perfección. ➕</td>
                         <td>什, 计, 古, 叶, 早</td>
                         <td></td>
                         <td>十字旁 (shí zì páng), 十字头 (shí zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>工</td>
-                        <td>工</td>
+                        <td data-tc="工">
+                            <span class="sc-char">工</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>trabajo</td>
-                        <td class="explanation-cell">Una herramienta, como un nivel de carpintero. ¡A trabajar! 🛠️</td>
                         <td>gōng</td>
+                        <td class="explanation-cell">Una herramienta, como un nivel de carpintero. ¡A trabajar! 🛠️</td>
                         <td>左, 江, 红, 巧, 功</td>
                         <td></td>
                         <td>工字旁 (gōng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>方</td>
-                        <td>方</td>
+                        <td data-tc="方">
+                            <span class="sc-char">方</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>cuadrado, balsa</td>
-                        <td class="explanation-cell">Originalmente un arado o dos botes juntos. Ahora más asociado a "cuadrado" o "dirección". ⏹️</td>
                         <td>fāng</td>
+                        <td class="explanation-cell">Originalmente un arado o dos botes juntos. Ahora más asociado a "cuadrado" o "dirección". ⏹️</td>
                         <td>放, 旅, 族, 仿, 房</td>
                         <td>Similar a 万 (diez mil).</td>
                         <td>方字旁 (fāng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>门</td>
-                        <td>門</td>
+                        <td data-tc="門">
+                            <span class="sc-char">门</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>puerta</td>
-                        <td class="explanation-cell">¡Una puerta de dos hojas! 🚪 ¡Ábrete, sésamo!</td>
                         <td>mén</td>
+                        <td class="explanation-cell">¡Una puerta de dos hojas! 🚪 ¡Ábrete, sésamo!</td>
                         <td>间, 闲, 问, 闭, 闻</td>
                         <td></td>
                         <td>门字框 (mén zì kuāng)</td>
                     </tr>
                     <tr>
-                        <td>饣</td>
-                        <td>食</td>
+                        <td data-tc="食">
+                            <span class="sc-char">饣</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>食</td>
                         <td>comer, comida</td>
-                        <td class="explanation-cell">Un recipiente (亼) con comida y una tapa. ¡A comer! 🍲</td>
                         <td>shí</td>
+                        <td class="explanation-cell">Un recipiente (亼) con comida y una tapa. ¡A comer! 🍲</td>
                         <td>饭, 饿, 饮, 馆, 饱</td>
                         <td></td>
                         <td>食字旁 (shí zì páng)</td>
                     </tr>
-                     {/* */}
                     <tr>
-                        <td>欠</td>
-                        <td>欠</td>
+                        <td data-tc="欠">
+                            <span class="sc-char">欠</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>faltar, bostezar</td>
-                        <td class="explanation-cell">Una persona (人) con la boca abierta (como 口 arriba). ¡Bostezando por falta de algo! 🥱</td>
                         <td>qiàn</td>
+                        <td class="explanation-cell">Una persona (人) con la boca abierta (como 口 arriba). ¡Bostezando por falta de algo! 🥱</td>
                         <td>欢, 欧, 欲, 次, 歌</td>
                         <td></td>
                         <td>欠字旁 (qiàn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>儿</td>
-                        <td>儿</td>
+                        <td data-tc="儿">
+                            <span class="sc-char">儿</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>humano, piernas</td>
-                        <td class="explanation-cell">Originalmente, la cabeza de un bebé. Ahora se usa fonéticamente o como "piernas". 👶</td>
                         <td>ér</td>
+                        <td class="explanation-cell">Originalmente, la cabeza de un bebé. Ahora se usa fonéticamente o como "piernas". 👶</td>
                         <td>元, 四, 光, 兄, 充</td>
                         <td>Similar a 人 y 八.</td>
                         <td>儿座底 (ér zuò dǐ)</td>
                     </tr>
                     <tr>
-                        <td>冫</td>
-                        <td>冫</td>
+                        <td data-tc="冫">
+                            <span class="sc-char">冫</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>hielo</td>
-                        <td class="explanation-cell">¡Dos bloques de hielo! O las grietas en el hielo. ❄️ Brrr.</td>
                         <td>bīng</td>
+                        <td class="explanation-cell">¡Dos bloques de hielo! O las grietas en el hielo. ❄️ Brrr.</td>
                         <td>冬, 冷, 冻, 况, 净</td>
                         <td>Similar a 水 (agua).</td>
                         <td>两点水 (liǎng diǎn shuǐ)</td>
                     </tr>
                     <tr>
-                        <td>子</td>
-                        <td>子</td>
+                        <td data-tc="子">
+                            <span class="sc-char">子</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>niño, semilla</td>
-                        <td class="explanation-cell">Un bebé envuelto en pañales, con los bracitos extendidos. 🍼</td>
                         <td>zǐ</td>
+                        <td class="explanation-cell">Un bebé envuelto en pañales, con los bracitos extendidos. 🍼</td>
                         <td>字, 学, 存, 孩, 季</td>
                         <td></td>
                         <td>子字旁 (zǐ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>疒</td>
-                        <td>疒</td>
+                        <td data-tc="疒">
+                            <span class="sc-char">疒</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>enfermedad</td>
-                        <td class="explanation-cell">Una persona (冫 de lado) en una cama (爿). ¡Alguien enfermo! 🤒</td>
                         <td>nè</td>
+                        <td class="explanation-cell">Una persona (冫 de lado) en una cama (爿). ¡Alguien enfermo! 🤒</td>
                         <td>病, 痛, 疗, 疯, 瘦</td>
                         <td></td>
                         <td>病字旁 (bìng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>隹</td>
-                        <td>隹</td>
+                        <td data-tc="隹">
+                            <span class="sc-char">隹</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>pájaro (cola corta)</td>
-                        <td class="explanation-cell">Un pájaro regordete y con la cola corta. ¡Pío, pío! 🐦</td>
                         <td>zhuī</td>
+                        <td class="explanation-cell">Un pájaro regordete y con la cola corta. ¡Pío, pío! 🐦</td>
                         <td>雀, 集, 难, 雅, 谁</td>
                         <td></td>
                         <td>隹字旁 (zhuī zì páng)</td>
                     </tr>
                     <tr>
-                        <td>斤</td>
-                        <td>斤</td>
+                        <td data-tc="斤">
+                            <span class="sc-char">斤</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>hacha, libra (unidad)</td>
-                        <td class="explanation-cell">¡La forma de un hacha! 🪓 También es una unidad de peso.</td>
                         <td>jīn</td>
+                        <td class="explanation-cell">¡La forma de un hacha! 🪓 También es una unidad de peso.</td>
                         <td>所, 新, 听, 近, 析</td>
                         <td></td>
                         <td>斤字旁 (jīn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>亠</td>
-                        <td>亠</td>
+                        <td data-tc="亠">
+                            <span class="sc-char">亠</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>tapa</td>
-                        <td class="explanation-cell">Una tapa o cubierta simple. ¡Tapando algo!</td>
                         <td>tóu</td>
+                        <td class="explanation-cell">Una tapa o cubierta simple. ¡Tapando algo!</td>
                         <td>亡, 交, 京, 产, 亮</td>
                         <td>Similar a 宀 (techo) y 冖 (cubrir).</td>
                         <td>点横头 (diǎn héng tóu)</td>
                     </tr>
                     <tr>
-                        <td>王</td>
-                        <td>王</td>
+                        <td data-tc="玉"> <!-- TC es 玉, SC es 王 como radical jade -->
+                            <span class="sc-char">王</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>玉</td>
                         <td>jade, rey</td>
-                        <td class="explanation-cell">Tres líneas (cielo, hombre, tierra) unidas por una vertical (el rey). O una pieza de jade (玉) sin el puntito. 👑💎</td>
                         <td>yù / wáng</td>
+                        <td class="explanation-cell">Tres líneas (cielo, hombre, tierra) unidas por una vertical (el rey). O una pieza de jade (玉) sin el puntito. 👑💎</td>
                         <td>主, 弄, 皇, 理, 现</td>
                         <td>Radical es 玉 (jade), pero parece 王 (rey).</td>
                         <td>王字旁 (wáng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>白</td>
-                        <td>白</td>
+                        <td data-tc="白">
+                            <span class="sc-char">白</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>blanco</td>
-                        <td class="explanation-cell">Una gota (丿) del sol (日). ¡Luz blanca y pura! ⚪</td>
                         <td>bái</td>
+                        <td class="explanation-cell">Una gota (丿) del sol (日). ¡Luz blanca y pura! ⚪</td>
                         <td>的, 皆, 皇, 怕, 迫</td>
                         <td>Similar a 日 (sol).</td>
                         <td>白字旁 (bái zì páng)</td>
                     </tr>
-                    {/* */}
                     <tr>
-                        <td>立</td>
-                        <td>立</td>
+                        <td data-tc="立">
+                            <span class="sc-char">立</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>estar de pie, erguido</td>
-                        <td class="explanation-cell">Una persona (大) de pie sobre el suelo (一). ¡Firme!🧍</td>
                         <td>lì</td>
+                        <td class="explanation-cell">Una persona (大) de pie sobre el suelo (一). ¡Firme!🧍</td>
                         <td>音, 意, 端, 亲, 位</td>
                         <td></td>
                         <td>立字旁 (lì zì páng)</td>
                     </tr>
                     <tr>
-                        <td>羊</td>
-                        <td>羊</td>
+                        <td data-tc="羊">
+                            <span class="sc-char">羊</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td><span style="font-size: 1.1em;">⺶</span>, 羊</td>
                         <td>oveja</td>
-                        <td class="explanation-cell">¡La cabeza de una oveja con sus cuernos! 🐑 Beee.</td>
                         <td>yáng</td>
+                        <td class="explanation-cell">¡La cabeza de una oveja con sus cuernos! 🐑 Beee.</td>
                         <td>着, 样, 洋, 美, 鲜</td>
                         <td></td>
                         <td>羊字旁 (yáng zì páng), 羊字头 (<span style="font-size: 1.1em;">⺶</span>)</td>
                     </tr>
                     <tr>
-                        <td>艮</td>
-                        <td>艮</td>
+                        <td data-tc="艮">
+                            <span class="sc-char">艮</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>detenerse</td>
-                        <td class="explanation-cell">Un ojo (目) mirando hacia atrás (匕 invertido). ¡Detente y mira! 👀</td>
                         <td>gèn</td>
+                        <td class="explanation-cell">Un ojo (目) mirando hacia atrás (匕 invertido). ¡Detente y mira! 👀</td>
                         <td>很, 恨, 恳, 根, 眼</td>
                         <td></td>
                         <td>艮字旁 (gèn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>冖</td>
-                        <td>冖</td>
+                        <td data-tc="冖">
+                            <span class="sc-char">冖</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>cubrir</td>
-                        <td class="explanation-cell">Una cubierta o velo simple. ¡Algo tapado!</td>
                         <td>mì</td>
+                        <td class="explanation-cell">Una cubierta o velo simple. ¡Algo tapado!</td>
                         <td>写, 军, 农, 深, 荣</td>
                         <td>Similar a 宀 (techo) y 亠 (tapa).</td>
                         <td>秃宝盖 (tū bǎo gài)</td>
                     </tr>
                     <tr>
-                        <td>厂</td>
-                        <td>厂</td>
+                        <td data-tc="厂">
+                            <span class="sc-char">厂</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>acantilado</td>
-                        <td class="explanation-cell">¡Un acantilado rocoso! 🧗</td>
                         <td>hàn / chǎng</td>
+                        <td class="explanation-cell">¡Un acantilado rocoso! 🧗</td>
                         <td>厚, 原, 厉, 厅, 厕</td>
                         <td>Similar a 广 (casa en acantilado, con punto).</td>
                         <td>厂字旁 (chǎng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>皿</td>
-                        <td>皿</td>
+                        <td data-tc="皿">
+                            <span class="sc-char">皿</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>plato</td>
-                        <td class="explanation-cell">Un plato o recipiente visto de lado. 🍽️</td>
                         <td>mǐn</td>
+                        <td class="explanation-cell">Un plato o recipiente visto de lado. 🍽️</td>
                         <td>盆, 监, 盟, 盛, 盖</td>
                         <td></td>
                         <td>皿字底 (mǐn zì dǐ)</td>
                     </tr>
                     <tr>
-                        <td>礻</td>
-                        <td>示</td>
+                        <td data-tc="示">
+                            <span class="sc-char">礻</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>示</td>
                         <td>señal, espíritu, mostrar</td>
-                        <td class="explanation-cell">Un altar (二 arriba, 小 abajo) para mostrar u ofrecer algo a los espíritus. 🙏</td>
                         <td>shì</td>
+                        <td class="explanation-cell">Un altar (二 arriba, 小 abajo) para mostrar u ofrecer algo a los espíritus. 🙏</td>
                         <td>社, 神, 视, 祝, 祥</td>
                         <td>Similar a 衤 (ropa).</td>
                         <td>示字旁 (shì zì páng)</td>
                     </tr>
                     <tr>
-                        <td>穴</td>
-                        <td>穴</td>
+                        <td data-tc="穴">
+                            <span class="sc-char">穴</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>cueva</td>
-                        <td class="explanation-cell">Un techo (宀) sobre un espacio dividido (八). ¡Una cueva o hueco!</td>
                         <td>xué</td>
+                        <td class="explanation-cell">Un techo (宀) sobre un espacio dividido (八). ¡Una cueva o hueco!</td>
                         <td>空, 突, 穷, 究, 窗</td>
                         <td></td>
                         <td>穴宝盖 (xué bǎo gài)</td>
                     </tr>
                     <tr>
-                        <td>走</td>
-                        <td>走</td>
+                        <td data-tc="走">
+                            <span class="sc-char">走</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>correr, caminar</td>
-                        <td class="explanation-cell">Una persona (土 arriba) moviendo los pies (止 abajo). ¡A correr! 🏃</td>
                         <td>zǒu</td>
+                        <td class="explanation-cell">Una persona (土 arriba) moviendo los pies (止 abajo). ¡A correr! 🏃</td>
                         <td>起, 超, 越, 赶, 徒</td>
                         <td></td>
                         <td>走字旁 (zǒu zì páng)</td>
                     </tr>
                     <tr>
-                        <td>雨</td>
-                        <td>雨</td>
+                        <td data-tc="雨">
+                            <span class="sc-char">雨</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>lluvia</td>
-                        <td class="explanation-cell">Nubes (一) en el cielo (冂) dejando caer gotas (...). ¡Está lloviendo! ☔</td>
                         <td>yǔ</td>
+                        <td class="explanation-cell">Nubes (一) en el cielo (冂) dejando caer gotas (...). ¡Está lloviendo! ☔</td>
                         <td>雷, 雪, 霜, 需, 露</td>
                         <td></td>
                         <td>雨字头 (yǔ zì tóu)</td>
                     </tr>
-                    {/* */}
-                     <tr>
-                        <td>囗</td>
-                        <td>囗</td>
+                    <tr>
+                        <td data-tc="囗">
+                            <span class="sc-char">囗</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>recinto</td>
-                        <td class="explanation-cell">Un cuadrado que encierra algo. ¡Un corralito! Diferente de 口 (boca).</td>
                         <td>wéi</td>
+                        <td class="explanation-cell">Un cuadrado que encierra algo. ¡Un corralito! Diferente de 口 (boca).</td>
                         <td>回, 国, 因, 图, 团</td>
                         <td>Similar a 口 (boca, no encierra).</td>
                         <td>国字框 (guó zì kuāng)</td>
                     </tr>
                     <tr>
-                        <td>小</td>
-                        <td>小</td>
+                        <td data-tc="小">
+                            <span class="sc-char">小</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td><span style="font-size: 1.1em;">⺌</span></td>
                         <td>pequeño</td>
-                        <td class="explanation-cell">Tres puntitos o trazos pequeños. ¡Chiquito! ✨</td>
                         <td>xiǎo</td>
+                        <td class="explanation-cell">Tres puntitos o trazos pequeños. ¡Chiquito! ✨</td>
                         <td>少, 肖, 尚, 尖, 尘</td>
                         <td></td>
                         <td>小字旁 (xiǎo zì páng), 小字头 (xiǎo zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>戈</td>
-                        <td>戈</td>
+                        <td data-tc="戈">
+                            <span class="sc-char">戈</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>alabarda, lanza</td>
-                        <td class="explanation-cell">¡Un arma antigua con punta y gancho! Una alabarda. ⚔️</td>
                         <td>gē</td>
+                        <td class="explanation-cell">¡Un arma antigua con punta y gancho! Una alabarda. ⚔️</td>
                         <td>成, 式, 战, 感, 我</td>
                         <td></td>
                         <td>戈字旁 (gē zì páng)</td>
                     </tr>
                     <tr>
-                        <td>几</td>
-                        <td>几</td>
+                        <td data-tc="几">
+                            <span class="sc-char">几</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>mesa</td>
-                        <td class="explanation-cell">Una mesita baja o un taburete. ¡Para sentarse o poner cosas!</td>
                         <td>jī</td>
+                        <td class="explanation-cell">Una mesita baja o un taburete. ¡Para sentarse o poner cosas!</td>
                         <td>朵, 机, 风, 凡, 凤</td>
                         <td></td>
                         <td>几字旁 (jī zì páng)</td>
                     </tr>
                     <tr>
-                        <td>舌</td>
-                        <td>舌</td>
+                        <td data-tc="舌">
+                            <span class="sc-char">舌</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>lengua</td>
-                        <td class="explanation-cell">Algo (干) saliendo de la boca (口). ¡La lengua! 👅</td>
                         <td>shé</td>
+                        <td class="explanation-cell">Algo (干) saliendo de la boca (口). ¡La lengua! 👅</td>
                         <td>乱, 适, 话, 舍, 活</td>
                         <td></td>
                         <td>舌字旁 (shé zì páng)</td>
                     </tr>
                     <tr>
-                        <td>干</td>
-                        <td>干</td>
+                        <td data-tc="干">
+                            <span class="sc-char">干</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>seco</td>
-                        <td class="explanation-cell">Originalmente un escudo o un mortero. Ahora más usado fonéticamente o como "seco".</td>
                         <td>gān</td>
+                        <td class="explanation-cell">Originalmente un escudo o un mortero. Ahora más usado fonéticamente o como "seco".</td>
                         <td>平, 刊, 汗, 旱, 赶</td>
                         <td></td>
                         <td>干字旁 (gān zì páng)</td>
                     </tr>
                     <tr>
-                        <td>殳</td>
-                        <td>殳</td>
+                        <td data-tc="殳">
+                            <span class="sc-char">殳</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>arma</td>
-                        <td class="explanation-cell">Una mano (又) sosteniendo un arma larga o herramienta. ¡Listo para golpear!</td>
                         <td>shū</td>
+                        <td class="explanation-cell">Una mano (又) sosteniendo un arma larga o herramienta. ¡Listo para golpear!</td>
                         <td>段, 没, 投, 般, 设</td>
                         <td></td>
                         <td>殳字旁 (shū zì páng)</td>
                     </tr>
                     <tr>
-                        <td>夕</td>
-                        <td>夕</td>
+                        <td data-tc="夕">
+                            <span class="sc-char">夕</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>tarde, atardecer</td>
-                        <td class="explanation-cell">La luna (月) pero sin los trazos interiores. ¡La luna empezando a salir! 🌇</td>
                         <td>xī</td>
+                        <td class="explanation-cell">La luna (月) pero sin los trazos interiores. ¡La luna empezando a salir! 🌇</td>
                         <td>外, 多, 夜, 名, 岁</td>
                         <td></td>
                         <td>夕字旁 (xī zì páng)</td>
                     </tr>
                     <tr>
-                        <td>止</td>
-                        <td>止</td>
+                        <td data-tc="止">
+                            <span class="sc-char">止</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>parar</td>
-                        <td class="explanation-cell">¡La huella de un pie! Indica detenerse o el pie mismo. 👣🛑</td>
                         <td>zhǐ</td>
+                        <td class="explanation-cell">¡La huella de un pie! Indica detenerse o el pie mismo. 👣🛑</td>
                         <td>正, 此, 步, 歪, 址</td>
                         <td></td>
                         <td>止字旁 (zhǐ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>牛</td>
-                        <td>牛</td>
+                        <td data-tc="牛">
+                            <span class="sc-char">牛</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td><span style="font-size: 1.1em;">牜</span></td>
                         <td>vaca</td>
-                        <td class="explanation-cell">La cabeza de una vaca o buey con sus cuernos. 🐮 Muuu.</td>
                         <td>niú</td>
+                        <td class="explanation-cell">La cabeza de una vaca o buey con sus cuernos. 🐮 Muuu.</td>
                         <td>告, 物, 解, 特, 件</td>
                         <td></td>
                         <td>牛字旁 (niú zì páng), 牛字头 (niú zì tóu)</td>
                     </tr>
-                    {/* */}
                     <tr>
-                        <td>皮</td>
-                        <td>皮</td>
+                        <td data-tc="皮">
+                            <span class="sc-char">皮</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>piel</td>
-                        <td class="explanation-cell">Una mano (又) despellejando un animal (?). ¡La piel!</td>
                         <td>pí</td>
+                        <td class="explanation-cell">Una mano (又) despellejando un animal (?). ¡La piel!</td>
                         <td>披, 彼, 波, 破, 疲</td>
                         <td></td>
                         <td>皮字旁 (pí zì páng)</td>
                     </tr>
                     <tr>
-                        <td>耳</td>
-                        <td>耳</td>
+                        <td data-tc="耳">
+                            <span class="sc-char">耳</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>oreja</td>
-                        <td class="explanation-cell">¡Un dibujo bastante claro de una oreja! 👂 ¿Oyes eso?</td>
                         <td>ěr</td>
+                        <td class="explanation-cell">¡Un dibujo bastante claro de una oreja! 👂 ¿Oyes eso?</td>
                         <td>取, 闻, 职, 聪, 联</td>
                         <td></td>
                         <td>耳字旁 (ěr zì páng)</td>
                     </tr>
                     <tr>
-                        <td>辛</td>
-                        <td>辛</td>
+                        <td data-tc="辛">
+                            <span class="sc-char">辛</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>amargo</td>
-                        <td class="explanation-cell">Originalmente un cincel o aguja (relacionado con tatuajes o castigos). ¡Algo doloroso o amargo! 😖</td>
                         <td>xīn</td>
+                        <td class="explanation-cell">Originalmente un cincel o aguja (relacionado con tatuajes o castigos). ¡Algo doloroso o amargo! 😖</td>
                         <td>辜, 辟, 辣, 辨, 辩</td>
                         <td></td>
                         <td>辛字旁 (xīn zì páng)</td>
                     </tr>
                     <tr>
-                        <td>阝 (der.)</td>
-                        <td>邑</td>
+                        <td data-tc="邑">
+                            <span class="sc-char">阝</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
-                        <td>ciudad</td>
-                        <td class="explanation-cell">Una persona arrodillada (卩) ante un recinto (口). ¡Una ciudad o asentamiento! 🏙️ ¡A la derecha es ciudad!</td>
+                        <td>ciudad (der.)</td>
                         <td>yì</td>
+                        <td class="explanation-cell">Una persona arrodillada (卩) ante un recinto (口). ¡Una ciudad o asentamiento! 🏙️ ¡A la derecha es ciudad!</td>
                         <td>那, 邦, 部, 都, 邮</td>
-                        <td>Radical doble: izq.=montículo (阜), der.=ciudad.</td>
+                        <td>Radical doble: izq.=montículo (阜), der.=ciudad. Este es el de la derecha.</td>
                         <td>双耳刀 (shuāng ěr dāo), 右耳刀 (yòu ěr dāo)</td>
                     </tr>
                     <tr>
-                        <td>酉</td>
-                        <td>酉</td>
+                        <td data-tc="酉">
+                            <span class="sc-char">酉</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>vino</td>
-                        <td class="explanation-cell">¡Una jarra de vino! Con su tapa y líquido dentro. 🍷 ¡Salud!</td>
                         <td>yǒu</td>
+                        <td class="explanation-cell">¡Una jarra de vino! Con su tapa y líquido dentro. 🍷 ¡Salud!</td>
                         <td>醉, 酒, 醒, 酸, 尊</td>
                         <td></td>
                         <td>酉字旁 (yǒu zì páng)</td>
                     </tr>
                      <tr>
-                        <td>青</td>
-                        <td>青</td>
+                        <td data-tc="青">
+                            <span class="sc-char">青</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>verde/azul</td>
-                        <td class="explanation-cell">Planta (生) creciendo cerca de un pozo (丹, cinabrio, rojo/naranja). La combinación da verde/azul. 🌿💧</td>
                         <td>qīng</td>
+                        <td class="explanation-cell">Planta (生) creciendo cerca de un pozo (丹, cinabrio, rojo/naranja). La combinación da verde/azul. 🌿💧</td>
                         <td>请, 清, 情, 晴, 猜</td>
                         <td></td>
                         <td>青字旁 (qīng zì páng)</td>
                     </tr>
                     <tr>
-                        <td>鸟</td>
-                        <td>鳥</td>
+                        <td data-tc="鳥">
+                            <span class="sc-char">鸟</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>pájaro</td>
-                        <td class="explanation-cell">Un pájaro con su pico, ojo, cuerpo y cola larga. ¡Más detallado que 隹! 🦜</td>
                         <td>niǎo</td>
+                        <td class="explanation-cell">Un pájaro con su pico, ojo, cuerpo y cola larga. ¡Más detallado que 隹! 🦜</td>
                         <td>鸦, 鸣, 鸭, 岛, 鸡</td>
                         <td>Similar a 乌 (cuervo, negro).</td>
                         <td>鸟字旁 (niǎo zì páng)</td>
                     </tr>
                     <tr>
-                        <td>弓</td>
-                        <td>弓</td>
+                        <td data-tc="弓">
+                            <span class="sc-char">弓</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>arco</td>
-                        <td class="explanation-cell">¡Un arco listo para disparar una flecha! 🏹</td>
                         <td>gōng</td>
+                        <td class="explanation-cell">¡Un arco listo para disparar una flecha! 🏹</td>
                         <td>引, 张, 弱, 第, 強</td>
                         <td></td>
                         <td>弓字旁 (gōng zì páng)</td>
                     </tr>
                      <tr>
-                        <td>厶</td>
-                        <td>厶</td>
+                        <td data-tc="厶">
+                            <span class="sc-char">厶</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>privado</td>
-                        <td class="explanation-cell">Algo cerrado o personal. ¡Shhh, es privado! 🤫</td>
                         <td>sī</td>
+                        <td class="explanation-cell">Algo cerrado o personal. ¡Shhh, es privado! 🤫</td>
                         <td>公, 勾, 去, 私, 云</td>
                         <td></td>
                         <td>私字旁 (sī zì páng)</td>
                     </tr>
                     <tr>
-                        <td>户</td>
-                        <td>戶</td>
+                        <td data-tc="戶">
+                            <span class="sc-char">户</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>戶</td>
                         <td>puerta, casa</td>
-                        <td class="explanation-cell">¡Una puerta de una sola hoja! 🚪 Diferente de 门 (dos hojas).</td>
                         <td>hù</td>
+                        <td class="explanation-cell">¡Una puerta de una sola hoja! 🚪 Diferente de 门 (dos hojas).</td>
                         <td>所, 房, 炉, 护, 启</td>
                         <td>Similar a 尸 (cadáver).</td>
                         <td>户字旁 (hù zì páng)</td>
                     </tr>
-                    {/* */}
                     <tr>
-                        <td>羽</td>
-                        <td>羽</td>
+                        <td data-tc="羽">
+                            <span class="sc-char">羽</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>pluma</td>
-                        <td class="explanation-cell">¡Dos plumas de ave! 🪶 Ligeras y listas para volar.</td>
                         <td>yǔ</td>
+                        <td class="explanation-cell">¡Dos plumas de ave! 🪶 Ligeras y listas para volar.</td>
                         <td>习, 翻, 翅, 塌, 扇</td>
                         <td></td>
                         <td>羽字旁 (yǔ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>舟</td>
-                        <td>舟</td>
+                        <td data-tc="舟">
+                            <span class="sc-char">舟</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>bote</td>
-                        <td class="explanation-cell">Un barquito o canoa. 🛶 ¡A navegar!</td>
                         <td>chuán / zhōu</td>
+                        <td class="explanation-cell">Un barquito o canoa. 🛶 ¡A navegar!</td>
                         <td>般, 船, 航, 盘, 艇</td>
                         <td></td>
                         <td>舟字旁 (zhōu zì páng)</td>
                     </tr>
                     <tr>
-                        <td>里</td>
-                        <td>里</td>
+                        <td data-tc="里">
+                            <span class="sc-char">里</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>aldea, milla</td>
-                        <td class="explanation-cell">Un campo (田) y tierra (土). ¡Una aldea o medida de distancia (li)! 🏘️</td>
                         <td>lǐ</td>
+                        <td class="explanation-cell">Un campo (田) y tierra (土). ¡Una aldea o medida de distancia (li)! 🏘️</td>
                         <td>野, 重, 量, 理, 埋</td>
                         <td></td>
                         <td>里字旁 (lǐ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>匕</td>
-                        <td>匕</td>
+                        <td data-tc="匕">
+                            <span class="sc-char">匕</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>cuchara</td>
-                        <td class="explanation-cell">Una persona invertida (人 al revés) o una cuchara antigua. 🥄</td>
                         <td>bǐ</td>
+                        <td class="explanation-cell">Una persona invertida (人 al revés) o una cuchara antigua. 🥄</td>
                         <td>匙, 比, 北, 呢, 旨</td>
                         <td></td>
                         <td>匕字旁 (bǐ zì páng)</td>
                     </tr>
                     <tr>
-                        <td>夂</td>
-                        <td>夂</td>
+                        <td data-tc="夂">
+                            <span class="sc-char">夂</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>ir (despacio)</td>
-                        <td class="explanation-cell">Un pie (como 止) visto desde atrás, indica ir despacio o llegar tarde. 🐢</td>
                         <td>suī / zhǐ</td>
+                        <td class="explanation-cell">Un pie (como 止) visto desde atrás, indica ir despacio o llegar tarde. 🐢</td>
                         <td>各, 条, 复, 备, 夏</td>
                         <td>Similar a 攵 (golpear).</td>
                         <td>折文旁 (zhé wén páng)</td>
                     </tr>
                     <tr>
-                        <td>见</td>
-                        <td>見</td>
+                        <td data-tc="見">
+                            <span class="sc-char">见</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>ver</td>
-                        <td class="explanation-cell">Un ojo (目) sobre unas piernas (儿). ¡Alguien viendo! 👀🚶‍♂️</td>
                         <td>jiàn</td>
+                        <td class="explanation-cell">Un ojo (目) sobre unas piernas (儿). ¡Alguien viendo! 👀🚶‍♂️</td>
                         <td>观, 规, 视, 现, 觉</td>
                         <td>Similar a 贝 (concha).</td>
                         <td>见字旁 (jiàn zì páng)</td>
                     </tr>
                      <tr>
-                        <td>卩</td>
-                        <td>卩</td>
+                        <td data-tc="卩">
+                            <span class="sc-char">卩</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>sello</td>
-                        <td class="explanation-cell">Una persona arrodillada. ¡Mostrando respeto o un sello oficial! 🧎‍♂️</td>
                         <td>jié</td>
+                        <td class="explanation-cell">Una persona arrodillada. ¡Mostrando respeto o un sello oficial! 🧎‍♂️</td>
                         <td>卷, 印, 却, 即, 危</td>
                         <td></td>
                         <td>单耳刀 (dān ěr dāo)</td>
                     </tr>
                      <tr>
-                        <td>网</td>
-                        <td>网</td>
+                        <td data-tc="网"> <!-- SC es 网, TC es 网/網, variante es 罒 -->
+                            <span class="sc-char">网</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td>罒</td>
                         <td>red</td>
-                        <td class="explanation-cell">¡Una red de pesca o caza! 🕸️ La variante 罒 también puede ser ojo o red.</td>
                         <td>wǎng</td>
+                        <td class="explanation-cell">¡Una red de pesca o caza! 🕸️ La variante 罒 también puede ser ojo o red.</td>
                         <td>罗, 罚, 罢, 罪, 罩</td>
                         <td>Variante 罒 también puede ser 'ojo'.</td>
                         <td>网字旁 (wǎng zì páng), 四字头 (sì zì tóu)</td>
                     </tr>
                     <tr>
-                        <td>士</td>
-                        <td>士</td>
+                        <td data-tc="士">
+                            <span class="sc-char">士</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>erudito</td>
-                        <td class="explanation-cell">Originalmente un arma, luego un hombre adulto o erudito. El trazo de arriba es más largo que en 土 (tierra). 👨‍🎓</td>
                         <td>shì</td>
+                        <td class="explanation-cell">Originalmente un arma, luego un hombre adulto o erudito. El trazo de arriba es más largo que en 土 (tierra). 👨‍🎓</td>
                         <td>吉, 壶, 志, 声, 壮</td>
                         <td>Similar a 土 (tierra).</td>
                         <td>士字旁 (shì zì páng)</td>
                     </tr>
                     <tr>
-                        <td>勹</td>
-                        <td>勹</td>
+                        <td data-tc="勹">
+                            <span class="sc-char">勹</span>
+                            <button class="toggle-tc-btn" aria-label="Mostrar/Ocultar Tradicional">T</button>
+                            <span class="tc-display" style="display:none;"></span>
+                        </td>
                         <td></td>
                         <td>abrazar, envolver</td>
-                        <td class="explanation-cell">Brazos rodeando algo. ¡Un abrazo o algo envuelto! 🤗</td>
                         <td>bāo</td>
+                        <td class="explanation-cell">Brazos rodeando algo. ¡Un abrazo o algo envuelto! 🤗</td>
                         <td>包, 勿, 勾, 勺, 勻</td>
                         <td></td>
                         <td>包字头 (bāo zì tóu)</td>
                     </tr>
                 </tbody>
             </table>
-        </div> </div> <footer>
+        </div>
+    </div>
+    <footer>
         <p>Información basada en "The 100 Most Common Chinese Radicals" de Hacking Chinese. Mnemotecnia añadida.</p>
         <p>Archivo generado para Gama.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = document.querySelectorAll('.toggle-tc-btn');
+
+            toggleButtons.forEach(button => {
+                const td = button.closest('td');
+                const scCharSpan = td.querySelector('.sc-char');
+                const tcDisplaySpan = td.querySelector('.tc-display');
+                const traditionalChar = td.dataset.tc;
+                const simplifiedChar = scCharSpan.textContent.trim();
+
+                // Si no hay carácter tradicional o es igual al simplificado, oculta el botón.
+                if (!traditionalChar || traditionalChar === simplifiedChar) {
+                    button.style.display = 'none';
+                } else {
+                    // Pre-populamos el span del TC pero lo mantenemos oculto
+                    tcDisplaySpan.textContent = `(${traditionalChar})`;
+                }
+
+                button.addEventListener('click', () => {
+                    if (tcDisplaySpan.style.display === 'none') {
+                        if (traditionalChar && traditionalChar !== simplifiedChar) {
+                            tcDisplaySpan.style.display = 'inline';
+                            button.classList.add('active');
+                             button.setAttribute('aria-label', 'Ocultar Tradicional');
+                        }
+                    } else {
+                        tcDisplaySpan.style.display = 'none';
+                        button.classList.remove('active');
+                        button.setAttribute('aria-label', 'Mostrar Tradicional');
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
